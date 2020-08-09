@@ -22,32 +22,32 @@ public class Schiffsverteilung extends Hilfsmethoden{
                         lauf2=0;
                         for (lauf=0;lauf<=schiffe[i];lauf++){//Überprüft ob die Länge des Schiffs frei ist
                             if (pos_direction == 0){
-                                if(k1+lauf>=meer[0].length||meer[k1+lauf][k2] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
+                                if(k2+lauf>=meer[1].length||meer[k1][k2+lauf] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
                             }
                             else if (pos_direction == 1) {
-                                if (k2-lauf<0||meer[k1][k2-lauf] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
+                                if (k1+lauf>=meer[0].length||meer[k1+lauf][k2] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
                             }
                             else if (pos_direction == 2) {
-                                if (k1-lauf<0||meer[k1-lauf][k2] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
+                                if (k2-lauf<0||meer[k1][k2-lauf] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
                             }
                             else if (pos_direction == 3){
-                                if(k2+lauf>=meer[1].length||meer[k1][k2+lauf] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
+                                if(k1-lauf<0||meer[k1-lauf][k2] == false||gefaehrlicheNaehe(meer,k1,k2)) break;
                             }
                             lauf2++; //Checkt ob es Überschneidungen mit Schiffen gab
                         }
                         if (lauf2==schiffe[i]+1){
-                            pos_x=k1;
-                            pos_y=k2;
+                            pos_x=k2;
+                            pos_y=k1;
                             break Positionssuche;
                         }
                     }
             }
         }
         for (j = 0;j < schiffe[i]; j++) { //pos_direction: 0=right, 1=down, 2=left, 3=up
-            if (pos_direction == 0) meer[pos_x++][pos_y] = false;
-            else if (pos_direction == 1) meer[pos_x][pos_y--] = false;
-            else if (pos_direction == 2) meer[pos_x--][pos_y] = false;
-            else if (pos_direction == 3) meer[pos_x][pos_y++] = false;
+            if (pos_direction == 0) meer[pos_y][pos_x++] = false;
+            else if (pos_direction == 1) meer[pos_y++][pos_x] = false;
+            else if (pos_direction == 2) meer[pos_y][pos_x--] = false;
+            else if (pos_direction == 3) meer[pos_y--][pos_x] = false;
         }
     }
 
