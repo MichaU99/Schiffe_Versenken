@@ -1,4 +1,8 @@
-public class Cell {
+package game;
+
+import java.io.Serializable;
+
+public class Cell implements Serializable {
 
     public Cell(){
 

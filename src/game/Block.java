@@ -1,3 +1,5 @@
+package game;
+
 public class Block extends Cell{
 
     public Block(){

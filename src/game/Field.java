@@ -1,6 +1,9 @@
+package game;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class Field implements FieldInterface{
+public class Field implements FieldInterface, Serializable {
     private Cell[][] playfield;
     private int height;
     private int length;
@@ -14,6 +17,9 @@ public class Field implements FieldInterface{
     }
 
     public Field(int height, int length){
+        assert 0 <= height && height <= 30 : "height not in range 5-30";
+        assert 0 <= length && length <= 30 : "length not in range 5-30";
+
         this.playfield = new Cell[height][length];
         this.height = height;
         this.length = length;
@@ -21,8 +27,8 @@ public class Field implements FieldInterface{
     }
 
     public void resetField(){
-        for (int i = 0; i < playfield.length; i++) {
-            for (int j = 0; j < playfield.length; j++) {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.length; j++) {
                 this.playfield[i][j] = new Cell();
             }
         }
@@ -44,7 +50,7 @@ public class Field implements FieldInterface{
         for(Position position: ship.getPositions()) {
             if (position.getX() > 0 && this.playfield[position.getY()][position.getX() - 1].getClass() == Cell.class)
                 this.playfield[position.getY()][position.getX() - 1] = new Block();
-            if (position.getX() < this.playfield.length - 1 &&
+            if (position.getX() < this.length - 1 &&
                     this.playfield[position.getY()][position.getX() + 1].getClass() == Cell.class)
                 this.playfield[position.getY()][position.getX() + 1] = new Block();
             if (position.getY() > 0 &&
@@ -56,13 +62,13 @@ public class Field implements FieldInterface{
             if (position.getX() > 0 && position.getY() > 0 &&
                     this.playfield[position.getY() - 1][position.getX() - 1].getClass() == Cell.class)
                 this.playfield[position.getY() - 1][position.getX() - 1] = new Block();
-            if (position.getX() < this.playfield.length - 1 && position.getY() < this.playfield.length - 1 &&
+            if (position.getX() < this.length - 1 && position.getY() < this.playfield.length - 1 &&
                     this.playfield[position.getY() + 1][position.getX() + 1].getClass() == Cell.class)
                 this.playfield[position.getY() + 1][position.getX() + 1] = new Block();
             if (position.getX() > 0 && position.getY() < this.playfield.length - 1 &&
                     this.playfield[position.getY() + 1][position.getX() - 1].getClass() == Cell.class)
                 this.playfield[position.getY() + 1][position.getX() - 1] = new Block();
-            if (position.getX() < this.playfield.length - 1 && position.getY() > 0 &&
+            if (position.getX() < this.length - 1 && position.getY() > 0 &&
                     this.playfield[position.getY() - 1][position.getX() + 1].getClass() == Cell.class)
                 this.playfield[position.getY() - 1][position.getX() + 1] = new Block();
             }
@@ -73,9 +79,14 @@ public class Field implements FieldInterface{
         Random r = new Random();
         boolean placed = false;
         char [] directions = {'n', 'e', 's', 'w'};
+        int loopcount = 0;
 
         while (!placed){
-            Position startPos = new Position(r.nextInt(10), r.nextInt(10));
+            if (loopcount > 5000) {
+                return false;
+            }
+
+            Position startPos = new Position(r.nextInt(this.length), r.nextInt(this.height));
             Position[] positions = new Position[length];
             char direction = directions[r.nextInt(4)];
 
@@ -91,7 +102,7 @@ public class Field implements FieldInterface{
                     placed = this.addShip(new Ship(positions));
                 }
                 case 's' -> {
-                    if (startPos.getY() + length > this.playfield.length - 1) {
+                    if (startPos.getY() + length > this.height - 1) {
                         continue;
                     }
                     positions[0] = startPos;
@@ -111,7 +122,7 @@ public class Field implements FieldInterface{
                     placed = this.addShip(new Ship(positions));
                 }
                 case 'e' -> {
-                    if (startPos.getX() + length > this.playfield.length - 1) {
+                    if (startPos.getX() + length > this.length - 1) {
                         continue;
                     }
                     positions[0] = startPos;
@@ -121,13 +132,19 @@ public class Field implements FieldInterface{
                     placed = this.addShip(new Ship(positions));
                 }
             }
+            loopcount++;
         }
         return true;
     }
 
     public boolean addShipRandom(int [] lengths){
         for (int length: lengths){
-            addShipRandom(length);
+            if (!addShipRandom(length)){
+                // Fallback if ships can't be placed because of bad previous rng or exceeding amount of tries
+                this.resetField();
+                this.addShipRandom(lengths);
+                break;
+            }
         }
         return true;
     }
@@ -138,11 +155,11 @@ public class Field implements FieldInterface{
     }
 
     public void printField(){
-        for (int i = 65; i < this.playfield.length + 65; i++) {
+        for (int i = 65; i < this.length + 65; i++) {
             System.out.print("\t" + (char)i);
         }
         System.out.println();
-        for (int i = 0; i < this.playfield.length; i++) {
+        for (int i = 0; i < this.height; i++) {
             System.out.print(i + 1);
             for (Cell cell: this.playfield[i]){
                 System.out.print("\t" + cell.toString());

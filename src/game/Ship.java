@@ -1,3 +1,5 @@
+package game;
+
 public class Ship extends Cell {
     private Position[] positions;
     private int length;
