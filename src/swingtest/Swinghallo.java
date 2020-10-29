@@ -1,5 +1,6 @@
+package swingtest;
+
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 // Erstes Beispiel zur Verwendung von (AWT und) Swing.
@@ -54,15 +55,21 @@ class Swinghallo {
         // Verteilung innerhalb der Box.
         Box box = Box.createHorizontalBox();
         {
-            Icon green = new ImageIcon("green.png");
-            Icon yellow = new ImageIcon("yellow.png");
-            Icon red = new ImageIcon("red.png");
+            Icon green = new ImageIcon("swingtest/green.png");
+            Icon yellow = new ImageIcon("swingtest/yellow.png");
+            Icon red = new ImageIcon("swingtest/red.png");
+            Icon map = new ImageIcon("swingtest/map.png");
             box.add(Box.createGlue());
             box.add(new JLabel(green));
+
             box.add(Box.createGlue());
             box.add(new JLabel(yellow));
+
             box.add(Box.createGlue());
             box.add(new JLabel(red));
+
+            box.add(Box.createGlue());
+            box.add(new JLabel(map));
             box.add(Box.createGlue());
         }
         frame.add(box);
