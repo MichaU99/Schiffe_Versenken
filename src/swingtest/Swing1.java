@@ -26,7 +26,7 @@ class Swing1 {
 
 	// Darunter ein horizontal zentriertes "Etikett" (JLabel)
 	// hinzufügen.
-	JLabel label = new JLabel("Schiffe versenken");
+	JLabel label = new JLabel("HIER WERDEN SCHIFFE VERSENKT");
 	label.setAlignmentX(Component.CENTER_ALIGNMENT);
 	frame.add(label);
 
@@ -43,13 +43,19 @@ class Swing1 {
 	JButton spiel_vs_ki =new JButton("Spiele vs. KI");
 	JButton netzwerkspiel =new JButton("Netzwerkspiel");
 	JButton beenden_1 =new JButton("Beenden");
+
 	button.setAlignmentX(Component.CENTER_ALIGNMENT);
 	spiel_vs_ki.setAlignmentX(Component.CENTER_ALIGNMENT);
 	netzwerkspiel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	beenden_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 	button.addActionListener(
 	    (e) -> { System.out.println("Knopf gedrückt"); }
-	);
+		);
+	beenden_1.addActionListener(
+			(e) -> { frame.dispose(); }
+			);
+
 	frame.add(spiel_vs_ki);
 	frame.add(Box.createVerticalStrut(10));
 	frame.add(netzwerkspiel);
