@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -24,7 +25,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 
-    Button button,button1,button2; //Video
+    Button button,button1,button2;//Video
+    BackgroundImage backgroundImage; // hintergrund
     /* @Override
      public void start(Stage primaryStage) throws Exception{
          Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -35,6 +37,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Schiffe versenken");
+
+
 
         Text t = new Text();
         t.setText("NEW GAME");
@@ -76,22 +80,26 @@ public class Main extends Application implements EventHandler<ActionEvent>{
             button2.setEffect(null);
         });
 
-
-        VBox vbox = new VBox(); // Vertikale Anordnung
+        VBox vbox = new VBox(); // Vertikale Anordnung, geklaut von unteb
         vbox.setSpacing(10);
+        /*
+        Image HintergrundSchiff = new Image(getClass().getResource("Bild1.jpg").toExternalForm());
+        ImageView hintergrundSchiff = new ImageView(getClass().getResource("Bild1.jpg").toExternalForm());
+
+        Background background = new Background(backgroundImage);
+        vbox.setBackground(background);
+        vbox.getChildren().add(hintergrundSchiff);
+        */
+
+
         vbox.getChildren().add(button);
         vbox.getChildren().add(button1);
         vbox.getChildren().add(button2);
         vbox.setAlignment(Pos.CENTER); // Zentriert
 
-        BackgroundImage Schiff= new BackgroundImage(new Image("Bild1.jpg",32,32,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-//then you set to your node
-        vbox.setBackground(new Background(Schiff));
 
 
-        Scene scene = new Scene(vbox,300,250);
+        Scene scene = new Scene(vbox,400,300);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
