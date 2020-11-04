@@ -1,4 +1,6 @@
 package JavaFx;
+// Anleitung für JavaFx instalation etc.
+// https://www.jetbrains.com/help/idea/javafx.html#download-javafx
 
 //dazu von Video
 import javafx.application.Application;
