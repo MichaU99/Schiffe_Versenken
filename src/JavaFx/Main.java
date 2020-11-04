@@ -81,7 +81,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         });
 
         VBox vbox = new VBox(); // Vertikale Anordnung, geklaut von unteb
-        vbox.setSpacing(10);
+        vbox.setSpacing(20);
         /*
         Image HintergrundSchiff = new Image(getClass().getResource("Bild1.jpg").toExternalForm());
         ImageView hintergrundSchiff = new ImageView(getClass().getResource("Bild1.jpg").toExternalForm());
@@ -98,8 +98,9 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         vbox.setAlignment(Pos.CENTER); // Zentriert
 
 
-
+        vbox.setId("hintergrundSchiff1");
         Scene scene = new Scene(vbox,400,300);
+        scene.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
