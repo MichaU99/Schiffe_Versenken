@@ -99,9 +99,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
 
         vbox.setId("hintergrundSchiff1");
-        Scene scene = new Scene(vbox,400,300);
+        Scene scene = new Scene(vbox);
         scene.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
         primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 
