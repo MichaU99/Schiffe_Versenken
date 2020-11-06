@@ -24,8 +24,8 @@ public class Client {
     }
 
     public Client() {
-        this.hostname = "";
-        this.portnumber = 5555;
+        this.hostname = "localhost";
+        this.portnumber = 55555;
     }
 
     public Client(String hostname, int portnumber) {
@@ -33,7 +33,7 @@ public class Client {
         this.setPortnumber(portnumber);
     }
 
-    public void openConnection() {
+    public boolean openConnection() {
         try {
             this.socket = new Socket(hostname, portnumber);
             this.out = new PrintWriter(this.socket.getOutputStream(), true);
@@ -41,6 +41,7 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return this.socket.isConnected();
     }
 
     public void closeConnection() {

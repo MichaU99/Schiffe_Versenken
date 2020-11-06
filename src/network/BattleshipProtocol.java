@@ -2,7 +2,10 @@ package network;
 
 import game.Field;
 import game.Game;
+import game.OnlineClientGame;
 import game.Position;
+
+import java.io.IOException;
 
 public class BattleshipProtocol {
 
@@ -50,7 +53,8 @@ public class BattleshipProtocol {
                 for (int i = 1; i < inputSplitted.length; i++) {
                     shipLengths[i - 1] = Integer.parseInt(inputSplitted[i]);
                 }
-                game.setShipLengths(shipLengths);
+                OnlineClientGame g = (OnlineClientGame) game;
+                g.setShipLengths(shipLengths);
                 break;
 
             case "shot":
@@ -58,15 +62,23 @@ public class BattleshipProtocol {
                 break;
 
             case "answer":
-                //implement function to register hits on enemy Playfield
+                game.getEnemyField().registerShot(new Position(Integer.parseInt(inputSplitted[1]), Integer.parseInt(inputSplitted[2])));
                 break;
 
             case "save":
-                game.saveGame(Integer.parseInt(inputSplitted[1]));
+                try {
+                    game.saveGame(inputSplitted[1]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case "load":
-                game.loadGame(Integer.parseInt(inputSplitted[1]));
+                try {
+                    game.loadGame(inputSplitted[1]);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             default:

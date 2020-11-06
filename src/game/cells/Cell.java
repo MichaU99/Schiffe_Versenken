@@ -1,4 +1,4 @@
-package game;
+package game.cells;
 
 import java.io.Serializable;
 
@@ -9,8 +9,8 @@ public class Cell implements Serializable {
     }
 
     public int shot(){
-        // returns -1 if shot was missed, otherwise the remaining health of the ship
-        return -1;
+        // returns 0 if shot was missed, 1 if hit, 2 if destroyed
+        return 0;
     }
 
     @Override
