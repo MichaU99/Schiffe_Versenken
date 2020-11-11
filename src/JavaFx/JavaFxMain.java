@@ -25,102 +25,84 @@ import javafx.stage.Stage;
 
 public class JavaFxMain extends Application {
 
-    Button button,button1,button2;//Video
-    BackgroundImage backgroundImage; // hintergrund
-    /* @Override
-     public void start(Stage primaryStage) throws Exception{
-         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-         primaryStage.setTitle("Hello World");
-         primaryStage.setScene(new Scene(root, 300, 275));
-         primaryStage.show();
-     } */
+    Button button_Start_NewGame,button_Start_SavesGames,button_Start_Options;//Video
+    Button button_NewGame_Einzelspiel,button_NewGame_Multispieler;
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Schiffe versenken");
 
 
+        //Buttons für Startbildschirm
+        button_Start_NewGame = new Button();
+        button_Start_NewGame.setText("NEW GAME");
+        button_Start_NewGame.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
+        button_Start_SavesGames = new Button();
+        button_Start_SavesGames.setText("SAVED GAMES");
+        button_Start_SavesGames.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
+        button_Start_Options = new Button();
+        button_Start_Options.setText("OPTIONS");
+        button_Start_Options.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
+        //Actions Buttons Startbildschirm:
+        button_Start_NewGame.setOnAction(e -> primaryStage.setScene(scene_NewGame)); // jetzt gleich hier Handel befehlt(weil hier in der klasse)
+        button_Start_SavesGames.setOnAction(e -> System.out.println("bye"));
+        button_Start_Options.setOnAction(e -> System.out.println("hallo"));
 
-        Text t = new Text();
-        t.setText("NEW GAME");
-        //button.setFont(Font.font ("Verdana", 20));
-        //button.setFill(Color.RED);
+        //Buttons für NewGame
+        button_NewGame_Einzelspiel.setText("Singelplayer");
+        button_NewGame_Einzelspiel.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
+        button_NewGame_Multispieler.setText("Multiplayer");
+        button_NewGame_Multispieler.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
 
-        button = new Button();
-        button.setText("NEW GAME");
-        button.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
-        button1 = new Button();
-        button1.setText("SAVED GAMES");
-        button1.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
-        button2 = new Button();
-        button2.setText("OPTIONS");
-        button2.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
-
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("hi");
-            }
-        }); // jetzt gleich hier Handel befehlt(weil hier in der klasse)
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("hallo");
-            }
-        });
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("bye");
-            }
-        });
 
         DropShadow shadow = new DropShadow(); // Schatten bei Mauspfeil
-        button.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-            button.setEffect(shadow);
+        button_Start_NewGame.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            button_Start_NewGame.setEffect(shadow);
         });
-        button1.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-            button1.setEffect(shadow);
+        button_Start_SavesGames.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            button_Start_SavesGames.setEffect(shadow);
         });
-        button2.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-            button2.setEffect(shadow);
+        button_Start_Options.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            button_Start_Options.setEffect(shadow);
         });
         // schatten entfernung bei Mauspfeil weg
-        button.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-            button.setEffect(null);
+        button_Start_NewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            button_Start_NewGame.setEffect(null);
         });
-        button1.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-            button1.setEffect(null);
+        button_Start_SavesGames.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            button_Start_SavesGames.setEffect(null);
         });
-        button2.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-            button2.setEffect(null);
+        button_Start_Options.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            button_Start_Options.setEffect(null);
         });
 
-        VBox vbox = new VBox(); // Vertikale Anordnung, geklaut von unteb
-        vbox.setSpacing(20);
-        /*
-        Image HintergrundSchiff = new Image(getClass().getResource("Bild1.jpg").toExternalForm());
-        ImageView hintergrundSchiff = new ImageView(getClass().getResource("Bild1.jpg").toExternalForm());
+        VBox vbox_Start = new VBox(); // Vertikale Anordnung, geklaut von unten
+        vbox_Start.setId("Start-Buttons");  //Brauchen wir das?
+        vbox_Start.setSpacing(30);
+        vbox_Start.getChildren().addAll(button_Start_NewGame,button_Start_SavesGames,button_Start_Options); // buttons hinzufügen
+        vbox_Start.setAlignment(Pos.CENTER); // Zentriert  // zentriete sein
 
-        Background background = new Background(backgroundImage);
-        vbox.setBackground(background);
-        vbox.getChildren().add(hintergrundSchiff);
-        */
-
-
-        vbox.getChildren().add(button);
-        vbox.getChildren().add(button1);
-        vbox.getChildren().add(button2);
-        vbox.setAlignment(Pos.CENTER); // Zentriert
+        VBox vbox_NewGame = new VBox(); // Vertikale Anordnung, geklaut von unten
+        vbox_Start.setId("Start-NewGame");  //Brauchen wir das?
+        vbox_Start.setSpacing(30);
+        vbox_Start.getChildren().addAll(button_NewGame_Einzelspiel,button_NewGame_Multispieler); // buttons hinzufügen
+        vbox_Start.setAlignment(Pos.CENTER); // Zentriert  // zentriete sein
 
         primaryStage.setMinWidth(500); //Min Fenster
         primaryStage.setMinHeight(500);
-        vbox.setId("hintergrundSchiff1");
-        Scene scene = new Scene(vbox);
-        scene.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
 
-        primaryStage.setScene(scene);
+
+        Scene scene_Start = new Scene(vbox_Start); // set erste Scene
+        scene_Start.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
+        //^ hier wird nur das Hintergrundbild gesetzt
+
+        Scene scene_NewGame = new Scene(vbox_NewGame); // set New Game Scene
+        scene_NewGame.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
+
+
+        primaryStage.setScene(scene_Start);
         primaryStage.setMaximized(true);
         primaryStage.show();
+
     }
 
     /*@Override // kann glaub ich gelöscht werden weil wird gelich neben demButton jetzt geschrieben
