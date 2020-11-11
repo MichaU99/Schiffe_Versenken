@@ -34,8 +34,8 @@ public class Main {
 //            if (i == 299)
 //                field.printField();
 //        }
-        Game game = new Game(10, 10);
-        game.saveGame(12345);
+        //Game game = new Game(10, 10); Habe ich weg gemacht weil javafx sonst nicht will
+       // game.saveGame(12345);
 
 //        Game game = new Game(MultiplayerMode.CLIENT, "localhost", 55555);
 //        game.client_openConnection();

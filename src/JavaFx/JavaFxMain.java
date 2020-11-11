@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 
 
 
-public class Main extends Application implements EventHandler<ActionEvent>{
+public class JavaFxMain extends Application {
 
     Button button,button1,button2;//Video
     BackgroundImage backgroundImage; // hintergrund
@@ -55,9 +55,24 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         button2.setText("OPTIONS");
         button2.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
 
-        button.setOnAction(this); // weil hier in der klasse
-        button1.setOnAction(this);
-        button2.setOnAction(this);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("hi");
+            }
+        }); // jetzt gleich hier Handel befehlt(weil hier in der klasse)
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("hallo");
+            }
+        });
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("bye");
+            }
+        });
 
         DropShadow shadow = new DropShadow(); // Schatten bei Mauspfeil
         button.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
@@ -97,16 +112,18 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         vbox.getChildren().add(button2);
         vbox.setAlignment(Pos.CENTER); // Zentriert
 
-
+        primaryStage.setMinWidth(500); //Min Fenster
+        primaryStage.setMinHeight(500);
         vbox.setId("hintergrundSchiff1");
         Scene scene = new Scene(vbox);
         scene.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
+
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
-    @Override
+    /*@Override // kann glaub ich gelöscht werden weil wird gelich neben demButton jetzt geschrieben
     public void handle(ActionEvent event) {
         if(event.getSource()==button){
             System.out.println("neues Spiel beginnen");
@@ -117,7 +134,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         if(event.getSource()==button2){
             System.out.println("Optionen offnen");
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         launch(args);
