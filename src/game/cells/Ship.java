@@ -20,7 +20,10 @@ public class Ship extends Cell {
         return length;
     }
 
-    public int getId() { return this.id; }
+
+    // hier musste ich ändern zu
+    //@Override
+    //public final int getId() { return this.id; }
 
     public Ship(Position[] positions){
         super();

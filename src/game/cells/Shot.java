@@ -10,9 +10,11 @@ public class Shot extends Cell{
 
     public Shot() {
 
+        super();
     }
 
     public Shot(boolean wasShip) {
+        super();
         this.wasShip = wasShip;
     }
 

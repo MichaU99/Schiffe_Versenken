@@ -4,12 +4,15 @@ package JavaFx;
 
 //dazu von Video
 
+import game.Cell;
+import game.Field;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -22,13 +25,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Calendar;
 
 
 public class JavaFxMain extends Application {
 
     Button button_Start_NewGame,button_Start_SavesGames,button_Start_Options;//Video
-    Scene scene_Start,scene_NewGame;
+    Scene scene_Start,scene_NewGame,scene_Battelfield;
     Button button_NewGame_Einzelspiel,button_NewGame_Multispieler;
+    Field playerField,enemyField;
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Schiffe versenken");
@@ -56,7 +61,8 @@ public class JavaFxMain extends Application {
         button_NewGame_Multispieler = new Button();
         button_NewGame_Multispieler.setText("Multiplayer");
         button_NewGame_Multispieler.setStyle("-fx-background-color: #000000;-fx-text-fill: #ffffff ");
-
+        //Actions Buttons newGame
+        button_NewGame_Einzelspiel.setOnAction(e -> primaryStage.setScene(scene_Battelfield));
 
         DropShadow shadow = new DropShadow(); // Schatten bei Mauspfeil
         button_Start_NewGame.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> button_Start_NewGame.setEffect(shadow));
@@ -74,7 +80,7 @@ public class JavaFxMain extends Application {
 
         //Layout Button Start
         VBox vbox_Start = new VBox(); // Vertikale Anordnung, geklaut von unten
-        vbox_Start.setId("hintergrundSchiff1");  //Brauchen wir das?
+        vbox_Start.setId("hintergrundSchiff1");  // für Hintegrundbildanzeigen gebraucht
         vbox_Start.setSpacing(30);
         vbox_Start.getChildren().addAll(button_Start_NewGame,button_Start_SavesGames,button_Start_Options); // buttons hinzufügen
         vbox_Start.setAlignment(Pos.CENTER); // Zentriert  // zentriete sein
@@ -86,19 +92,29 @@ public class JavaFxMain extends Application {
         vbox_NewGame.getChildren().addAll(button_NewGame_Einzelspiel,button_NewGame_Multispieler); // buttons hinzufügen
         vbox_NewGame.setAlignment(Pos.CENTER); // Zentriert  // zentriete sein
 
-        primaryStage.setMinWidth(500); //Min Fenster
-        primaryStage.setMinHeight(500);
+        //Felder layout
+        BorderPane borderPane_Battelfield = new BorderPane();
+        borderPane_Battelfield.setPrefSize(600,600);
+        borderPane_Battelfield.setRight(new Text("iamhere"));
 
-        scene_Start = new Scene(vbox_Start); // set erste Scene
+
+
+        primaryStage.setMinWidth(500); //Min Fenster !!!! gerade nicht im gebrauch da
+        primaryStage.setMinHeight(500); //                Max-Fenster-Probleme
+
+        scene_Start = new Scene(vbox_Start,800,600); // set erste Scene
         scene_Start.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
         //^ hier wird nur das Hintergrundbild gesetzt
-        scene_NewGame = new Scene(vbox_NewGame); // set New Game Scene
+        scene_NewGame = new Scene(vbox_NewGame,800,600); // set New Game Scene
         scene_NewGame.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
 
-       
+        // ersteinmal zum Ausprobieren
+        scene_Battelfield = new Scene(contentBattelship(),800,600);
+        scene_Battelfield.getStylesheets().addAll(this.getClass().getResource("hintergrundSchiff.css").toExternalForm());
+
 
         primaryStage.setScene(scene_Start);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
 
     }
@@ -115,6 +131,69 @@ public class JavaFxMain extends Application {
             System.out.println("Optionen offnen");
         }
     }*/
+    private Parent contentBattelship(){
+        //Felderlayout
+        BorderPane borderPane_Battelfield = new BorderPane();
+        borderPane_Battelfield.setPrefSize(600,600);
+        borderPane_Battelfield.setRight(new Text("iamhere"));
+
+
+        /*VBox reihen_x = new VBox();
+
+        for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
+            HBox reihe_y = new HBox();
+            for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
+                Cell c = new Cell(i,j);
+                //c.setOnMouseClicked(handler);
+                reihe_y.getChildren().add(c);
+            }
+            reihen_x.getChildren().add(reihe_y);
+        }
+        borderPane_Battelfield.getChildren().add(reihen_x);
+        */
+        VBox reihen_x = new VBox();
+
+        for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
+            HBox reihe_y = new HBox();
+            for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
+                Cell c = new Cell(i, j);
+                //c.setOnMouseClicked(handler);
+                reihe_y.getChildren().add(c);
+            }
+            reihen_x.getChildren().add(reihe_y);
+        }
+
+
+        //playerField =
+        //enemyField = new Board (true);
+        VBox vbox_Field = new VBox();
+        vbox_Field.getChildren().addAll(reihen_x);
+        vbox_Field.setAlignment(Pos.CENTER);
+        borderPane_Battelfield.setCenter(vbox_Field);
+
+        return borderPane_Battelfield;
+    }
+
+    /*public class Board  {
+        boolean enemy;
+
+        public Board(boolean enemy) {
+            this.enemy = enemy;
+            VBox reihen_x = new VBox();
+
+            for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
+                HBox reihe_y = new HBox();
+                for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
+                    Cell c = new Cell(i, j);
+                    //c.setOnMouseClicked(handler);
+                    reihe_y.getChildren().add(c);
+                }
+                reihen_x.getChildren().add(reihe_y);
+            }
+            //getChildren().add(reihen_x);
+        }
+    }*/
+
 
     public static void main(String[] args) {
         launch(args);

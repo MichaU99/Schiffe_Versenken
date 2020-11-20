@@ -4,15 +4,25 @@ import game.cells.Block;
 import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Field implements FieldInterface, Serializable {
+public class Field extends Parent implements FieldInterface, Serializable {
     private Cell[][] playfield;
     private int height;
     private int length;
+    // extends Parent von mir
+    private VBox reihen_x = new VBox();
+    private boolean enemy = false;
+
 
     public Cell[][] getPlayfield() {
         return playfield;
@@ -26,7 +36,7 @@ public class Field implements FieldInterface, Serializable {
         return length;
     }
 
-    public Field(int height, int length) {
+    public Field(int height, int length, boolean enemy) {
         assert 5 <= height && height <= 30 : "height not in range 5-30";
         assert 5 <= length && length <= 30 : "length not in range 5-30";
 
@@ -34,7 +44,22 @@ public class Field implements FieldInterface, Serializable {
         this.height = height;
         this.length = length;
         this.resetField();
+
+        //Von mir
+        /*this.enemy = enemy;
+        for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
+            HBox reihe_y = new HBox();
+            for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
+                this.playfield[i][j] = new Cell();
+                //c.setOnMouseClicked(handler);
+                reihe_y.getChildren().add(this.playfield[i][j]);
+            }
+            reihen_x.getChildren().add(reihe_y);
+        }
+        getChildren().add(reihen_x);*/
+
     }
+
 
     private void resetField() {
         for (int i = 0; i < this.height; i++) {

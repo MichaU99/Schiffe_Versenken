@@ -44,8 +44,8 @@ public class BattleshipProtocol {
     public static void processInput(String input, Game game){
         String[] inputSplitted = input.split(" ");
         switch (inputSplitted[0]) {
-            case "size":
-                game.setField(new Field(Integer.parseInt(inputSplitted[2]), Integer.parseInt(inputSplitted[1])));
+            case "size": // hier enemy erstmal schauen ob stimmt
+                game.setField(new Field(Integer.parseInt(inputSplitted[2]), Integer.parseInt(inputSplitted[1]),false));
                 break;
 
             case "ships":

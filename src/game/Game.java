@@ -23,8 +23,8 @@ public abstract class Game implements Serializable {
     }
 
     public Game(int playFieldHeight, int playFieldLength){
-        this.field = new Field(playFieldHeight, playFieldLength);
-        this.enemyField = new Field(playFieldHeight, playFieldLength);
+        this.field = new Field(playFieldHeight, playFieldLength,false);
+        this.enemyField = new Field(playFieldHeight, playFieldLength,true);
     }
 
     public boolean addShip(Position[] positions) {

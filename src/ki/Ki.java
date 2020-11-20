@@ -22,7 +22,7 @@ public class Ki {
         this.enemyField = enemyField;
         this.kiField = kiField;
         this.kiStrength = kiStrength;
-        this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
+        this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength(), true);
     }
 
     public Ki(Field enemyField, Field kiField, int[] shiplengths, KiStrength kiStrength){

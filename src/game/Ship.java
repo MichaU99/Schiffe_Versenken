@@ -9,7 +9,7 @@ public class Ship extends Cell {
     }
 
     public Ship(Position[] positions){
-        super();
+        super(30,30);
         this.positions = positions;
         this.length = positions.length;
     }
