@@ -1,6 +1,9 @@
+package game;
+
+import game.cells.Ship;
+
 public interface FieldInterface {
 
-    void resetField();
     boolean addShip(Ship ship);
     boolean addShipRandom(int length);
     boolean addShipRandom(int[] lengths);

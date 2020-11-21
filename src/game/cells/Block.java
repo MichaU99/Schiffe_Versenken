@@ -1,4 +1,6 @@
-public class Block extends Cell{
+package game.cells;
+
+public class Block extends Cell {
 
     public Block(){
         super();

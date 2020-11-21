@@ -1,16 +1,43 @@
+import enums.KiStrength;
+import game.*;
+import game.cells.Ship;
+import ki.Ki;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class Main {
-    public static void main(String[] args) {
-        Field field = new Field(10, 10);
-        Position[] posarr1 = {new Position(5, 5), new Position(5, 6)};
+    static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    int[] stdLengths = {5, 4, 4, 3, 3, 3, 2, 2, 2, 2};
 
-//        field.addShip(new Ship(posarr1));
-//        field.addShip(new Ship(new Position[] {new Position(0, 0), new Position(0, 1), new Position(0, 2)}));
+    public static int mainMenu() {
+        System.out.println("Pick your poison");
+        System.out.println("1. Game vs Ki");
+        System.out.println("2. Game as Host");
+        System.out.println("3. Game as Client");
+        System.out.println("4. Options");
+        System.out.println("5. Quit");
+        try {
+            return Integer.parseInt(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
-        int[] lengths = {5, 4, 4, 3, 3, 3, 2, 2, 2, 2};
-        field.addShipRandom(lengths);
-//        System.out.println(field.registerShot(new Position(5, 6)));
-//        System.out.println(field.registerShot(new Position(5, 5)));
+    public static void main(String[] args) throws IOException {
+        OnlineHostGame game = new OnlineHostGame(6, 6, 55555, new int[]{5, 4, 3});
+        game.waitForConnection();
+        game.addShipRandom(new int[]{5, 4, 3});
+        game.startGame();
 
-        field.printField();
+        while (true) {
+            game.getEnemyField().printField();
+            System.out.println("Enter coordinates x , y");
+            String input = reader.readLine();
+            game.shot(new Position(Integer.parseInt(input.split(",")[0]), Integer.parseInt(input.split(",")[1])));
+        }
     }
 }
