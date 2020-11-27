@@ -6,13 +6,13 @@ import network.BattleshipProtocol;
 import network.Server;
 
 import java.io.*;
-import java.util.concurrent.TimeUnit;
 
-public class OnlineHostGame extends Game{
+public class OnlineHostGame extends AbstractGame {
     private Server server;
     private int[] shipLengths; // the user has to specify the amount of each ship he wants to place before the game
 
     public OnlineHostGame(int playFieldHeight, int playFieldLength, int portNumber, int[] shipLengths) {
+        // Wir sind der Host, deswegen schon beim erstellen portnummer und Liste der Schifflängen angeben
         super(playFieldHeight, playFieldLength);
         this.server = new Server();
         this.server.setPortNumber(portNumber);
@@ -23,13 +23,13 @@ public class OnlineHostGame extends Game{
         // wait for connection, when connection is established exchange game Configuration
         if (!this.server.waitForConnection())
             return false;
-        System.out.println("Connected");
+//        System.out.println("Connected");
 
         this.server.writeLine(BattleshipProtocol.formatSize(this.getField().getLength(), this.getField().getHeight()));
-        System.out.println("SIZE CONFIG SENT");
+//        System.out.println("SIZE CONFIG SENT");
         if (!this.server.readLine().equals("done"))
             return false;
-        System.out.println("size config Ok");
+//        System.out.println("size config Ok");
 
         this.server.writeLine(BattleshipProtocol.formatShips(this.shipLengths));
         if (!this.server.readLine().equals("done"))
@@ -39,21 +39,14 @@ public class OnlineHostGame extends Game{
     }
 
     public boolean startGame() {
+        // sende nach Protokoll ready -> spiel kann gestartet werden
         this.server.writeLine("ready");
         return this.server.readLine().equals("ready");
     }
 
-    @Override
-    public boolean addShip(Position[] positions) {
-        // Check if user has already added all the ships
-        if (this.field.getShipCount() == this.shipLengths.length) {
-            return false;
-        }
-        return super.addShip(positions);
-    }
-
-    public void shot(Position position) {
-        System.out.println("schieße");
+    public void shoot(Position position) {
+        // shoot Funktion mit extra steps im Prinzip.
+        // es muss eben noch über die Sockets die Kommunikation übertragen werden
         this.server.writeLine(BattleshipProtocol.formatShot(position.getX(), position.getY()));
         Object[] answer = BattleshipProtocol.processInput(this.server.readLine());
         if (answer[0] != ProtComs.ANSWER){

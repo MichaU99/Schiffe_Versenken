@@ -1,11 +1,16 @@
 package game.cells;
 
 import game.Position;
-import game.cells.Cell;
 
 import java.util.ArrayList;
 
 public class Ship extends Cell {
+    // Ship ist das Schiff in Schiffeversenken.
+    // Jedes Schiff hat alle Positionen, die zu diesem Schiff gehört
+    // Damit weiß jede Position dieses Schiffes wie viele Leben usw. es noch übrig hat.
+    // Die ID wird nur für interne Methoden des Felds benutzt.
+    // Wenn die Länge 0 ist, wurden alle Positionen des Schiffs getroffen -> es ist zerstört
+
     private Position[] positions;
     private int length;
     private int id;

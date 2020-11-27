@@ -5,7 +5,7 @@ import ki.Ki;
 
 import java.io.*;
 
-public class LocalGame extends Game {
+public class LocalGame extends AbstractGame {
     private Ki ki;
 
     public LocalGame(int playFieldHeight, int playFieldLength, KiStrength kiStrength) {
@@ -14,15 +14,23 @@ public class LocalGame extends Game {
         this.ki = new Ki(this.field, this.enemyField, kiStrength);
     }
 
-    public void startGame() {
-        this.ki.addShipsToField(this.field.getShipLengths());
+    public boolean startGame() {
+        this.enemyField.addShipRandom(this.field.getShipLengths()); // Füge dem gegnerischen Feld genau die Schiffe des Spielers zu
+        return true;
     }
 
     public void shoot(Position position) {
+        // Spieler kann schießen bis er nicht mehr trifft.
+        // Wenn er verfehlt, kann die KI schießen bis sie nicht trifft
+        if (this.getField().getShipCount() == 0)
+            return;
+
         if (this.enemyField.registerShot(position) > 0)
             return;
 
         while (true) {
+            if (this.getField().getShipCount() == 0)
+                break;
             if (this.ki.shoot() == 0)
                 break;
         }

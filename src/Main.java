@@ -30,14 +30,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         OnlineHostGame game = new OnlineHostGame(6, 6, 55555, new int[]{5, 4, 3});
         game.waitForConnection();
-        game.addShipRandom(new int[]{5, 4, 3});
+        game.getField().addShipRandom(new int[]{5, 4, 3});
         game.startGame();
 
         while (true) {
             game.getEnemyField().printField();
             System.out.println("Enter coordinates x , y");
             String input = reader.readLine();
-            game.shot(new Position(Integer.parseInt(input.split(",")[0]), Integer.parseInt(input.split(",")[1])));
+            game.shoot(new Position(Integer.parseInt(input.split(",")[0]), Integer.parseInt(input.split(",")[1])));
         }
     }
 }

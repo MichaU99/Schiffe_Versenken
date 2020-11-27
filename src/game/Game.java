@@ -1,50 +1,26 @@
 package game;
 
-import game.cells.Ship;
+import java.io.IOException;
 
-import java.io.*;
+public interface Game {
+    // Getter für das Spielfeld des Spielers
+    Field getField();
 
-public abstract class Game implements Serializable {
-    protected Field field;
-    protected Field enemyField;
+    // Getter für das Spielfeld des Gegners
+    Field getEnemyField();
 
-    public Field getField() {
-        return field;
-    }
+    // Die Methode muss aufgerufen werden, bevor das Spiel gestartet wird
+    // Funktion hängt von dem jeweiligen Typ des Spiels ab -> Ist dann genauer beschrieben
+    boolean startGame();
 
-    public void setField(Field field) {
-        this.field = field;
-    }
+    // Damit wird geschossen auf die übergebene Position
+    // Funktion hängt auch wieder davon ab, welchen Typ das Spiel hat
+    void shoot(Position pos);
 
-    public Field getEnemyField() { return enemyField; }
+    // Damit wird das Spiel geladen, deswegen auch SerialInterface implementieren.
+    // Wird in jeder Klasse überschrieben, damit immer die spezifischen Variablen geladen werden.
+    void loadGame(String id) throws IOException, ClassNotFoundException;
 
-    public Game() {
-
-    }
-
-    public Game(int playFieldHeight, int playFieldLength){
-        this.field = new Field(playFieldHeight, playFieldLength);
-        this.enemyField = new Field(playFieldHeight, playFieldLength);
-    }
-
-    public boolean addShip(Position[] positions) {
-        return this.field.addShip(new Ship(positions));
-    }
-
-    public boolean addShipRandom(int[] shipLengths) {
-        return this.field.addShipRandom(shipLengths);
-    }
-
-    // public abstract void shoot();
-
-    public abstract void loadGame(String id) throws IOException, ClassNotFoundException;
-
-    public void saveGame(String id) throws IOException {
-        FileOutputStream fout = new FileOutputStream(id + ".txt");
-        ObjectOutputStream out = new ObjectOutputStream(fout);
-        out.writeObject(this);
-        out.flush();
-        out.close();
-    }
-
+    // Wie loadGame
+    void saveGame(String id) throws IOException;
 }

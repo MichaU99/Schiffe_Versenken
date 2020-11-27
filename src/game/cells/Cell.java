@@ -3,6 +3,8 @@ package game.cells;
 import java.io.Serializable;
 
 public class Cell implements Serializable {
+    // Cell ist die Basisklasse aller Zellen im Spielfeld
+    // Cell ist im Prinzip Wasser im Schiffeversenken Spiel.
 
     public Cell(){
 

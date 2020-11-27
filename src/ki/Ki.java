@@ -1,9 +1,8 @@
 package ki;
 
 import enums.KiStrength;
-import game.Field;
+import game.FieldImpl;
 import game.Position;
-import game.cells.Block;
 import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
@@ -12,29 +11,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Ki {
-    private Field enemyField; // this is the players playfield
-    public Field kiEnemyField; // this is the vision of the ki of the enemy Field;
-    private Field kiField; // this is the ki's field | is this needed?
+    private FieldImpl enemyField; // this is the players playfield
+    public FieldImpl kiEnemyField; // this is the vision of the ki of the enemy Field;
+    private FieldImpl kiField; // this is the ki's field | is this needed?
     private final KiStrength kiStrength;
     private ArrayList<Integer> enemyRemainingShipLengths = new ArrayList<>();
 
-    public Ki(Field enemyField, Field kiField, KiStrength kiStrength){
+    public Ki(FieldImpl enemyField, FieldImpl kiField, KiStrength kiStrength){
         this.enemyField = enemyField;
         this.kiField = kiField;
         this.kiStrength = kiStrength;
-        this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
-    }
-
-    public Ki(Field enemyField, Field kiField, int[] shiplengths, KiStrength kiStrength){
-        this(enemyField, kiField, kiStrength);
-        this.addShipsToField(shiplengths);
-    }
-
-    public void addShipsToField(int[] shipLengths) {
-        this.kiField.addShipRandom(shipLengths);
-        for (int x: shipLengths) {
-            this.enemyRemainingShipLengths.add(x);
-        }
+        this.kiEnemyField = new FieldImpl(enemyField.getHeight(), enemyField.getLength());
     }
 
     public int shoot() {
