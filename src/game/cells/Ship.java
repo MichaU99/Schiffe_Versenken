@@ -1,6 +1,7 @@
 package game.cells;
 
 import game.Position;
+import game.cells.Cell;
 
 import java.util.ArrayList;
 

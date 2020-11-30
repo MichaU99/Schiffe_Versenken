@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.concurrent.TimeUnit;
 
-public class OnlineClientGame extends AbstractGame {
+public class OnlineClientGame extends Game{
     private Client client;
     private int[] shipLengths;
 
-    public int[] getShipLengths() {
-        return this.shipLengths;
+    public void setShipLengths(int[] shipLengths) {
+        this.shipLengths = shipLengths;
     }
 
     public OnlineClientGame(String hostName, int portNumber) {
@@ -26,7 +26,7 @@ public class OnlineClientGame extends AbstractGame {
     }
 
     public boolean establishConnection() {
-        // open Connection and get game configuration
+        //open Connection and get game configuration
         // Verbindung wird versucht aufzubauen. Wenn die Methode zu ende ist, sind auch die Schifflängen verfügbar
         // Dann kann der User erst seine Schiffe plazieren.
         if (!this.client.openConnection())
@@ -37,8 +37,8 @@ public class OnlineClientGame extends AbstractGame {
             this.client.closeConnection();
             return false;
         }
-        this.field = new FieldImpl((int) size[2], (int) size[1]);
-        this.enemyField = new FieldImpl((int) size[2], (int) size[1]);
+        this.field = new Field((int) size[2], (int) size[1]);
+        this.enemyField = new Field((int) size[2], (int) size[1]);
         this.client.writeLine("done");
 
         Object[] ships = BattleshipProtocol.processInput(this.client.readLine());
@@ -53,9 +53,6 @@ public class OnlineClientGame extends AbstractGame {
     }
 
     public boolean startGame() {
-        // es muss zuerst gehört werden, ob der server ready schreibt
-        // danach kann der server den ersten Schuss setzen, deswegen wird zuerst darauf gehört
-        // danach ist der Ablauf der gleiche wie beim server
         while (!this.client.readLine().equals("ready")) {
             try {
                 TimeUnit.SECONDS.sleep(1);

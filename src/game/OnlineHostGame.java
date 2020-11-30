@@ -7,12 +7,11 @@ import network.Server;
 
 import java.io.*;
 
-public class OnlineHostGame extends AbstractGame {
+public class OnlineHostGame extends Game{
     private Server server;
     private int[] shipLengths; // the user has to specify the amount of each ship he wants to place before the game
 
     public OnlineHostGame(int playFieldHeight, int playFieldLength, int portNumber, int[] shipLengths) {
-        // Wir sind der Host, deswegen schon beim erstellen portnummer und Liste der Schifflängen angeben
         super(playFieldHeight, playFieldLength);
         this.server = new Server();
         this.server.setPortNumber(portNumber);

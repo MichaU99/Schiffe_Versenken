@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -28,16 +29,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        OnlineHostGame game = new OnlineHostGame(6, 6, 55555, new int[]{5, 4, 3});
-        game.waitForConnection();
-        game.getField().addShipRandom(new int[]{5, 4, 3});
-        game.startGame();
+        LocalGame localGame = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
+        localGame.getField().addShipRandom(new int[]{5, 4, 3});
+        localGame.startGame();
 
-        while (true) {
-            game.getEnemyField().printField();
-            System.out.println("Enter coordinates x , y");
-            String input = reader.readLine();
-            game.shoot(new Position(Integer.parseInt(input.split(",")[0]), Integer.parseInt(input.split(",")[1])));
-        }
+        localGame.getField().printField();
+        localGame.shoot(new Position(0, 0));
+        localGame.getField().printField();
     }
 }
