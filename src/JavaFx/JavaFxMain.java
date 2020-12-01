@@ -4,7 +4,7 @@ package JavaFx;
 
 //dazu von Video
 
-import game.Cell;
+
 import game.Field;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -156,9 +156,9 @@ public class JavaFxMain extends Application {
         for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
             HBox reihe_y = new HBox();
             for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
-                Cell c = new Cell(i, j);
+                //Cell c = new Cell(i, j);
                 //c.setOnMouseClicked(handler);
-                reihe_y.getChildren().add(c);
+              // reihe_y.getChildren().add(c);
             }
             reihen_x.getChildren().add(reihe_y);
         }
