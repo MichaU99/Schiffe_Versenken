@@ -1,11 +1,7 @@
 package network;
 
-import game.Field;
-import game.Game;
-import game.OnlineClientGame;
+import enums.ProtComs;
 import game.Position;
-
-import java.io.IOException;
 
 public class BattleshipProtocol {
 
@@ -33,56 +29,41 @@ public class BattleshipProtocol {
         return "answer " + answer;
     }
 
-    public static String formatSave(int id) {
+    public static String formatSave(String id) {
         return "save " + id;
     }
 
-    public static String formatLoad(int id) {
+    public static String formatLoad(String id) {
         return "load " + id;
     }
 
-    public static void processInput(String input, Game game){
-        String[] inputSplitted = input.split(" ");
-        switch (inputSplitted[0]) {
-            case "size": // hier enemy erstmal schauen ob stimmt
-                game.setField(new Field(Integer.parseInt(inputSplitted[2]), Integer.parseInt(inputSplitted[1]),false));
-                break;
+    public static Object[] processInput(String input){
+        String[] inputSplit = input.split(" ");
+        switch (inputSplit[0]) {
+            case "size":
+                return new Object[]{ProtComs.SIZE, Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[2])};
 
             case "ships":
-                int[] shipLengths = new int[inputSplitted.length - 1];
-                for (int i = 1; i < inputSplitted.length; i++) {
-                    shipLengths[i - 1] = Integer.parseInt(inputSplitted[i]);
+                int[] shipLengths = new int[inputSplit.length - 1];
+                for (int i = 1; i < inputSplit.length; i++) {
+                    shipLengths[i - 1] = Integer.parseInt(inputSplit[i]);
                 }
-                OnlineClientGame g = (OnlineClientGame) game;
-                g.setShipLengths(shipLengths);
-                break;
+                return new Object[]{ProtComs.SHIPS, shipLengths};
 
             case "shot":
-                game.getField().registerShot(new Position(Integer.parseInt(inputSplitted[1]), Integer.parseInt(inputSplitted[2])));
-                break;
+                return new Object[]{ProtComs.SHOT, new Position(Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[2]))};
 
             case "answer":
-                game.getEnemyField().registerShot(new Position(Integer.parseInt(inputSplitted[1]), Integer.parseInt(inputSplitted[2])));
-                break;
+                return new Object[]{ProtComs.ANSWER, Integer.parseInt(inputSplit[1])};
 
             case "save":
-                try {
-                    game.saveGame(inputSplitted[1]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+                return new Object[]{ProtComs.SAVE, inputSplit[1]};
 
             case "load":
-                try {
-                    game.loadGame(inputSplitted[1]);
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
+                return new Object[]{ProtComs.LOAD, inputSplit[1]};
 
             default:
-                break;
+                return new Object[]{ProtComs.ERROR};
         }
     }
 }

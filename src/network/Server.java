@@ -41,12 +41,15 @@ public class Server {
     }
 
     public void writeLine(String out) {
-        this.out.write(out);
+        System.out.println("SERVER write: " + out);
+        this.out.println(out);
     }
 
     public String readLine() {
         try {
-            return this.in.readLine();
+            String line = this.in.readLine();
+            System.out.println("SERVER read: " + line);
+            return line;
         } catch (IOException e) {
             e.printStackTrace();
         }

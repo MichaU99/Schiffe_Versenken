@@ -14,15 +14,25 @@ public class LocalGame extends Game {
         this.ki = new Ki(this.field, this.enemyField, kiStrength);
     }
 
-    public void startGame() {
+    public boolean startGame() {
         this.ki.addShipsToField(this.field.getShipLengths());
+        //this.enemyField.addShipRandom(this.field.getShipLengths());
+        return true;
     }
 
     public void shoot(Position position) {
+        // Spieler kann schießen bis er nicht mehr trifft.
+        // Wenn er verfehlt, kann die KI schießen bis sie nicht trifft
+
+        if (this.getField().getShipCount() == 0)
+            return;
+
         if (this.enemyField.registerShot(position) > 0)
             return;
 
         while (true) {
+            if (this.getField().getShipCount() == 0)
+                break;
             if (this.ki.shoot() == 0)
                 break;
         }

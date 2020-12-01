@@ -56,7 +56,9 @@ public class Client {
 
     public String readLine() {
         try {
-            return this.in.readLine();
+            String line = this.in.readLine();
+            System.out.println("CLIENT read: " + line);
+            return line;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +66,7 @@ public class Client {
     }
 
     public void writeLine(String out){
+        System.out.println("CLIENT write: " + out);
         this.out.println(out);
     }
 }

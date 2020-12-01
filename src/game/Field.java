@@ -4,39 +4,33 @@ import game.cells.Block;
 import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
-import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Field extends Parent implements FieldInterface, Serializable {
+public class Field implements Serializable {
     private Cell[][] playfield;
     private int height;
     private int length;
-    // extends Parent von mir
-    private VBox reihen_x = new VBox();
-    private boolean enemy = false;
 
-
+    // Damit bekommt man das Feld, über dieses kann man ganz normal iterieren (2d Array)
+    // Die Typen sind Cell, aber dann natürlich auch alle Klassen, die davon erben, je nachdem was es dann eben ist
     public Cell[][] getPlayfield() {
         return playfield;
     }
 
+    // Die Höhe des Spielfelds ist die erste Dimension
     public int getHeight() {
         return height;
     }
 
+    // Die Länge des SPielfelds ist die zweite Dimension
     public int getLength() {
         return length;
     }
 
-    public Field(int height, int length, boolean enemy) {
+    public Field(int height, int length) {
         assert 5 <= height && height <= 30 : "height not in range 5-30";
         assert 5 <= length && length <= 30 : "length not in range 5-30";
 
@@ -44,22 +38,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         this.height = height;
         this.length = length;
         this.resetField();
-
-        //Von mir
-        /*this.enemy = enemy;
-        for (int i = 0; i < 10; i++) { // ist y-Achse Höhe
-            HBox reihe_y = new HBox();
-            for (int j = 0; j < 10; j++) {  // ist x-Achse Breite
-                this.playfield[i][j] = new Cell();
-                //c.setOnMouseClicked(handler);
-                reihe_y.getChildren().add(this.playfield[i][j]);
-            }
-            reihen_x.getChildren().add(reihe_y);
-        }
-        getChildren().add(reihen_x);*/
-
     }
-
 
     private void resetField() {
         for (int i = 0; i < this.height; i++) {
@@ -95,6 +74,9 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return ships;
     }
 
+    // Damit wird das Spielfeld auf eine neue Größe gebracht.
+    // Alle Schiffe, die es schon gibt und die innerhalb des neuen Felds liegen werden übernommen.
+    // Alle anderen Schiffe werden rausgeworfen.
     public void resizeField(int newHeight, int newLength) {
         if (newHeight == this.height && newLength == this.length)
             return;
@@ -140,6 +122,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         }
     }
 
+    // Fügt ein Schiff hinzu an den Positionen, die in dem Schiff stehen.
     public boolean addShip(Ship ship){
         // check if any position of ship is already occupied
         for(Position position: ship.getPositions()){
@@ -159,6 +142,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return true;
     }
 
+    // Nimmt eine Länge und fügt dann ein neues Schiff an einer zufälligen Position im Feld hinzu
     public boolean addShipRandom(int length){
         Random r = new Random();
         boolean placed = false;
@@ -221,6 +205,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return true;
     }
 
+    // Nimmt eine Array von Längen und fügt diese als neue Schiffe DER REIHE NACH
     public boolean addShipRandom(int [] lengths){
         for (int i = 0; i < lengths.length; i++) {
             if (!addShipRandom(lengths[i])) {
@@ -233,11 +218,13 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return true;
     }
 
+    // Gibt zurück, wie viele Schiffe es im Moment auf dem Feld gibt
     public int getShipCount() {
         // returns how many ships are on the current field
         return this.extractShips(this.height, this.length).size();
     }
 
+    // Gibt die Länge aller Schiffe auf dem Feld absteigend sortiert in einem Array zurück
     public int[] getShipLengths() {
         // returns the lengths of every ship on the current field as array
         ArrayList<Ship> extractShips = this.extractShips(this.height, this.length);
@@ -257,6 +244,8 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return shipLengths;
     }
 
+    // Damit wird auf eine Position des Feldes geschossen. Rückgabe ist dann entsprechend der implemntierung in der
+    // jeweiligen Zelle
     public int registerShot(Position position){
         Cell cell = this.playfield[position.getY()][position.getX()];
         this.playfield[position.getY()][position.getX()] = new Shot();
@@ -269,6 +258,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         return cell.shot();
     }
 
+    // Gibt das Feld auf der Konsole aus
     public void printField(){
         for (int i = 65; i < this.length + 65; i++) {
             System.out.print("\t" + (char)i);
@@ -283,6 +273,7 @@ public class Field extends Parent implements FieldInterface, Serializable {
         }
     }
 
+    // Gibt das Feld auf der Konsole aus, verbirgt aber Schiffe und zeigt nur Schüsse
     public void printFieldConcealed() {
         for (int i = 65; i < this.length + 65; i++) {
             System.out.print("\t" + (char)i);
