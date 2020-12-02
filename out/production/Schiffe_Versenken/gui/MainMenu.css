@@ -1,0 +1,17 @@
+.root {
+    -fx-background-image: url("background.jpg");
+    -fx-background-size: cover;
+}
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5) , 0,0,0,1);
+}
+
+#welcome-text {
+    -fx-font-size: 32px;
+    -fx-font-family: "Arial Black";
+    -fx-fill: blue;
+}
