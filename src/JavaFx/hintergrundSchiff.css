@@ -1,4 +1,4 @@
-#hintergrundSchiff1{
+.hintergrundSchiff1{
     -fx-background-image: url("Bild1.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
