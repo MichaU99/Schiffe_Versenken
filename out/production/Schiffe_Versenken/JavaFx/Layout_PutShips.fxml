@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,7 +13,7 @@
    <children>
       <Button cancelButton="true" layoutY="2.0" mnemonicParsing="false" onAction="#backToStart" text="Back" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0" />
       <Button layoutX="542.0" layoutY="2.0" mnemonicParsing="false" text="Options" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0" />
-      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="-1.0" layoutY="40.0" prefHeight="306.0" prefWidth="608.0">
+      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="-1.0" layoutY="39.0" prefHeight="249.0" prefWidth="600.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="39.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,24 +41,21 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <FlowPane hgap="10.0" layoutX="7.0" layoutY="429.0" prefHeight="99.0" prefWidth="608.0">
+      <FlowPane hgap="20.0" layoutX="12.0" layoutY="316.0" prefHeight="71.0" prefWidth="587.0">
          <children>
-            <ImageView fitHeight="85.0" fitWidth="164.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="92.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/SmallBoat.jpg" />
-               </image>
-               <FlowPane.margin>
-                  <Insets />
-               </FlowPane.margin>
-            </ImageView>
-            <ImageView fitHeight="85.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/MiddleBoat.jpg" />
+                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/SmallBoat.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="85.0" fitWidth="164.0" layoutX="137.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="93.0" fitWidth="154.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/BigBoat.jpg" />
+                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/MiddleBoat.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="91.0" fitWidth="195.0" layoutX="164.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/BigBoat.jpg" />
                </image>
             </ImageView>
          </children>

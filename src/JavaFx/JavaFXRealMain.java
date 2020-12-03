@@ -16,10 +16,8 @@ public class JavaFXRealMain extends Application {
         @Override
         public void start (Stage stage) throws Exception {
 
-
-
             this.stage=stage;
-            Parent root = FXMLLoader.load(getClass().getResource("Layout_PutShip.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
             Scene scene = new Scene(root, 600, 400);
 
             //scene.getStylesheets().add(this.getClass().getResource("/GUIPictures/InsertBoats.css").toExternalForm());

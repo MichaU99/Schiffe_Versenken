@@ -45,17 +45,17 @@
          <children>
             <ImageView fitHeight="92.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/SmallBoat.jpg" />
+                  <Image url="@../GUIPictures/SmallBoat.jpg" />
                </image>
             </ImageView>
             <ImageView fitHeight="93.0" fitWidth="154.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/MiddleBoat.jpg" />
+                  <Image url="@../GUIPictures/BigBoat.jpg" />
                </image>
             </ImageView>
             <ImageView fitHeight="91.0" fitWidth="195.0" layoutX="164.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Documents/GitHub/Schiffe_Versenken/src/GUIPictures/BigBoat.jpg" />
+                  <Image url="@../GUIPictures/MiddleBoat.jpg" />
                </image>
             </ImageView>
          </children>
