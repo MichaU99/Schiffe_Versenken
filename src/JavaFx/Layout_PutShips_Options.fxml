@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
+   <children>
+      <VBox layoutX="26.0" layoutY="118.0" prefHeight="250.0" prefWidth="120.0" spacing="40.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+            <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Ships" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+         </children>
+      </VBox>
+      <VBox layoutX="155.0" layoutY="118.0" prefHeight="250.0" prefWidth="120.0" spacing="30.0">
+         <children>
+            <ChoiceBox prefWidth="150.0" />
+            <TextField layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="82.0" />
+            <TextField layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="82.0" />
+            <TextField layoutX="10.0" layoutY="35.0" prefHeight="25.0" prefWidth="82.0" />
+         </children>
+      </VBox>
+      <HBox layoutX="186.0" layoutY="14.0" prefHeight="40.0" prefWidth="228.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
