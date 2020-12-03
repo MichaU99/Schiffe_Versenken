@@ -15,10 +15,14 @@ public class JavaFXRealMain extends Application {
         public Stage stage;
         @Override
         public void start (Stage stage) throws Exception {
-            this.stage=stage;
-            Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
 
+
+
+
+            this.stage=stage;
+            Parent root = FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
             Scene scene = new Scene(root, 600, 400);
+
 
             this.stage.setTitle("SchiffeVersenkenEXTREME");
             this.stage.setScene(scene);
