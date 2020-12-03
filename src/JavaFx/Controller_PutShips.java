@@ -31,8 +31,8 @@ public class Controller_PutShips implements Initializable {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.show();
         stage.setMaximized(true);
+        stage.show();
     }
     public void goBackToPutShips(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));

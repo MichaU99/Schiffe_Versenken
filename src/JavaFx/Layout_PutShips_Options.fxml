@@ -20,7 +20,7 @@
       <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="46.0" prefHeight="346.0" prefWidth="451.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
       <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="47.0" prefHeight="346.0" prefWidth="451.0">
          <children>
-            <VBox layoutX="19.0" layoutY="14.0" prefHeight="250.0" prefWidth="120.0" spacing="36.0" styleClass="Text" stylesheets="@button.css">
+            <VBox layoutX="19.0" layoutY="8.0" prefHeight="256.0" prefWidth="122.0" spacing="36.0" styleClass="Text" stylesheets="@button.css">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                   <Text layoutX="10.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spielschwierigkeit" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
@@ -28,53 +28,47 @@
                   <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Ships" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                </children>
             </VBox>
-            <VBox layoutX="165.0" layoutY="8.0" prefHeight="306.0" prefWidth="286.0" spacing="30.0" styleClass="Textkleiner" stylesheets="@button.css">
+            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="286.0" spacing="30.0" styleClass="Textkleiner" stylesheets="@button.css">
                <children>
                   <ChoiceBox prefWidth="150.0" />
                   <ChoiceBox layoutX="10.0" layoutY="10.0" prefWidth="150.0" />
-                  <HBox prefHeight="50.0" prefWidth="286.0" spacing="20.0">
+                  <HBox prefHeight="20.0" prefWidth="286.0" spacing="20.0">
                      <children>
                         <RadioButton mnemonicParsing="false" text="1" />
                         <RadioButton mnemonicParsing="false" text="2" />
                         <RadioButton mnemonicParsing="false" text="3" />
-                        <RadioButton layoutX="124.0" layoutY="10.0" mnemonicParsing="false" text="4" />
-                        <RadioButton layoutX="162.0" layoutY="10.0" mnemonicParsing="false" text="5" />
+                        <RadioButton mnemonicParsing="false" text="4" />
+                        <RadioButton mnemonicParsing="false" text="5" />
                         <RadioButton mnemonicParsing="false" text="all" />
                      </children>
                   </HBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                  <VBox prefHeight="171.0" prefWidth="287.0" spacing="5.0">
                      <children>
-                        <HBox prefHeight="24.0" prefWidth="286.0" spacing="50.0">
+                        <HBox prefHeight="24.0" prefWidth="286.0" spacing="15.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shipsize" />
+                              <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipsize" />
                               <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number" />
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0">
+                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="272.0" spacing="20.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      1" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="25.0" prefWidth="30.0" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="34.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0">
-                           <children>
+                              <TextField prefHeight="15.0" prefWidth="30.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      2" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="25.0" prefWidth="30.0" />
+                              <TextField prefHeight="27.0" prefWidth="29.0" />
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="59.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0">
+                        <HBox layoutX="10.0" layoutY="34.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0" />
+                        <HBox layoutX="10.0" layoutY="59.0" prefHeight="24.0" prefWidth="286.0" spacing="20.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      3" wrappingWidth="48.8687744140625" />
                               <TextField prefHeight="25.0" prefWidth="30.0" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="59.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0">
-                           <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      4" wrappingWidth="48.8687744140625" />
                               <TextField prefHeight="25.0" prefWidth="30.0" />
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="110.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0">
+                        <HBox layoutX="10.0" layoutY="59.0" prefHeight="24.0" prefWidth="286.0" spacing="55.0" />
+                        <HBox layoutX="10.0" layoutY="110.0" prefHeight="24.0" prefWidth="286.0" spacing="20.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      5" wrappingWidth="48.8687744140625" />
                               <TextField prefHeight="25.0" prefWidth="30.0" />
@@ -86,6 +80,6 @@
             </VBox>
          </children>
       </Pane>
-      <Button layoutX="7.0" layoutY="8.0" mnemonicParsing="false" onAction="#goBackToPutShips" text="Back" />
+      <Button layoutX="7.0" layoutY="8.0" mnemonicParsing="false" onAction="#goBackToPutShips" text="Back" styleClass="ButtonBlack" stylesheets="@button.css"/>
    </children>
 </AnchorPane>
