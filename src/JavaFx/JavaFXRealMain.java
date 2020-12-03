@@ -20,7 +20,7 @@ public class JavaFXRealMain extends Application {
 
 
             this.stage=stage;
-            Parent root = FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
             Scene scene = new Scene(root, 600, 400);
 
 
