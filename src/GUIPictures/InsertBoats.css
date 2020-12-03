@@ -1,0 +1,20 @@
+.smallBoat{
+    -fx-background-image: url("SmallBoat.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.middleBoat{
+    -fx-background-image: url("MiddleBoat.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.bigBoat{
+    -fx-background-image: url("BigBoat.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
