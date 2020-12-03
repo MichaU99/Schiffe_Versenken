@@ -35,12 +35,13 @@ public class Controller_StartingScreens implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    public void changeToSingleGamae(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
+    public void changeToSingleGame(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
         Scene scene = new Scene(root);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
     public void close(ActionEvent event){
