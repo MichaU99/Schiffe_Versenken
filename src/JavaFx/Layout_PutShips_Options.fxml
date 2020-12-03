@@ -10,15 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.collections.*?>
+<?import java.lang.String?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
-      <HBox layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="228.0">
+      <HBox layoutX="132.0" layoutY="22.0" prefHeight="40.0" prefWidth="228.0" styleClass="Text" stylesheets="@button.css">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
          </children>
       </HBox>
-      <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="46.0" prefHeight="346.0" prefWidth="451.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
-      <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="47.0" prefHeight="346.0" prefWidth="451.0">
+      <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="57.0" prefHeight="335.0" prefWidth="451.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
+      <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="68.0" prefHeight="325.0" prefWidth="451.0">
          <children>
             <VBox layoutX="19.0" layoutY="8.0" prefHeight="256.0" prefWidth="122.0" spacing="36.0" styleClass="Text" stylesheets="@button.css">
                <children>
@@ -28,10 +30,25 @@
                   <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Ships" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                </children>
             </VBox>
-            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="286.0" spacing="30.0" styleClass="Textkleiner" stylesheets="@button.css">
+            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="286.0" spacing="20.0" styleClass="Textkleiner" stylesheets="@button.css">
                <children>
-                  <ChoiceBox prefWidth="150.0" />
-                  <ChoiceBox layoutX="10.0" layoutY="10.0" prefWidth="150.0" />
+                  <HBox prefHeight="23.0" prefWidth="286.0">
+                     <children>
+                        <TextField prefHeight="15.0" prefWidth="30.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="28.136741638183594" />
+                        <TextField layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="30.0" />
+                     </children>
+                  </HBox>
+                  <ChoiceBox layoutX="10.0" layoutY="10.0" prefWidth="150.0" value="BEGINNER" styleClass="Choicebox" stylesheets="@button.css">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="BEGINNER" />
+                           <String fx:value="INTERMEDIANTE" />
+                           <String fx:value="STRONG" />
+                           <String fx:value="HELL" />
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
                   <HBox prefHeight="20.0" prefWidth="286.0" spacing="20.0">
                      <children>
                         <RadioButton mnemonicParsing="false" text="1" />
@@ -80,6 +97,6 @@
             </VBox>
          </children>
       </Pane>
-      <Button layoutX="7.0" layoutY="8.0" mnemonicParsing="false" onAction="#goBackToPutShips" text="Back" styleClass="ButtonBlack" stylesheets="@button.css"/>
+      <Button layoutX="15.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
    </children>
 </AnchorPane>
