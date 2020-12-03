@@ -12,7 +12,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
       <Button cancelButton="true" layoutY="2.0" mnemonicParsing="false" onAction="#backToStart" text="Back" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0" />
-      <Button layoutX="542.0" layoutY="2.0" mnemonicParsing="false" text="Options" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0" />
+      <Button layoutX="542.0" layoutY="2.0" mnemonicParsing="false" onAction="#goToOptions" text="Options" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0" />
       <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="-1.0" layoutY="39.0" prefHeight="249.0" prefWidth="600.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="39.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
