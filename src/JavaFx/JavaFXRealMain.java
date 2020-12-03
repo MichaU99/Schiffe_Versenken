@@ -19,10 +19,10 @@ public class JavaFXRealMain extends Application {
 
 
             this.stage=stage;
-            Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Layout_PutShip.fxml"));
             Scene scene = new Scene(root, 600, 400);
 
-            scene.getStylesheets().add(this.getClass().getResource("/GUIPictures/InsertBoats.css").toExternalForm());
+            //scene.getStylesheets().add(this.getClass().getResource("/GUIPictures/InsertBoats.css").toExternalForm());
 
             this.stage.setTitle("SchiffeVersenkenEXTREME");
             this.stage.setScene(scene);
