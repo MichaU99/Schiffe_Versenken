@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.NewGameMulitiClient">
+   <children>
+      <VBox layoutX="168.0" layoutY="92.0" prefHeight="200.0" prefWidth="270.0" spacing="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Eingabe" />
+            <HBox prefHeight="183.0" prefWidth="270.0">
+               <children>
+                  <VBox prefHeight="183.0" prefWidth="121.0" spacing="30.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="183.0" prefWidth="148.0" spacing="25.0">
+                     <children>
+                        <TextField />
+                        <TextField />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button layoutX="27.0" layoutY="45.0" mnemonicParsing="false" text="Back" />
+      <Button layoutX="380.0" layoutY="304.0" mnemonicParsing="false" text="join server" />
+      <MenuBar layoutX="2.0" layoutY="1.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Back">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Close">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
