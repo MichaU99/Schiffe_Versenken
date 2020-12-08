@@ -1,64 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
+<AnchorPane minHeight="466.0" minWidth="600.0" prefHeight="466.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
-      <Button cancelButton="true" layoutY="2.0" mnemonicParsing="false" onAction="#backToStart" text="Back" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0" />
-      <Button layoutX="542.0" layoutY="2.0" mnemonicParsing="false" onAction="#goToOptions" text="Options" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0" />
-      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="-1.0" layoutY="39.0" prefHeight="249.0" prefWidth="600.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="39.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <FlowPane hgap="20.0" layoutX="12.0" layoutY="316.0" prefHeight="71.0" prefWidth="587.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="1.0">
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Back" />
+          <Menu mnemonicParsing="false" text="Options" />
+        </menus>
+      </MenuBar>
+      <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="43.0" />
+      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" text="Autofill" />
+      <ListView layoutX="432.0" layoutY="83.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="83.0" />
+      <VBox layoutX="14.0" layoutY="83.0" prefHeight="300.0" prefWidth="393.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="193.0" AnchorPane.topAnchor="83.0" />
+      <VBox layoutX="432.0" layoutY="320.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0">
          <children>
-            <ImageView fitHeight="92.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../GUIPictures/SmallBoat.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="93.0" fitWidth="154.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../GUIPictures/BigBoat.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="91.0" fitWidth="195.0" layoutX="164.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../GUIPictures/MiddleBoat.jpg" />
-               </image>
-            </ImageView>
+            <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Add" />
+                  <Button mnemonicParsing="false" text="Rename" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Start" />
          </children>
-      </FlowPane>
+      </VBox>
    </children>
 </AnchorPane>

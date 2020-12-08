@@ -11,6 +11,7 @@
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
             <Button mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
+            <Button mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
             <Button mnemonicParsing="false" onAction="#backToStart" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
          </children>
       </VBox>
