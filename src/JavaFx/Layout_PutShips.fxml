@@ -16,7 +16,7 @@
           <Menu mnemonicParsing="false" text="Options" />
         </menus>
       </MenuBar>
-      <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="43.0" />
+      <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="43.0" />
       <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" text="Autofill" />
       <ListView layoutX="432.0" layoutY="83.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="83.0" />
       <VBox layoutX="14.0" layoutY="83.0" prefHeight="300.0" prefWidth="393.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="193.0" AnchorPane.topAnchor="83.0" />

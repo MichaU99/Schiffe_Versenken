@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.LayoutHostGame">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_StartingScreens">
    <children>
       <VBox layoutX="152.0" layoutY="47.0" prefHeight="253.0" prefWidth="198.0">
          <children>
@@ -41,7 +40,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="14.0" layoutY="47.0" mnemonicParsing="false" text="Back" />
+      <Button layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#changeToMultGameChooseRole" text="Back" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="Back" />

@@ -10,7 +10,7 @@
       <VBox alignment="CENTER" layoutX="250.0" layoutY="138.0" prefHeight="179.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="100.0">
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
-            <Button mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
+            <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
             <Button mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
             <Button mnemonicParsing="false" onAction="#backToStart" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
          </children>
