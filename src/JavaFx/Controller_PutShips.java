@@ -32,7 +32,7 @@ public class Controller_PutShips implements Initializable {
         for(int x=0;x<10;x++){
             for(int y=0;y<10;y++){
                 HBox l = new HBox();
-                l.setStyle("-fx-background-color: #101010; -fx-margin: 5 5 5 5;");
+                l.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                 Label h = new Label("1");
                 l.getChildren().add(h);
                 GridPane.setConstraints(l,x,y);
