@@ -80,6 +80,7 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    /*
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
         Scene scene = new Scene(root);
@@ -97,4 +98,5 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    */
 }
