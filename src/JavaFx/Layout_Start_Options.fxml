@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" fx:controller="JavaFx.Controller_StartingScreens">
+   <children>
+      <HBox layoutX="150.0" layoutY="66.0" prefHeight="267.0" prefWidth="276.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="25.0" styleClass="Text" stylesheets="@button.css">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound" />
+                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Song" />
+                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Layout" />
+                  <HBox prefHeight="31.0" prefWidth="100.0" />
+                  <Button mnemonicParsing="false" text="Credits" styleClass="ButtonBlack" stylesheets="@button.css"/>
+               </children>
+            </VBox>
+            <VBox prefHeight="267.0" prefWidth="175.0" spacing="20.0">
+               <children>
+                  <Slider />
+                  <ChoiceBox prefHeight="25.0" prefWidth="175.0" />
+                  <ChoiceBox layoutX="10.0" layoutY="24.0" prefHeight="25.0" prefWidth="175.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button layoutX="64.0" layoutY="308.0" mnemonicParsing="false" text="Back" styleClass="ButtonBlack" stylesheets="@button.css" />
+      <MenuBar layoutX="-2.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Back">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Close">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

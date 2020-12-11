@@ -14,7 +14,7 @@
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToNewGame" text="New Game" styleClass="ButtonBlack" stylesheets="@button.css"/>
             <Button mnemonicParsing="false" text="Old Game" styleClass="ButtonBlack" stylesheets="@button.css" />
-            <Button alignment="CENTER" mnemonicParsing="false" text="Options" styleClass="ButtonBlack" stylesheets="@button.css" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Options" styleClass="ButtonBlack" stylesheets="@button.css" onAction="#changeToStartOptions"/>
             <Button mnemonicParsing="false" onAction="#close" text="Kill (UNIX SIGNAL)" styleClass="ButtonBlack" stylesheets="@button.css"/>
          </children>
       </VBox>
