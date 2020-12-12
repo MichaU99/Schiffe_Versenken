@@ -28,9 +28,18 @@ public class Controller_PutShips implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.localGame = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
+        makeField();
+//        VBox game = this.createGame();
+//        GridPane.setConstraints(game, 0, 0);
+//        GridP.getChildren().add(game);
 
-        for(int x=0;x<10;x++){
-            for(int y=0;y<10;y++){
+        Object[] array=GridP.getChildren().toArray();
+        //GridPane.getColumnIndex
+        //GridPane.getRowIndex
+    }
+    private void makeField(){
+        for(int x=0;x<localGame.getField().getLength();x++){
+            for(int y=0;y<localGame.getField().getHeight();y++){
                 HBox l = new HBox();
                 l.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                 Label h = new Label("1");
@@ -39,13 +48,10 @@ public class Controller_PutShips implements Initializable {
                 GridP.getChildren().add(l);
             }
         }
-//        VBox game = this.createGame();
-//        GridPane.setConstraints(game, 0, 0);
-//        GridP.getChildren().add(game);
+    }
 
-        Object[] array=GridP.getChildren().toArray();
-        //GridPane.getColumnIndex
-        //GridPane.getRowIndex
+    public void klickShipintoExistance(ActionEvent event) throws IOException {
+        System.out.println(event.getEventType());
     }
 
     private VBox createGame(){
@@ -80,7 +86,6 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    /*
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
         Scene scene = new Scene(root);
@@ -98,5 +103,5 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    */
+
 }

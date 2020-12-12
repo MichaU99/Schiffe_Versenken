@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="466.0" minWidth="600.0" prefHeight="466.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameOptions">
+<AnchorPane minHeight="466.0" minWidth="600.0" prefHeight="466.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
         <menus>
@@ -33,7 +33,7 @@
             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Start" />
          </children>
       </VBox>
-      <GridPane fx:id="GridP" layoutX="62.0" layoutY="83.0" prefHeight="237.0" prefWidth="343.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="195.0" AnchorPane.topAnchor="83.0">
+      <GridPane fx:id="GridP" layoutX="62.0" layoutY="83.0" onMouseClicked="#klickShipintoExistance" prefHeight="237.0" prefWidth="343.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="195.0" AnchorPane.topAnchor="83.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

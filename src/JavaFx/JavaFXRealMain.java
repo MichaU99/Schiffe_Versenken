@@ -22,7 +22,7 @@ public class JavaFXRealMain extends Application {
 
             //scene.getStylesheets().add(this.getClass().getResource("./gameStyle.css").toExternalForm());
 
-            this.stage.setTitle("SchiffeVersenkenEXTREME");
+            this.stage.setTitle("SchiffeVersenken");
             this.stage.setScene(scene);
             this.stage.show();
 
