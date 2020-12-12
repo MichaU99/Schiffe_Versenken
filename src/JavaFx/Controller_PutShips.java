@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,7 +36,7 @@ public class Controller_PutShips implements Initializable {
 
         Object[] array=GridP.getChildren().toArray();
         //GridPane.getColumnIndex
-        //GridPane.getRowIndex
+
     }
     private void makeField(){
         for(int x=0;x<localGame.getField().getLength();x++){
@@ -50,8 +51,11 @@ public class Controller_PutShips implements Initializable {
         }
     }
 
-    public void klickShipintoExistance(ActionEvent event) throws IOException {
-        System.out.println(event.getEventType());
+    public void klickShipintoExistance(MouseEvent event) throws IOException {
+        System.out.println("ColumnIndex: "+GridPane.getColumnIndex((Node)event.getTarget())+ " RowIndex: "+GridPane.getRowIndex((Node)event.getTarget()));
+        int x=GridPane.getColumnIndex((Node)event.getTarget());
+        int y=GridPane.getRowIndex((Node)event.getTarget());
+
     }
 
     private VBox createGame(){
