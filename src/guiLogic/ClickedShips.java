@@ -72,7 +72,7 @@ public class ClickedShips {
         return next;
     }
 
-    public int getLengh(){
+    public Integer getLengh(){
         return lengh;
     }
 }

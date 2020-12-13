@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 public class Controller_PutShips implements Initializable {
     private ClickedShips generated_Ships=null;
     private ArrayList<Integer> noch_zu_setzende_schiffe= new ArrayList<>();
-    private int maxShipLen=3;
+    private int maxShipLen=5;
     @FXML
     private GridPane GridP;
     private LocalGame localGame;
@@ -129,11 +129,25 @@ public class Controller_PutShips implements Initializable {
     }
 
     public void addShip(ActionEvent event){ //Falls genug Felder markiert sind addiert die Methode das Schiff zum Spiel
-        if(noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())){
-            localGame.getField().addShip(new Ship(ClickedShipsToArray()));
-            generated_Ships=null;
+        if(noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
+            Position[] todel = ClickedShipsToArray();
+
+            localGame.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
+            noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
+
+
+            for (int i = 0; i < todel.length; i++) {
+                HBox hbox = new HBox();
+                hbox.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
+                GridP.getChildren().add(hbox);
+
+            }
+            generated_Ships = null;
         }
+        else System.out.println("Anzahl gewählter Felder stimmt nicht mit noch zu setzenden Schiffen überein");
     }
+
     private Position[] ClickedShipsToArray(){
         ArrayList<Position> pos=new ArrayList();
         ClickedShips lauf=generated_Ships.first;
@@ -166,6 +180,18 @@ public class Controller_PutShips implements Initializable {
             gameBaseVBox.getChildren().add(row); // Füge jeder Reihe in die Spiel VBox ein
         }
         return gameBaseVBox;
+    }
+    public void startGame(ActionEvent event) throws IOException {
+        if(noch_zu_setzende_schiffe.isEmpty()){
+            Parent root= FXMLLoader.load(getClass().getResource("Layout_PlayGame"));
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
+        }
+        else System.out.println("Es gibt noch ungesetzte Schiffe");
     }
 
     public void backToStart(ActionEvent event) throws IOException {
