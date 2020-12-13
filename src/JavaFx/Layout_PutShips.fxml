@@ -13,16 +13,16 @@
 
 <AnchorPane minHeight="466.0" minWidth="600.0" prefHeight="466.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Back" />
           <Menu mnemonicParsing="false" text="Options" />
         </menus>
       </MenuBar>
-      <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="43.0" />
-      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" onAction="#autofill" text="Autofill" />
-      <ListView fx:id="list" layoutX="432.0" layoutY="83.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="83.0" />
-      <VBox layoutX="432.0" layoutY="320.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0">
+      <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.rightAnchor="27.0" />
+      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" onAction="#autofill" text="Autofill" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" />
+      <ListView fx:id="list" layoutX="432.0" layoutY="83.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="146.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="83.0" />
+      <VBox layoutX="432.0" layoutY="320.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="50.0">
          <children>
             <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
                <children>
