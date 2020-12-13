@@ -1,5 +1,6 @@
 package JavaFx;
 
+import game.cells.Cell;
 import enums.KiStrength;
 import game.LocalGame;
 import game.Position;
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -23,6 +25,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller_PutShips implements Initializable {
@@ -31,11 +35,17 @@ public class Controller_PutShips implements Initializable {
     private int maxShipLen=5;
     @FXML
     private GridPane GridP;
+    @FXML
+    private ListView list;
     private LocalGame localGame;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        noch_zu_setzende_schiffe.add(5);
+        List<Integer> standardlist= Arrays.asList(5,5,4,4,3,3,3,3,2,2,2,2);
+        noch_zu_setzende_schiffe.addAll(standardlist);
+        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
+            list.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
+        }
         this.localGame = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
         makeField();
 //        VBox game = this.createGame();
@@ -59,19 +69,14 @@ public class Controller_PutShips implements Initializable {
         }
     }
 
-    public void focusShip(MouseEvent event){ //Markiert das zu platzierende Schiff
-
-    }
-
     public void klickShipintoExistance(MouseEvent event) throws IOException { //
         System.out.println("ColumnIndex: "+GridPane.getColumnIndex((Node)event.getTarget())+ " RowIndex: "+GridPane.getRowIndex((Node)event.getTarget()));
         int x=GridPane.getColumnIndex((Node)event.getTarget());
         int y=GridPane.getRowIndex((Node)event.getTarget());
         Position pos=new Position(x,y);
 
-        if(blocked_pos(pos)){ return;}
+        if(this.localGame.getField().getPlayfield()[y][x].getClass()!= Cell.class){ return;}
         else if(generated_Ships!=null && generated_Ships.first!=null && generated_Ships.isInList(pos)) {//Feld kommt in List vor
-            System.out.println(generated_Ships+" "+generated_Ships.isInList(pos));
             assert(generated_Ships.first.targetedDelete(pos)):"Muss vermutlich abgefangen werden falls es eintritt";
             HBox hbox=new HBox();
             hbox.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
@@ -87,16 +92,7 @@ public class Controller_PutShips implements Initializable {
                 GridP.getChildren().add(hbox);
                 }
             else if(!check_valid_pos(pos)){//Maximale Schiffsgröße erreicht, momentanerfolgt dann die  Löschung des ältesten Klicks
-                Position[] todel=ClickedShipsToArray();
-
-
-                for(int i=0;i< todel.length;i++){
-                    HBox hbox=new HBox();
-                    hbox.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                    GridPane.setConstraints(hbox,todel[i].getX(),todel[i].getY());
-                    GridP.getChildren().add(hbox);
-                }
-                generated_Ships.first=null;
+                deletedMarked();
             }
             else {
                 generated_Ships = new ClickedShips(generated_Ships.first, pos);
@@ -112,11 +108,7 @@ public class Controller_PutShips implements Initializable {
 
     }
 
-    public void giveInfo(ActionEvent event){
-        for(ClickedShips lauf=generated_Ships.first;lauf!=null;lauf=lauf.next) System.out.println(lauf.getPosition().toString());
-    }
     public boolean check_valid_pos(Position pos){
-        Position firstpos;
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
         if(generated_Ships.getLengh()>0){
             if (generated_Ships.getLengh()==1 && (generated_Ships.first.getPosition().getX()==pos.getX() || generated_Ships.first.getPosition().getY()==pos.getY() )) return true;
@@ -131,28 +123,49 @@ public class Controller_PutShips implements Initializable {
         }
         return true;
     }
+    private void deletedMarked(){
+        Position[] todel=ClickedShipsToArray();
+
+        for(int i=0;i< todel.length;i++){
+            HBox hbox=new HBox();
+            hbox.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+            GridPane.setConstraints(hbox,todel[i].getX(),todel[i].getY());
+            GridP.getChildren().add(hbox);
+        }
+        generated_Ships.first=null;
+    }
+
     public boolean blocked_pos(Position pos){
         return false;
     }
 
     public void addShip(ActionEvent event){ //Falls genug Felder markiert sind addiert die Methode das Schiff zum Spiel
         if(generated_Ships!=null && noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
-            Position[] todel = ClickedShipsToArray();
-
-            localGame.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
-            noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
-
-
-            for (int i = 0; i < todel.length; i++) {
-                HBox hbox = new HBox();
-                hbox.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
-                GridP.getChildren().add(hbox);
-
+            if(!working_ship()){
+                deletedMarked();
             }
-            generated_Ships = null;
+            else {
+                Position[] todel = ClickedShipsToArray();
+
+                localGame.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
+                noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
+                list.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
+
+                for (int i = 0; i < todel.length; i++) {
+                    HBox hbox = new HBox();
+                    hbox.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                    GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
+                    GridP.getChildren().add(hbox);
+
+                }
+                generated_Ships = null;
+            }
         }
         else System.out.println("Anzahl gewählter Felder stimmt nicht mit noch zu setzenden Schiffen überein");
+    }
+
+    private boolean working_ship(){
+        return true;
     }
 
     private Position[] ClickedShipsToArray(){
@@ -201,7 +214,7 @@ public class Controller_PutShips implements Initializable {
         else System.out.println("Es gibt noch ungesetzte Schiffe");
     }
 
-    public void rename(ActionEvent event){
+    public void rename(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         //Was soll die Funktion tun?
     }
 
