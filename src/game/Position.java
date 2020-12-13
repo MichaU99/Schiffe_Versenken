@@ -20,6 +20,14 @@ public class Position {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Position){
+            if(((Position) obj).x==this.x && ((Position) obj).y==this.y) return true;
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Position{" +
                 "x=" + x +
