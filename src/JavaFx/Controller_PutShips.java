@@ -69,8 +69,8 @@ public class Controller_PutShips implements Initializable {
         int y=GridPane.getRowIndex((Node)event.getTarget());
         Position pos=new Position(x,y);
 
-
-        if(generated_Ships!=null && generated_Ships.first!=null && generated_Ships.isInList(pos)) {//Feld kommt in List vor
+        if(blocked_pos(pos)){ return;}
+        else if(generated_Ships!=null && generated_Ships.first!=null && generated_Ships.isInList(pos)) {//Feld kommt in List vor
             System.out.println(generated_Ships+" "+generated_Ships.isInList(pos));
             assert(generated_Ships.first.targetedDelete(pos)):"Muss vermutlich abgefangen werden falls es eintritt";
             HBox hbox=new HBox();
@@ -108,6 +108,10 @@ public class Controller_PutShips implements Initializable {
         }
 
     }
+    public void autofill(ActionEvent event){
+
+    }
+
     public void giveInfo(ActionEvent event){
         for(ClickedShips lauf=generated_Ships.first;lauf!=null;lauf=lauf.next) System.out.println(lauf.getPosition().toString());
     }
@@ -127,9 +131,12 @@ public class Controller_PutShips implements Initializable {
         }
         return true;
     }
+    public boolean blocked_pos(Position pos){
+        return false;
+    }
 
     public void addShip(ActionEvent event){ //Falls genug Felder markiert sind addiert die Methode das Schiff zum Spiel
-        if(noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
+        if(generated_Ships!=null && noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
             Position[] todel = ClickedShipsToArray();
 
             localGame.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
@@ -192,6 +199,10 @@ public class Controller_PutShips implements Initializable {
             stage.show();
         }
         else System.out.println("Es gibt noch ungesetzte Schiffe");
+    }
+
+    public void rename(ActionEvent event){
+        //Was soll die Funktion tun?
     }
 
     public void backToStart(ActionEvent event) throws IOException {

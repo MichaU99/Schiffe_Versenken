@@ -20,17 +20,17 @@
         </menus>
       </MenuBar>
       <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="43.0" />
-      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" text="Autofill" />
+      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" onAction="#autofill" text="Autofill" />
       <ListView layoutX="432.0" layoutY="83.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="83.0" />
       <VBox layoutX="432.0" layoutY="320.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0">
          <children>
             <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#addShip" prefHeight="25.0" prefWidth="49.0" text="Add" />
-                  <Button mnemonicParsing="false" text="Rename" />
+                  <Button mnemonicParsing="false" onAction="#rename" text="Rename" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#giveInfo" prefHeight="25.0" prefWidth="108.0" text="Start" />
+            <Button mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="108.0" text="Start" />
          </children>
       </VBox>
       <GridPane fx:id="GridP" layoutX="62.0" layoutY="83.0" onMouseClicked="#klickShipintoExistance" prefHeight="237.0" prefWidth="343.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="195.0" AnchorPane.topAnchor="83.0">
