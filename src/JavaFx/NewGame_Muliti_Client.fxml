@@ -33,20 +33,6 @@
             </HBox>
          </children>
       </VBox>
-      <MenuBar layoutX="2.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Back">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Close">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
       <HBox layoutX="166.0" layoutY="292.0" prefHeight="46.0" prefWidth="282.0" spacing="120.0">
          <children>
             <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />

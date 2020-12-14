@@ -99,19 +99,5 @@
          </children>
       </Pane>
       <Button layoutX="15.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
-      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="286.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Back">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Close">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </children>
 </AnchorPane>
