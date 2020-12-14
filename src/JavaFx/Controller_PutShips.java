@@ -165,6 +165,32 @@ public class Controller_PutShips implements Initializable {
     }
 
     private boolean working_ship(){
+        int min=1000;
+        if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getY()==generated_Ships.first.next.getPosition().getY()) {
+            for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                if (min > lauf.getPosition().getX()) min=lauf.getPosition().getX();
+            }
+            zusammenhang1:
+            for(int i=0;i<generated_Ships.getLengh();i++){
+                for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                    if (lauf.getPosition().getX() ==min+i) continue zusammenhang1;
+                }
+                return false;
+            }
+        }
+        else if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getX()==generated_Ships.first.next.getPosition().getX()) {
+            for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                if (min > lauf.getPosition().getY()) min=lauf.getPosition().getY();
+            }
+            zusammenhang2:
+            for(int i=0;i<generated_Ships.getLengh();i++){
+                for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                    if (lauf.getPosition().getY() ==min+i) continue zusammenhang2;
+                }
+                return false;
+            }
+        }
+        else return false; //Sollte nicht erreichbar sein
         return true;
     }
 
