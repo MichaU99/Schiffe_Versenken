@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -37,11 +38,14 @@ public class Controller_PutShips implements Initializable {
     private GridPane GridP;
     @FXML
     private ListView list;
+    @FXML
+    private Button Start_bt;
     private LocalGame localGame;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<Integer> standardlist= Arrays.asList(5,5,4,4,3,3,3,3,2,2,2,2);
+        Start_bt.setDisable(true);
+        List<Integer> standardlist= Arrays.asList(5,4,3,3,2);
         noch_zu_setzende_schiffe.addAll(standardlist);
         for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
             list.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
@@ -61,8 +65,8 @@ public class Controller_PutShips implements Initializable {
             for(int y=0;y<localGame.getField().getHeight();y++){
                 HBox l = new HBox();
                 l.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                Label h = new Label("1");
-                l.getChildren().add(h);
+               // Label h = new Label("1");
+               // l.getChildren().add(h);
                 GridPane.setConstraints(l,x,y);
                 GridP.getChildren().add(l);
             }
@@ -70,7 +74,8 @@ public class Controller_PutShips implements Initializable {
     }
 
     public void klickShipintoExistance(MouseEvent event) throws IOException { //
-        System.out.println("ColumnIndex: "+GridPane.getColumnIndex((Node)event.getTarget())+ " RowIndex: "+GridPane.getRowIndex((Node)event.getTarget()));
+
+        if(event==null ||event.getTarget()==null) return;
         int x=GridPane.getColumnIndex((Node)event.getTarget());
         int y=GridPane.getRowIndex((Node)event.getTarget());
         Position pos=new Position(x,y);
@@ -105,10 +110,13 @@ public class Controller_PutShips implements Initializable {
 
     }
     public void autofill(ActionEvent event){
-
+        //if(Platzierte Schiffe=0) Fülle gesamtes Feld den Schiffen aus noch_zu_setzende_schiffe aus
+        //if else(Platzierte_Schiffe>0, vielleicht mit der ersten if zusammen je nach umsetzung im backend) Behält die bereits gesetzten Schiffe und setzt die noch verbleibenden zufällig dazu
+        //else Falls alle Schiffe gesetzt sind soll Autofill alle gesetzten Schiffe löschen und zufällig neu setzen
     }
 
     public boolean check_valid_pos(Position pos){
+        System.out.println(generated_Ships.getLengh());
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
         if(generated_Ships.getLengh()>0){
             if (generated_Ships.getLengh()==1 && (generated_Ships.first.getPosition().getX()==pos.getX() || generated_Ships.first.getPosition().getY()==pos.getY() )) return true;
@@ -123,7 +131,7 @@ public class Controller_PutShips implements Initializable {
         }
         return true;
     }
-    private void deletedMarked(){
+    private void deletedMarked(){//Löscht alle aktuell markierten Positionen aus der Liste und visuell
         Position[] todel=ClickedShipsToArray();
 
         for(int i=0;i< todel.length;i++){
@@ -133,10 +141,6 @@ public class Controller_PutShips implements Initializable {
             GridP.getChildren().add(hbox);
         }
         generated_Ships.first=null;
-    }
-
-    public boolean blocked_pos(Position pos){
-        return false;
     }
 
     public void addShip(ActionEvent event){ //Falls genug Felder markiert sind addiert die Methode das Schiff zum Spiel
@@ -158,13 +162,14 @@ public class Controller_PutShips implements Initializable {
                     GridP.getChildren().add(hbox);
 
                 }
-                generated_Ships = null;
+                generated_Ships.first = null;
+                if(noch_zu_setzende_schiffe.isEmpty()) Start_bt.setDisable(false);
             }
         }
         else System.out.println("Anzahl gewählter Felder stimmt nicht mit noch zu setzenden Schiffen überein");
     }
 
-    private boolean working_ship(){
+    private boolean working_ship(){//Interne Methode die prüft ob ein Schiff zusammenhängend ist
         int min=1000;
         if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getY()==generated_Ships.first.next.getPosition().getY()) {
             for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
@@ -194,7 +199,7 @@ public class Controller_PutShips implements Initializable {
         return true;
     }
 
-    private Position[] ClickedShipsToArray(){
+    private Position[] ClickedShipsToArray(){//Gibt die interne Datenstruktur generated_ships als array von Positions zurück
         ArrayList<Position> pos=new ArrayList();
         ClickedShips lauf=generated_Ships.first;
         while (lauf!=null ){
@@ -204,29 +209,6 @@ public class Controller_PutShips implements Initializable {
         return pos.toArray(Position[]::new);
     }
 
-    private VBox createGame(){
-        VBox gameBaseVBox = new VBox(); // VBox ist die Basis für das Spielfeld in der GUI -> im Prinzip die Reihen
-        gameBaseVBox.setId("myField");
-        for (int i = 0; i < localGame.getField().getHeight(); i++) {
-            // Für jede Reihe wird dann eben eine HBox für diese Reihe erstellt
-            HBox row = new HBox();
-            for (int j = 0; j < localGame.getField().getLength(); j++) {
-                // In jeder Reihe gibt es noch eine Anzahl Zellen: macht hoffentlich Sinn
-                HBox cell = new HBox();
-                cell.setId(j + ":" + i); // Setze ID für die Zelle, um sie nachher wiedererkennen zu können
-                cell.getStyleClass().add("hbox-water"); // Ein Style setzen
-                //cell.setOnMouseClicked(SceneA::onFriendlyFieldClicked);
-
-                Label lbl = new Label("0"); // Label zum anzeigen von Text, Label können ja im Prinzip auch Bilder usw anzeigen, wenn man möchte.
-                lbl.setFont(new Font("Courier", 14)); // Monospace Font, damit alle Zellen gleich breit sind
-
-                cell.getChildren().add(lbl); // Füge das Label in die Cell HBox ein
-                row.getChildren().add(cell); // Füge die cellHBox in die rowHBox ein
-            }
-            gameBaseVBox.getChildren().add(row); // Füge jeder Reihe in die Spiel VBox ein
-        }
-        return gameBaseVBox;
-    }
     public void startGame(ActionEvent event) throws IOException {
         if(noch_zu_setzende_schiffe.isEmpty()){
             Parent root= FXMLLoader.load(getClass().getResource("Layout_PlayGame"));
@@ -240,8 +222,8 @@ public class Controller_PutShips implements Initializable {
         else System.out.println("Es gibt noch ungesetzte Schiffe");
     }
 
-    public void rename(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
-        //Was soll die Funktion tun?
+    public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
+        //Muss hier auf einen Input in der GridPane warten oder die Methode terminieren falls etwas anderes gedrückt wird
     }
 
     public void backToStart(ActionEvent event) throws IOException {
