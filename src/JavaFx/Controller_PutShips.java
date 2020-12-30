@@ -72,8 +72,9 @@ public class Controller_PutShips implements Initializable {
                 fileNotFoundException.printStackTrace();
             }
         }
-
+        noch_zu_setzende_schiffe=new ArrayList<>();
         noch_zu_setzende_schiffe=options.getShipList();
+        listView.getItems().clear();
         for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
             listView.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
         }
