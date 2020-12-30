@@ -133,6 +133,7 @@ public class Controller_PutShips implements Initializable {
 
     }
     public void autofill(ActionEvent event){
+        // TODO: 30.12.2020 Wenn mehr Schiffe gesetzt werden sollen als möglich ist, hängt sich das Spiel komplett auf
         game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe);
         noch_zu_setzende_schiffe.clear();
         updateGame();
