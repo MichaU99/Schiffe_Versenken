@@ -57,7 +57,7 @@
          </children>
       </Pane>
       <Button layoutX="15.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
-      <Button layoutX="409.0" layoutY="304.0" mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
-      <Button layoutX="502.0" layoutY="304.0" mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="restore" />
+      <Button layoutX="409.0" layoutY="304.0" mnemonicParsing="false" onAction="#btndefault" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
+      <Button layoutX="502.0" layoutY="304.0" mnemonicParsing="false" onAction="#restorebtn" styleClass="ButtonBlack" stylesheets="@button.css" text="restore" />
    </children>
 </AnchorPane>

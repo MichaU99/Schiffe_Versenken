@@ -23,8 +23,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller_PutShips implements Initializable {
@@ -34,7 +32,7 @@ public class Controller_PutShips implements Initializable {
     @FXML
     private GridPane GridP;
     @FXML
-    private ListView list;
+    private ListView listView;
     @FXML
     private Button Start_bt;
     private Game game;
@@ -44,28 +42,11 @@ public class Controller_PutShips implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Start_bt.setDisable(true);
-        List<Integer> standardlist= Arrays.asList(5,4,3,3,2); // TODO: 30.12.2020 ToArrayList und mit Options verknüpfen
-        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
-            list.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
-        }
         if(online){
             // TODO: 30.12.2020 Add Gamestuff for Online Play
         }
         else {
-            try {
-                ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("game.options"));
-                options=((GameOptions) inputStream.readObject());
-            } catch (IOException | ClassNotFoundException e) {
-                options = new GameOptions();
-                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("game.options"))) {
-                    os.writeObject(options);
-                    os.flush();
-                } catch (IOException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
-            }
-            noch_zu_setzende_schiffe=options.getShipList();
+            updateGameOptions();
             this.game = new LocalGame(options.getFieldSize(), options.getFieldSize(), options.getKiStrength());
         }
         makeField();
@@ -75,6 +56,27 @@ public class Controller_PutShips implements Initializable {
 
         Object[] array=GridP.getChildren().toArray();
         //GridPane.getColumnIndex
+    }
+    private void updateGameOptions(){
+        Start_bt.setDisable(true);
+
+        try {
+            ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("game.options"));
+            options=((GameOptions) inputStream.readObject());
+        } catch (IOException | ClassNotFoundException e) {
+            options = new GameOptions();
+            try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("game.options"))) {
+                os.writeObject(options);
+                os.flush();
+            } catch (IOException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+        }
+
+        noch_zu_setzende_schiffe=options.getShipList();
+        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
+            listView.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
+        }
     }
 
     private void makeField(){
@@ -170,7 +172,7 @@ public class Controller_PutShips implements Initializable {
 
                 game.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
                 noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
-                list.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
+                listView.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
 
                 for (int i = 0; i < todel.length; i++) {
                     HBox hbox = new HBox();
@@ -256,6 +258,7 @@ public class Controller_PutShips implements Initializable {
         Scene scene = new Scene(root);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setOnHiding(windowEvent -> updateGameOptions());
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();

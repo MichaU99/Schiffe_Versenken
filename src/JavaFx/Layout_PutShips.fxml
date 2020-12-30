@@ -22,7 +22,7 @@
       </MenuBar>
       <Button layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.rightAnchor="27.0" />
       <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" onAction="#autofill" text="Autofill" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" />
-      <ListView fx:id="list" disable="true" layoutX="432.0" layoutY="91.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="138.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="91.0" />
+      <ListView fx:id="listView" disable="true" layoutX="432.0" layoutY="91.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="138.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="91.0" />
       <VBox layoutX="432.0" layoutY="328.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="50.0">
          <children>
             <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
