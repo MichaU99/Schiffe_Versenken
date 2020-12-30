@@ -130,11 +130,31 @@ public class Controller_PutShips implements Initializable {
 
     }
     public void autofill(ActionEvent event){
+        //updateGame();
         //if(Platzierte Schiffe=0) Fülle gesamtes Feld den Schiffen aus noch_zu_setzende_schiffe aus
         //if else(Platzierte_Schiffe>0, vielleicht mit der ersten if zusammen je nach umsetzung im backend) Behält die bereits gesetzten Schiffe und setzt die noch verbleibenden zufällig dazu
         //else Falls alle Schiffe gesetzt sind soll Autofill alle gesetzten Schiffe löschen und zufällig neu setzen
     }
-
+/*
+    private void updateGame(){
+        for(int x = 0; x< game.getField().getLength(); x++){
+            for(int y = 0; y< game.getField().getHeight(); y++){
+                HBox cell = new HBox();
+                if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
+                    cell.getStyleClass().add("ship_grey_bg");
+                }
+                else {
+                    cell.getStyleClass().add("water_blue_bg");
+                }
+                cell.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                // Label h = new Label("1");
+                // l.getChildren().add(h);
+                GridPane.setConstraints(cell,x,y);
+                GridP.getChildren().add(cell);
+            }
+        }
+    }
+*/
     public boolean check_valid_pos(Position pos){
         System.out.println(generated_Ships.getLengh());
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
