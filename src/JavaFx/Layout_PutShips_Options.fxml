@@ -35,10 +35,10 @@
                <children>
                   <HBox prefHeight="23.0" prefWidth="286.0" styleClass="Textkleiner" stylesheets="@button.css">
                      <children>
-                        <TextField prefHeight="27.0" prefWidth="170.0" />
+                        <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" />
                      </children>
                   </HBox>
-                  <ChoiceBox layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
+                  <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:value="BEGINNER" />
@@ -48,10 +48,10 @@
                         </FXCollections>
                      </items>
                   </ChoiceBox>
-                  <TextField prefHeight="25.0" prefWidth="269.0" />
-                  <TextField />
-                  <TextField />
-                  <TextField />
+                  <TextField fx:id="ships5" prefHeight="25.0" prefWidth="269.0" />
+                  <TextField fx:id="ships4" />
+                  <TextField fx:id="ships3" />
+                  <TextField fx:id="ships2" />
                </children>
             </VBox>
          </children>

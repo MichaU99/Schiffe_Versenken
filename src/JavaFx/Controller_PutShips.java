@@ -1,9 +1,9 @@
 package JavaFx;
 
-import game.cells.Cell;
-import enums.KiStrength;
+import game.Game;
 import game.LocalGame;
 import game.Position;
+import game.cells.Cell;
 import game.cells.Ship;
 import guiLogic.ClickedShips;
 import javafx.event.ActionEvent;
@@ -14,16 +14,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,17 +37,37 @@ public class Controller_PutShips implements Initializable {
     private ListView list;
     @FXML
     private Button Start_bt;
-    private LocalGame localGame;
+    private Game game;
+    public static boolean online = false;
+    private GameOptions options;
+    // TODO: 30.12.2020 Minimalgröße der Stage festsetzen
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Start_bt.setDisable(true);
-        List<Integer> standardlist= Arrays.asList(5,4,3,3,2);
-        noch_zu_setzende_schiffe.addAll(standardlist);
+        List<Integer> standardlist= Arrays.asList(5,4,3,3,2); // TODO: 30.12.2020 ToArrayList und mit Options verknüpfen
         for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
             list.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
         }
-        this.localGame = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
+        if(online){
+            // TODO: 30.12.2020 Add Gamestuff for Online Play
+        }
+        else {
+            try {
+                ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("game.options"));
+                options=((GameOptions) inputStream.readObject());
+            } catch (IOException | ClassNotFoundException e) {
+                options = new GameOptions();
+                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("game.options"))) {
+                    os.writeObject(options);
+                    os.flush();
+                } catch (IOException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+            }
+            noch_zu_setzende_schiffe=options.getShipList();
+            this.game = new LocalGame(options.getFieldSize(), options.getFieldSize(), options.getKiStrength());
+        }
         makeField();
 //        VBox game = this.createGame();
 //        GridPane.setConstraints(game, 0, 0);
@@ -58,11 +75,11 @@ public class Controller_PutShips implements Initializable {
 
         Object[] array=GridP.getChildren().toArray();
         //GridPane.getColumnIndex
-
     }
+
     private void makeField(){
-        for(int x=0;x<localGame.getField().getLength();x++){
-            for(int y=0;y<localGame.getField().getHeight();y++){
+        for(int x = 0; x< game.getField().getLength(); x++){
+            for(int y = 0; y< game.getField().getHeight(); y++){
                 HBox l = new HBox();
                 l.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                // Label h = new Label("1");
@@ -80,7 +97,7 @@ public class Controller_PutShips implements Initializable {
         int y=GridPane.getRowIndex((Node)event.getTarget());
         Position pos=new Position(x,y);
 
-        if(this.localGame.getField().getPlayfield()[y][x].getClass()!= Cell.class){ return;}
+        if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){ return;}
         else if(generated_Ships!=null && generated_Ships.first!=null && generated_Ships.isInList(pos)) {//Feld kommt in List vor
             assert(generated_Ships.first.targetedDelete(pos)):"Muss vermutlich abgefangen werden falls es eintritt";
             HBox hbox=new HBox();
@@ -151,7 +168,7 @@ public class Controller_PutShips implements Initializable {
             else {
                 Position[] todel = ClickedShipsToArray();
 
-                localGame.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
+                game.getField().addShip(new Ship(todel)); //Erzeugt ein neues Schiff mit den Positionen aus todel
                 noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
                 list.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
 
