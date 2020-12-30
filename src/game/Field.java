@@ -285,11 +285,14 @@ public class Field implements Serializable {
      * @see Field#addShipRandom(int)
      */
     public boolean addShipRandom(int[] lengths) {
+        int failCounter = 0;
         for (int i = 0; i < lengths.length; i++) {
             if (!addShipRandom(lengths[i])) {
-                System.out.println("Retry");
                 this.resetField();
                 i = -1;
+                failCounter++;
+                if (failCounter >= 10)
+                    return false;
             }
         }
         assert this.getShipCount() == lengths.length : "Nicht alle Schiffe plaziert";
@@ -337,6 +340,7 @@ public class Field implements Serializable {
      * @see Field#addShipRandom(int[])
      */
     public boolean addShipRandomKeepShips(int[] lengths) {
+        int failCounter = 0;
         ArrayList<Ship> curShips = this.extractShips(this.height, this.length);
         for (int i = 0; i < lengths.length; i++) {
             if (!this.addShipRandom(lengths[i])) {
@@ -345,6 +349,9 @@ public class Field implements Serializable {
                 for (Ship ship: curShips)
                     this.addShip(ship);
                 i = -1;
+                failCounter++;
+                if (failCounter >= 10)
+                    return false;
             }
         }
         return true;

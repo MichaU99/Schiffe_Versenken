@@ -27,43 +27,20 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        LocalGame localGame = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
+        LocalGame localGame = new LocalGame(5, 5, KiStrength.INTERMEDIATE);
         //localGame.getField().addShipRandom(new int[]{5, 4, 4, 3, 3, 3, 2, 2, 2, 2});
-        localGame.getField().addShip(new Ship(new Position[]{new Position(0, 0), new Position(1, 0), new Position(2, 0)}));
-        localGame.startGame();
+//        localGame.getField().addShip(new Ship(new Position[]{new Position(0, 0), new Position(1, 0), new Position(2, 0)}));
+//        localGame.startGame();
 
-        FileWriter fileWriter = new FileWriter("shipdata.csv");
+        Position[] ship1 = new Position[]{new Position(0, 1), new Position(1, 1), new Position(2,1), new Position(3,1), new Position(4,1)};
+        Position[] ship2 = new Position[]{new Position(0, 3), new Position(1, 3), new Position(2,3), new Position(3,3), new Position(4,3)};
 
-        String csvHeader = "y,x,value";
-        fileWriter.write(csvHeader + "\n");
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 10; j++) {
-//                csvHeader = csvHeader.concat(i + "|" + j + ",");
-//            }
-//        }
-//        System.out.println(csvHeader.substring(0, csvHeader.lastIndexOf(",")));
-//        fileWriter.write(csvHeader.substring(0, csvHeader.lastIndexOf(",")) + "\n");
-//        fileWriter.flush();
+        localGame.getField().addShip(new Ship(ship1));
+        localGame.getField().addShip(new Ship(ship2));
 
-        for (int x = 0; x < 10000; x++) {
-            String data = "";
-            Field field = new Field(10, 10);
-            field.addShipRandom(new int[]{5, 4, 4, 3, 3, 3, 2, 2, 2, 2});
+        System.out.println(localGame.getField().addShipRandom(new int[]{5, 5, 5, 5}));
 
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (field.getCell(new Position(j, i)) instanceof Ship) {
-                        fileWriter.write(i + "," + j + ",1\n");
-                        fileWriter.flush();
-                    }
-                    else {
-                        fileWriter.write(i + "," + j + ",0\n");
-                        fileWriter.flush();
-                    }
-                }
-            }
-        }
-        fileWriter.close();
-        //localGame.getField().printField();
+        localGame.getField().printField();
+
     }
 }
