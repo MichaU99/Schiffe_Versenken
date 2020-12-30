@@ -57,6 +57,12 @@ public class Controller_PutShips implements Initializable {
         Object[] array=GridP.getChildren().toArray();
         //GridPane.getColumnIndex
     }
+    private void updateListView(){ //setzt ListView auf die aktuelle Anzahl unplatzierter Schiffe
+        listView.getItems().clear();
+        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
+            listView.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
+        }
+    }
     private void updateGameOptions(){
         Start_bt.setDisable(true);
 
@@ -74,10 +80,7 @@ public class Controller_PutShips implements Initializable {
         }
         noch_zu_setzende_schiffe=new ArrayList<>();
         noch_zu_setzende_schiffe=options.getShipList();
-        listView.getItems().clear();
-        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
-            listView.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
-        }
+        updateListView();
     }
 
     private void makeField(){
@@ -130,23 +133,25 @@ public class Controller_PutShips implements Initializable {
 
     }
     public void autofill(ActionEvent event){
-        //updateGame();
+        game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe);
+        noch_zu_setzende_schiffe.clear();
+        updateGame();
+        updateListView();
         //if(Platzierte Schiffe=0) Fülle gesamtes Feld den Schiffen aus noch_zu_setzende_schiffe aus
         //if else(Platzierte_Schiffe>0, vielleicht mit der ersten if zusammen je nach umsetzung im backend) Behält die bereits gesetzten Schiffe und setzt die noch verbleibenden zufällig dazu
         //else Falls alle Schiffe gesetzt sind soll Autofill alle gesetzten Schiffe löschen und zufällig neu setzen
     }
-/*
+
     private void updateGame(){
         for(int x = 0; x< game.getField().getLength(); x++){
             for(int y = 0; y< game.getField().getHeight(); y++){
                 HBox cell = new HBox();
                 if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
-                    cell.getStyleClass().add("ship_grey_bg");
+                    cell.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                 }
                 else {
-                    cell.getStyleClass().add("water_blue_bg");
+                    cell.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                 }
-                cell.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
                 // Label h = new Label("1");
                 // l.getChildren().add(h);
                 GridPane.setConstraints(cell,x,y);
@@ -154,7 +159,7 @@ public class Controller_PutShips implements Initializable {
             }
         }
     }
-*/
+
     public boolean check_valid_pos(Position pos){
         System.out.println(generated_Ships.getLengh());
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
@@ -251,7 +256,7 @@ public class Controller_PutShips implements Initializable {
 
     public void startGame(ActionEvent event) throws IOException {
         if(noch_zu_setzende_schiffe.isEmpty()){
-            Parent root= FXMLLoader.load(getClass().getResource("Layout_PlayGame"));
+            Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
