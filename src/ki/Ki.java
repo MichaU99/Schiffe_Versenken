@@ -8,44 +8,36 @@ import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Ki {
+public class Ki implements Serializable {
     private Field enemyField; // this is the players playfield
     public Field kiEnemyField; // this is the vision of the ki of the enemy Field;
-    private Field kiField; // this is the ki's field | is this needed?
     private final KiStrength kiStrength;
-    private ArrayList<Integer> enemyRemainingShipLengths = new ArrayList<>();
 
-    public Ki(Field enemyField, Field kiField, KiStrength kiStrength){
+    public Ki(Field enemyField, KiStrength kiStrength){
         this.enemyField = enemyField;
-        this.kiField = kiField;
         this.kiStrength = kiStrength;
         this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
     }
 
-    public Ki(Field enemyField, Field kiField, int[] shiplengths, KiStrength kiStrength){
-        this(enemyField, kiField, kiStrength);
-        this.addShipsToField(shiplengths);
-    }
-
-    public void addShipsToField(int[] shipLengths) {
-        this.kiField.addShipRandom(shipLengths);
-        for (int x: shipLengths) {
-            this.enemyRemainingShipLengths.add(x);
-        }
-    }
-
     public int shoot() {
-        assert this.enemyRemainingShipLengths.size() > 0: "Es wurden keine Schiffe hinzugefügt oder alle Schiffe sind entfernt";
+        assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da";
 
         switch (this.kiStrength) {
             case BEGINNER -> {
                 return this.shootRandom();
             }
             case INTERMEDIATE -> {
+                return this.shootRandomThenHit();
+            }
+            case STRONG -> {
                 return this.shootRows();
+            }
+            case HELL -> {
+                return this.perfectSpin();
             }
         }
         return -1;
@@ -64,177 +56,312 @@ public class Ki {
         }
     }
 
-    Position nextShot = new Position(0, 0);
-    ArrayList<Position> shipFound = new ArrayList<>();
-    char direction = 'e';
-    private int shootRows() {
-        System.out.println(nextShot + ", dir: " + direction + ", shipFoundSize: " + shipFound.size());
-        int rc = this.enemyField.registerShot(nextShot);  //TODO this should be changed to also work in online context
-        System.out.println("rc: " + rc);
-
-        this.kiEnemyField.getPlayfield()[nextShot.getY()][nextShot.getX()] = new Shot();
-        if (rc == 0) {
-
-            if (shipFound.size() == 1) {
-                // this means that ONE of the previous shots hit a ship but this one didn't -> direction of the ship isn't fixed yet
-                switch (direction) {
-                    case 'e':
-                        // try to shoot backwards aka west but consider bounds of array
-                        if (nextShot.getX() - 2 < 0) {
-                            if (nextShot.getY() + 1 >= this.enemyField.getHeight()) {
-                                nextShot = new Position(nextShot.getX() - 1, nextShot.getY() - 1);
-                                direction = 'n';
-                            }
-                            else {
-                                nextShot = new Position(nextShot.getX() - 1, nextShot.getY() + 1);
-                                direction = 's';
-                            }
-                        }
-                        else {
-                            nextShot = new Position(nextShot.getX() - 2, nextShot.getY());
-                            direction = 'w';
-                        }
-                        break;
-
-                    case 'w':
-                        // try to shoot down aka south
-                        if (nextShot.getY() + 1 >= this.enemyField.getHeight()) {
-                            nextShot = new Position(nextShot.getX() + 1, nextShot.getY() - 1);
-                            direction = 'n';
-                        }
-                        else {
-                            nextShot = new Position(nextShot.getX() + 1, nextShot.getY() + 1);
-                            direction = 's';
-                        }
-                        break;
-
-                    case 's':
-                        // every direction except up aka north failed, shoot north
-                        nextShot = new Position(nextShot.getX(), nextShot.getY() - 2);
-                        direction = 'n';
-                        break;
-                }
-                // after this every option for the ship directions are done
-                // this means we have to have hit at least one more shot which means we can fix the direction of the ship
-            }
-
-            if (shipFound.size() > 1) {
-                // this means TWO or more previous shots hit. this means the direction is fixed
-                switch (direction) {
-                    case 'e':
-                        // ship is horizontal and other positions have to be left
-                        nextShot = new Position(nextShot.getX() - (shipFound.size() + 1), nextShot.getY());
-                        direction = 'w';
-                        break;
-
-                    case 's':
-                        // ship is vertical and other positions have to be top
-                        nextShot = new Position(nextShot.getX(), nextShot.getY() - (shipFound.size() + 1));
-                        direction = 'n';
-                        break;
-
-                    case 'w':
-                        nextShot = new Position(nextShot.getX() - 1, nextShot.getY());
-                        break;
-
-                    case 'n':
-                        nextShot = new Position(nextShot.getX(), nextShot.getY() - 1);
-                        break;
-                }
-            }
-
-            if (shipFound.size() == 0) {
-                nextShot = getNextShotPosition(nextShot);
-            }
+    ArrayList<Ship> perfectShipArrayList;
+    Ship perfectShip;
+    boolean notSoPerfectShot = false;
+    int perfectCount = 0;
+    private int perfectSpin() {
+        if (notSoPerfectShot) {
+            notSoPerfectShot = false;
+            return 0;
         }
 
-        if (rc == 1) {
-            shipFound.add(nextShot);
-            switch (direction) {
-                case 'e':
-                    if (nextShot.getX() + 1 >= this.enemyField.getLength()) {
-                        nextShot = new Position(nextShot.getX() - 1, nextShot.getY());
-                        direction = 'w';
-                        //return this.shootRows();
-                    }
-                    else {
-                        nextShot = new Position(nextShot.getX() + 1, nextShot.getY());
-                    }
-                    break;
-
-                case 'w':
-                    nextShot = new Position(nextShot.getX() - 1, nextShot.getY());
-                    break;
-
-                case 's':
-                    nextShot = new Position(nextShot.getX(), nextShot.getY() + 1);
-                    if (nextShot.getY() >= this.enemyField.getHeight()) {
-                        int nextY = nextShot.getY() - 1;
-                        while (this.kiEnemyField.getPlayfield()[nextY][nextShot.getX()].getClass() != Cell.class) {
-                            nextY--;
-                        }
-                        nextShot = new Position(nextShot.getX(), nextY);
-                        direction = 'n';
-                    }
-                    break;
-
-                case 'n':
-                    nextShot = new Position(nextShot.getX(), nextShot.getY() - 1);
-                    break;
-            }
+        Random r = new Random();
+        if (perfectShipArrayList == null) {
+            perfectShipArrayList = this.enemyField.extractShips(this.enemyField.getHeight(), this.enemyField.getLength());
         }
-
+        if (perfectShip == null) {
+            perfectShip = perfectShipArrayList.remove(r.nextInt(perfectShipArrayList.size()));
+        }
+        Position[] positions = perfectShip.getPositions();
+        int rc = this.enemyField.registerShot(positions[perfectCount]);
+        perfectCount++;
         if (rc == 2) {
-            shipFound.add(nextShot);
-            this.kiEnemyField.addShip(new Ship(shipFound));
-            for (Position position: shipFound) {
-                this.kiEnemyField.getPlayfield()[position.getY()][position.getX()] = new Shot(true);
-            }
-            this.enemyRemainingShipLengths.remove((Integer) shipFound.size());
-            if (this.enemyRemainingShipLengths.size() > 0){
-                nextShot = this.getNextShotPosition(shipFound.get(0));
-            }
-            shipFound.clear();
-            direction = 'e';
+            perfectShip = null;
+            notSoPerfectShot = true;
+            perfectCount = 0;
         }
+
         return rc;
     }
 
-    private Position getNextShotPosition(Position lastShot) {
-        System.out.println("Übrige Schiffe: " + enemyRemainingShipLengths.size());
-        Position nextShot = lastShot;
-        int shortestShip = this.enemyRemainingShipLengths.get(this.enemyRemainingShipLengths.size() - 1);
-        while (this.kiEnemyField.getPlayfield()[nextShot.getY()][nextShot.getX()].getClass() != Cell.class) {
-            int nextX = nextShot.getX() + shortestShip; // add length of shortest ship of the field for optimal coverage
-            int nextY = nextShot.getY();
-            if (nextX >= this.enemyField.getLength()) {
-                nextY++;
-                if (nextY % shortestShip == 0) {
-                    nextX = 0;
+    Position interLastHit;
+    Character interDir = 'e';
+    int interCounter = 1;
+    private int shootRandomThenHit() {
+        Random r = new Random();
+
+        if (interLastHit != null) {
+            if (interDir == 'e') {
+                int nextX = interLastHit.getX() + interCounter;
+                if (nextX >= this.enemyField.getLength() || this.enemyField.getCell(new Position(nextX, interLastHit.getY())) instanceof Shot) {
+                    interDir = 'w';
+                    interCounter = 1;
+                    return shootRandomThenHit();
                 }
-                else if (nextY % shortestShip == 1){
-                    nextX = 1;
-                }
-                else if (nextY % shortestShip == 2){
-                    nextX = 2;
-                }
-                else if (nextY % shortestShip == 3){
-                    nextX = 3;
-                }
-                else if (nextY % shortestShip == 4){
-                    nextX = 4;
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, interLastHit.getY()));
+                    if (rc == 0) {
+                        interDir = 'w';
+                        interCounter = 1;
+                    } else if (rc == 1) {
+                        interCounter++;
+                    } else {
+                        interDir = 'e';
+                        interCounter = 1;
+                        interLastHit = null;
+                    }
+                    return rc;
                 }
             }
-            if (nextY >= this.enemyField.getHeight()){
-                nextX = 0;
-                nextY = 0;
+            else if (interDir == 'w') {
+                int nextX = interLastHit.getX() - interCounter;
+                if (nextX < 0 || this.enemyField.getCell(new Position(nextX, interLastHit.getY())) instanceof Shot) {
+                    interDir = 'n';
+                    interCounter = 1;
+                    return shootRandomThenHit();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, interLastHit.getY()));
+                    if (rc == 0) {
+                        interDir = 'n';
+                        interCounter = 1;
+                    } else if (rc == 1) {
+                        interCounter++;
+                    } else {
+                        interDir = 'e';
+                        interCounter = 1;
+                        interLastHit = null;
+                    }
+                    return rc;
+                }
             }
-            assert nextY < this.enemyField.getHeight() : "nextY ist: " + nextY;
-            nextShot = new Position(nextX, nextY);
+            else if (interDir == 'n') {
+                int nextY = interLastHit.getY() - interCounter;
+                if (nextY < 0 || this.enemyField.getCell(new Position(interLastHit.getX(), nextY)) instanceof Shot) {
+                    interDir = 's';
+                    interCounter = 1;
+                    return shootRandomThenHit();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(interLastHit.getX(), nextY));
+                    if (rc == 0) {
+                        interDir = 's';
+                        interCounter = 1;
+                    } else if (rc == 1) {
+                        interCounter++;
+                    } else {
+                        interDir = 'e';
+                        interCounter = 1;
+                        interLastHit = null;
+                    }
+                    return rc;
+                }
+            }
+            else if (interDir == 's') {
+                int nextY = interLastHit.getY() + interCounter;
+                if (nextY >= this.enemyField.getHeight() || this.enemyField.getCell(new Position(interLastHit.getX(), nextY)) instanceof Shot) {
+                    interDir = 'e';
+                    interCounter = 1;
+                    return shootRandomThenHit();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(interLastHit.getX(), nextY));
+                    if (rc == 0) {
+                        interDir = 'e';
+                        interCounter = 1;
+                    } else if (rc == 1) {
+                        interCounter++;
+                    } else {
+                        interDir = 'e';
+                        interCounter = 1;
+                        interLastHit = null;
+                    }
+                    return rc;
+                }
+            }
         }
 
-        // System.out.println(this.kiEnemyField.getPlayfield()[nextShot.getY()][nextShot.getY()].getClass());
+        while (true) {
+            int y = r.nextInt(this.enemyField.getHeight());
+            int x = r.nextInt(this.enemyField.getLength());
+            Position nextShot = new Position(x, y);
 
-        return nextShot;
+
+            if (!(this.enemyField.getCell(nextShot) instanceof Shot)) {
+                int rc = this.enemyField.registerShot(nextShot);
+                if (rc == 1)
+                    interLastHit = nextShot;
+                return rc;
+            }
+        }
+    }
+
+    Position strongNextShot = new Position(0, 0);
+    Position strongLastHit;
+    Character strongDir = 'e';
+    int strongCounter = 1;
+    ArrayList<Position> strongHits = new ArrayList<>();
+    private int shootRows() {
+        if (strongLastHit != null) {
+            if (strongDir == 'e') {
+                int nextX = strongLastHit.getX() + strongCounter;
+                Position nextS = new Position(nextX, strongLastHit.getY());
+                if ((nextX >= this.enemyField.getLength()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDir = 'w';
+                    strongCounter = 1;
+                    return shootRows();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, strongLastHit.getY()));
+                    this.kiEnemyField.registerShot(new Position(nextX, strongLastHit.getY()));
+                    if (rc == 0) {
+                        strongDir = 'w';
+                        strongCounter = 1;
+                    } else if (rc == 1) {
+                        strongHits.add(new Position(nextX, strongLastHit.getY()));
+                        strongCounter++;
+                    } else {
+                        strongHits.add(new Position(nextX, strongLastHit.getY()));
+                        this.kiEnemyField.addShip(new Ship(strongHits));
+                        addShotsToKiEnemyField(strongHits);
+                        strongHits.clear();
+
+                        strongDir = 'e';
+                        strongCounter = 1;
+                        strongLastHit = null;
+                    }
+                    return rc;
+                }
+            }
+            else if (strongDir == 'w') {
+                int nextX = strongLastHit.getX() - strongCounter;
+                Position nextS = new Position(nextX, strongLastHit.getY());
+                if ((nextX < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDir = 'n';
+                    strongCounter = 1;
+                    return shootRows();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, strongLastHit.getY()));
+                    this.kiEnemyField.registerShot(new Position(nextX, strongLastHit.getY()));
+                    if (rc == 0) {
+                        strongDir = 'n';
+                        strongCounter = 1;
+                    } else if (rc == 1) {
+                        strongHits.add(new Position(nextX, strongLastHit.getY()));
+                        strongCounter++;
+                    } else {
+                        strongHits.add(new Position(nextX, strongLastHit.getY()));
+                        this.kiEnemyField.addShip(new Ship(strongHits));
+                        addShotsToKiEnemyField(strongHits);
+                        strongHits.clear();
+
+                        strongDir = 'e';
+                        strongCounter = 1;
+                        strongLastHit = null;
+                    }
+                    return rc;
+                }
+            }
+            else if (strongDir == 'n') {
+                int nextY = strongLastHit.getY() - strongCounter;
+                Position nextS = new Position(strongLastHit.getX(), nextY);
+                if ((nextY < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDir = 's';
+                    strongCounter = 1;
+                    return shootRows();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(strongLastHit.getX(), nextY));
+                    this.kiEnemyField.registerShot(new Position(strongLastHit.getX(), nextY));
+                    if (rc == 0) {
+                        strongDir = 's';
+                        strongCounter = 1;
+                    } else if (rc == 1) {
+                        strongHits.add(new Position(strongLastHit.getX(), nextY));
+                        strongCounter++;
+                    } else {
+                        strongHits.add(new Position(strongLastHit.getX(), nextY));
+                        this.kiEnemyField.addShip(new Ship(strongHits));
+                        addShotsToKiEnemyField(strongHits);
+                        strongHits.clear();
+
+                        strongDir = 'e';
+                        strongCounter = 1;
+                        strongLastHit = null;
+                    }
+                    return rc;
+                }
+            }
+            else if (strongDir == 's') {
+                int nextY = strongLastHit.getY() + strongCounter;
+                Position nextS = new Position(strongLastHit.getX(), nextY);
+                if ((nextY >= this.enemyField.getHeight()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDir = 'e';
+                    strongCounter = 1;
+                    return shootRows();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(strongLastHit.getX(), nextY));
+                    this.kiEnemyField.registerShot(new Position(strongLastHit.getX(), nextY));
+                    if (rc == 0) {
+                        strongDir = 'e';
+                        strongCounter = 1;
+                    } else if (rc == 1) {
+                        strongHits.add(new Position(strongLastHit.getX(), nextY));
+                        strongCounter++;
+                    } else {
+                        strongHits.add(new Position(strongLastHit.getX(), nextY));
+                        this.kiEnemyField.addShip(new Ship(strongHits));
+                        addShotsToKiEnemyField(strongHits);
+                        strongHits.clear();
+
+                        strongDir = 'e';
+                        strongCounter = 1;
+                        strongLastHit = null;
+                    }
+                    return rc;
+                }
+            }
+        }
+
+        while (true) {
+            Cell cell = this.kiEnemyField.getCell(strongNextShot);
+            if (!(cell instanceof Shot) && (!(cell instanceof Block))) {
+                int rc = this.enemyField.registerShot(strongNextShot);
+                this.kiEnemyField.registerShot(strongNextShot);
+                if (rc == 1) {
+                    strongLastHit = strongNextShot;
+                    strongHits.add(strongNextShot);
+                }
+                return rc;
+            }
+            else {
+                int shortestRemainingShip = this.enemyField.getShipLengths()[this.enemyField.getShipLengths().length - 1];
+
+                int nextX = strongNextShot.getX() + shortestRemainingShip;
+                int nextY = strongNextShot.getY();
+                if (nextX >= this.enemyField.getLength()) {
+                    nextY +=1;
+                    if (nextY % shortestRemainingShip == 0)
+                        nextX = 0;
+                    else if (nextY % shortestRemainingShip == 1)
+                        nextX = 1;
+                    else if (nextY % shortestRemainingShip == 2)
+                        nextX = 2;
+                    else if (nextY % shortestRemainingShip == 3)
+                        nextX = 3;
+                    else if (nextY % shortestRemainingShip == 4)
+                        nextX = 4;
+                }
+                strongNextShot = new Position(nextX, nextY);
+            }
+        }
+    }
+
+    private void addShotsToKiEnemyField(ArrayList<Position> positions) {
+        for (Position pos: positions)
+            this.kiEnemyField.registerShot(pos);
     }
 }

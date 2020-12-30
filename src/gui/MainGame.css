@@ -1,0 +1,45 @@
+.general_cell_style {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-padding: 5 5 5 5;
+}
+
+.water_blue_bg {
+    -fx-background-color: #2389DA;
+}
+
+.ship_grey_bg {
+    -fx-background-color: #3d3d3d;
+}
+
+.hit_red_bg {
+    -fx-background-color: #660000;
+}
+
+.miss_purple_bg {
+    -fx-background-color: #5900ff;
+}
+
+.lbl_style_1 {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+.lbl_style_2 {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+
+.btn_style_1 {
+    -fx-min-width: 75;
+}
+
+.btn_style_2 {
+    -fx-min-width: 200;
+}
+
+.red_border {
+    -fx-border-color: red;
+}

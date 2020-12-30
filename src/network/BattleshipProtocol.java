@@ -2,6 +2,7 @@ package network;
 
 import enums.ProtComs;
 import game.Position;
+import javafx.scene.control.ProgressIndicator;
 
 public class BattleshipProtocol {
 
@@ -30,11 +31,19 @@ public class BattleshipProtocol {
     }
 
     public static String formatSave(String id) {
-        return "save " + id;
+        int lend = id.lastIndexOf(".");
+        if (lend == -1)
+            return "save " + id;
+        else
+            return "save " + id.substring(0, lend);
     }
 
     public static String formatLoad(String id) {
-        return "load " + id;
+        int lend = id.lastIndexOf(".");
+        if (lend == -1)
+            return "load " + id;
+        else
+            return "load " + id.substring(0, lend);
     }
 
     public static Object[] processInput(String input){
@@ -57,10 +66,23 @@ public class BattleshipProtocol {
                 return new Object[]{ProtComs.ANSWER, Integer.parseInt(inputSplit[1])};
 
             case "save":
-                return new Object[]{ProtComs.SAVE, inputSplit[1]};
+                String id = inputSplit[1];
+                int lend = id.lastIndexOf(".");
+                if (lend == -1)
+                    return new Object[]{ProtComs.SAVE, inputSplit[1]};
+                else
+                    return new Object[]{ProtComs.SAVE, id.substring(0, lend)};
 
             case "load":
-                return new Object[]{ProtComs.LOAD, inputSplit[1]};
+                String id_ = inputSplit[1];
+                int lend_ = id_.lastIndexOf(".");
+                if (lend_ == -1)
+                    return new Object[]{ProtComs.LOAD, inputSplit[1]};
+                else
+                    return new Object[]{ProtComs.LOAD, id_.substring(0, lend_)};
+
+            case "next":
+                return new Object[]{ProtComs.NEXT};
 
             default:
                 return new Object[]{ProtComs.ERROR};

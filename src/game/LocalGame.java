@@ -11,38 +11,38 @@ public class LocalGame extends Game {
     public LocalGame(int playFieldHeight, int playFieldLength, KiStrength kiStrength) {
         // ki hasn't placed ships yet because they are not known at this point in the game
         super(playFieldHeight, playFieldLength);
-        this.ki = new Ki(this.field, this.enemyField, kiStrength);
+        this.ki = new Ki(this.field, kiStrength);
     }
 
     public boolean startGame() {
-        this.ki.addShipsToField(this.field.getShipLengths());
-        //this.enemyField.addShipRandom(this.field.getShipLengths());
+        this.enemyField.addShipRandom(this.field.getShipLengths());
         return true;
     }
 
-    public void shoot(Position position) {
-        // Spieler kann schießen bis er nicht mehr trifft.
-        // Wenn er verfehlt, kann die KI schießen bis sie nicht trifft
-
-        if (this.getField().getShipCount() == 0)
-            return;
-
-        if (this.enemyField.registerShot(position) > 0)
-            return;
-
-        while (true) {
-            if (this.getField().getShipCount() == 0)
-                break;
-            if (this.ki.shoot() == 0)
-                break;
-        }
+    public boolean startGame(KiStrength kiStrength) {
+        this.enemyField = new Field(this.field.getHeight(), this.field.getLength());
+        this.ki = new Ki(this.field, kiStrength);
+        this.enemyField.addShipRandom(this.field.getShipLengths());
+        return true;
     }
 
-    public void loadGame(String id) throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(id + ".txt"));
-        LocalGame temp = (LocalGame) in.readObject();
-        this.field = temp.field;
-        this.enemyField = temp.enemyField;
-        this.ki = temp.ki;
+    public int shoot(Position position) {
+        int rc;
+        if (myTurn) {
+            rc = this.enemyField.registerShot(position);
+            if (rc == 0)
+                myTurn = false;
+        }
+        else {
+            rc = this.ki.shoot();
+            if (rc == 0)
+                myTurn = true;
+        }
+        return rc;
+    }
+
+    public static LocalGame loadGame(String filePath) throws IOException, ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath));
+        return ((LocalGame) in.readObject());
     }
 }
