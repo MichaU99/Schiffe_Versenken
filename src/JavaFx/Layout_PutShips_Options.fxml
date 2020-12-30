@@ -4,10 +4,6 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -22,24 +18,24 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
          </children>
       </HBox>
-      <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="52.0" prefHeight="288.0" prefWidth="451.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
-      <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="62.0" prefHeight="281.0" prefWidth="451.0">
+      <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="52.0" prefHeight="288.0" prefWidth="362.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
+      <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="62.0" prefHeight="281.0" prefWidth="350.0">
          <children>
-            <VBox layoutX="19.0" layoutY="8.0" prefHeight="256.0" prefWidth="122.0" spacing="36.0" styleClass="Text" stylesheets="@button.css">
+            <VBox layoutX="19.0" layoutY="1.0" prefHeight="263.0" prefWidth="122.0" spacing="30.0" styleClass="Text" stylesheets="@button.css">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                   <Text layoutX="10.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spielschwierigkeit" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Größe von Schiffen" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Ships" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                  <Text layoutX="10.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                  <Text layoutX="10.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                  <Text layoutX="10.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                </children>
             </VBox>
-            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="286.0" spacing="20.0">
+            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="152.0" spacing="20.0">
                <children>
                   <HBox prefHeight="23.0" prefWidth="286.0" styleClass="Textkleiner" stylesheets="@button.css">
                      <children>
-                        <TextField prefHeight="15.0" prefWidth="30.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="28.136741638183594" />
-                        <TextField layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="30.0" />
+                        <TextField prefHeight="27.0" prefWidth="170.0" />
                      </children>
                   </HBox>
                   <ChoiceBox layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
@@ -52,52 +48,16 @@
                         </FXCollections>
                      </items>
                   </ChoiceBox>
-                  <HBox prefHeight="20.0" prefWidth="286.0" spacing="20.0" styleClass="Textkleiner" stylesheets="@button.css">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="1" />
-                        <RadioButton mnemonicParsing="false" text="2" />
-                        <RadioButton mnemonicParsing="false" text="3" />
-                        <RadioButton mnemonicParsing="false" text="4" />
-                        <RadioButton mnemonicParsing="false" text="5" />
-                        <RadioButton mnemonicParsing="false" text="all" />
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="171.0" prefWidth="287.0" spacing="5.0">
-                     <children>
-                        <HBox prefHeight="24.0" prefWidth="286.0" spacing="15.0">
-                           <children>
-                              <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipsize" />
-                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="272.0" spacing="20.0" styleClass="Text" stylesheets="@button.css">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      1" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="15.0" prefWidth="30.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      2" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="27.0" prefWidth="29.0" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="59.0" prefHeight="24.0" prefWidth="286.0" spacing="20.0" styleClass="Text" stylesheets="@button.css">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      3" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="25.0" prefWidth="30.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      4" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="25.0" prefWidth="30.0" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="110.0" prefHeight="24.0" prefWidth="286.0" spacing="20.0" styleClass="Text" stylesheets="@button.css">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="      5" wrappingWidth="48.8687744140625" />
-                              <TextField prefHeight="25.0" prefWidth="30.0" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <TextField prefHeight="25.0" prefWidth="269.0" />
+                  <TextField />
+                  <TextField />
+                  <TextField />
                </children>
             </VBox>
          </children>
       </Pane>
       <Button layoutX="15.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
+      <Button layoutX="409.0" layoutY="304.0" mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
+      <Button layoutX="502.0" layoutY="304.0" mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="restore" />
    </children>
 </AnchorPane>
