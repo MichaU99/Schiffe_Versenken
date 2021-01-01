@@ -52,7 +52,7 @@ public class Controller_PutShips implements Initializable {
         }
         else {
             updateGameOptions();
-            this.game = new LocalGame(options.getFieldSize(), options.getFieldSize(), options.getKiStrength());
+            game = new LocalGame(options.getFieldSize(), options.getFieldSize(), options.getKiStrength());
         }
         makeField();
 //        VBox game = this.createGame();
@@ -64,8 +64,8 @@ public class Controller_PutShips implements Initializable {
     }
     private void updateListView(){ //setzt ListView auf die aktuelle Anzahl unplatzierter Schiffe
         listView.getItems().clear();
-        for(int i=0;i<noch_zu_setzende_schiffe.size();i++) {
-            listView.getItems().add("Schiff der Länge: "+noch_zu_setzende_schiffe.get(i));
+        for (Integer integer : noch_zu_setzende_schiffe) {
+            listView.getItems().add("Schiff der Länge: " + integer);
         }
     }
     private void updateGameOptions(){
@@ -103,11 +103,9 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Markiert geklickte Felder fürs Schiffeplatzieren, erkennt ob geklicktes Feld valide ist
-     * @param event
-     * @throws IOException
      */
 
-    public void klickShipintoExistance(MouseEvent event) throws IOException {
+    public void klickShipintoExistance(MouseEvent event){
 
         if(event==null ||event.getTarget()==null) return;
         int x=GridPane.getColumnIndex((Node)event.getTarget());
@@ -117,7 +115,7 @@ public class Controller_PutShips implements Initializable {
         if(!noch_zu_setzende_schiffe.isEmpty()) maxShipLen=noch_zu_setzende_schiffe.get(0);
         else maxShipLen=0;
 
-        if(this.game.getField().getPlayfield()[y][x].getClass()== Ship.class){ //Setzt Löschmarkierung falls auf ein bereits gesetztes Schiff geklickt wurde
+        if(game.getField().getPlayfield()[y][x].getClass()== Ship.class){ //Setzt Löschmarkierung falls auf ein bereits gesetztes Schiff geklickt wurde
             deletedMarked();
             loeschpos=pos;
             HBox hbox=new HBox();
@@ -126,15 +124,15 @@ public class Controller_PutShips implements Initializable {
             GridP.getChildren().add(hbox);
         }
         else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){ return;} //Fängt Klicks auf Felder ab, die keine validen Felder für Schiffe wären
-        else if(generated_Ships!=null && generated_Ships.first!=null && ClickedShips.first.isInList(pos)) {//Feld kommt in List vor (war bereits markiert)
-            generated_Ships.first.targetedDelete(pos);
+        else if(generated_Ships!=null && ClickedShips.first!=null && ClickedShips.first.isInList(pos)) {//Feld kommt in List vor (war bereits markiert)
+            ClickedShips.first.targetedDelete(pos);
             HBox hbox=new HBox();
             hbox.setStyle(waterCell);
             GridPane.setConstraints(hbox,x,y);
             GridP.getChildren().add(hbox);
         }
         else{
-            if(generated_Ships==null || generated_Ships.first==null){
+            if(generated_Ships==null || ClickedShips.first==null){
                 generated_Ships= new ClickedShips(null,pos); //Für den "ersten" Klick
                 HBox hbox = new HBox();
                 hbox.setStyle(markCell);
@@ -145,7 +143,7 @@ public class Controller_PutShips implements Initializable {
                 deletedMarked();
             }
             else {
-                generated_Ships = new ClickedShips(generated_Ships.first, pos);
+                generated_Ships = new ClickedShips(ClickedShips.first, pos);
                 HBox hbox = new HBox();
                 hbox.setStyle(markCell);
                 GridPane.setConstraints(hbox, x, y);
@@ -157,7 +155,6 @@ public class Controller_PutShips implements Initializable {
 
     public void autofill(ActionEvent event){
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
-            ;
             noch_zu_setzende_schiffe.clear();
             Start_bt.setDisable(false);
             updateGame();
@@ -190,12 +187,12 @@ public class Controller_PutShips implements Initializable {
         System.out.println(generated_Ships.getLengh());
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
         if(generated_Ships.getLengh()>0){
-            if (generated_Ships.getLengh()==1 && (generated_Ships.first.getPosition().getX()==pos.getX() || generated_Ships.first.getPosition().getY()==pos.getY() )) return true;
-            else if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getX()==generated_Ships.next.getPosition().getX()) {
-                    if(generated_Ships.first.getPosition().getX()!=pos.getX()) return false;
+            if (generated_Ships.getLengh()==1 && (ClickedShips.first.getPosition().getX()==pos.getX() || ClickedShips.first.getPosition().getY()==pos.getY() )) return true;
+            else if(ClickedShips.first.next!=null && ClickedShips.first.getPosition().getX()==generated_Ships.next.getPosition().getX()) {
+                    if(ClickedShips.first.getPosition().getX()!=pos.getX()) return false;
             }
-            else if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getY()==generated_Ships.next.getPosition().getY()) {
-                if(generated_Ships.first.getPosition().getY()!=pos.getY()) return false;
+            else if(ClickedShips.first.next!=null && ClickedShips.first.getPosition().getY()==generated_Ships.next.getPosition().getY()) {
+                if(ClickedShips.first.getPosition().getY()!=pos.getY()) return false;
 
             }
             else return false;
@@ -212,7 +209,7 @@ public class Controller_PutShips implements Initializable {
             GridP.getChildren().add(hbox);
         }
         deleteLoeschpos();
-        generated_Ships.first=null;
+        ClickedShips.first=null;
     }
     private void deleteLoeschpos(){
         if(loeschpos==null) return;
@@ -251,25 +248,25 @@ public class Controller_PutShips implements Initializable {
 
     private boolean working_ship(){//Interne Methode die prüft ob ein Schiff zusammenhängend ist
         int min=1000;
-        if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getY()==generated_Ships.first.next.getPosition().getY()) {
-            for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+        if(ClickedShips.first.next!=null && ClickedShips.first.getPosition().getY()==ClickedShips.first.next.getPosition().getY()) {
+            for (ClickedShips lauf=ClickedShips.first; lauf!=null; lauf=lauf.next) {
                 if (min > lauf.getPosition().getX()) min=lauf.getPosition().getX();
             }
             zusammenhang1:
             for(int i=0;i<generated_Ships.getLengh();i++){
-                for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                for (ClickedShips lauf=ClickedShips.first; lauf!=null; lauf=lauf.next) {
                     if (lauf.getPosition().getX() ==min+i) continue zusammenhang1;
                 }
                 return false;
             }
         }
-        else if(generated_Ships.first.next!=null && generated_Ships.first.getPosition().getX()==generated_Ships.first.next.getPosition().getX()) {
-            for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+        else if(ClickedShips.first.next!=null && ClickedShips.first.getPosition().getX()==ClickedShips.first.next.getPosition().getX()) {
+            for (ClickedShips lauf=ClickedShips.first; lauf!=null; lauf=lauf.next) {
                 if (min > lauf.getPosition().getY()) min=lauf.getPosition().getY();
             }
             zusammenhang2:
             for(int i=0;i<generated_Ships.getLengh();i++){
-                for (ClickedShips lauf=generated_Ships.first; lauf!=null; lauf=lauf.next) {
+                for (ClickedShips lauf=ClickedShips.first; lauf!=null; lauf=lauf.next) {
                     if (lauf.getPosition().getY() ==min+i) continue zusammenhang2;
                 }
                 return false;
@@ -280,8 +277,8 @@ public class Controller_PutShips implements Initializable {
     }
 
     private Position[] ClickedShipsToArray(){//Gibt die interne Datenstruktur generated_ships als array von Positions zurück
-        ArrayList<Position> pos=new ArrayList();
-        ClickedShips lauf=generated_Ships.first;
+        ArrayList<Position> pos=new ArrayList<>();
+        ClickedShips lauf=ClickedShips.first;
         while (lauf!=null ){
             pos.add(lauf.getPosition());
             lauf=lauf.next;
