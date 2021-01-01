@@ -32,13 +32,17 @@ public class Controller_PutShips implements Initializable {
     @FXML
     private GridPane GridP;
     @FXML
-    private ListView listView;
+    private ListView<String> listView;
     @FXML
     private Button Start_bt;
-    private Game game;
+    private static Game game;
     public static boolean online = false;
     private GameOptions options;
     private Position loeschpos=null;
+    String waterCell="-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
+    String shipCell="-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
+    String loeschMarkCell="-fx-background-color: #7700ff; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
+    String markCell="-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     // TODO: 30.12.2020 Minimalgröße der Stage festsetzen
 
     @Override
@@ -88,7 +92,7 @@ public class Controller_PutShips implements Initializable {
         for(int x = 0; x< game.getField().getLength(); x++){
             for(int y = 0; y< game.getField().getHeight(); y++){
                 HBox l = new HBox();
-                l.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                l.setStyle(waterCell);
                // Label h = new Label("1");
                // l.getChildren().add(h);
                 GridPane.setConstraints(l,x,y);
@@ -97,27 +101,35 @@ public class Controller_PutShips implements Initializable {
         }
     }
 
-    public void klickShipintoExistance(MouseEvent event) throws IOException { //Markiert geklickte Felder fürs Schiffeplatzieren, erkennt ob geklicktes Feld valide ist
+    /**
+     * Markiert geklickte Felder fürs Schiffeplatzieren, erkennt ob geklicktes Feld valide ist
+     * @param event
+     * @throws IOException
+     */
+
+    public void klickShipintoExistance(MouseEvent event) throws IOException {
 
         if(event==null ||event.getTarget()==null) return;
         int x=GridPane.getColumnIndex((Node)event.getTarget());
         int y=GridPane.getRowIndex((Node)event.getTarget());
         Position pos=new Position(x,y); //in Pos liegt die aus der GridPane erhaltene position des Klicks
         deleteLoeschpos(); //Reset der löschpos
+        if(!noch_zu_setzende_schiffe.isEmpty()) maxShipLen=noch_zu_setzende_schiffe.get(0);
+        else maxShipLen=0;
 
         if(this.game.getField().getPlayfield()[y][x].getClass()== Ship.class){ //Setzt Löschmarkierung falls auf ein bereits gesetztes Schiff geklickt wurde
             deletedMarked();
             loeschpos=pos;
             HBox hbox=new HBox();
-            hbox.setStyle("-fx-background-color: #7700ff; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+            hbox.setStyle(loeschMarkCell);
             GridPane.setConstraints(hbox,x,y);
             GridP.getChildren().add(hbox);
         }
         else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){ return;} //Fängt Klicks auf Felder ab, die keine validen Felder für Schiffe wären
         else if(generated_Ships!=null && generated_Ships.first!=null && ClickedShips.first.isInList(pos)) {//Feld kommt in List vor (war bereits markiert)
-            assert(generated_Ships.first.targetedDelete(pos)):"Muss vermutlich abgefangen werden falls es eintritt";
+            generated_Ships.first.targetedDelete(pos);
             HBox hbox=new HBox();
-            hbox.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+            hbox.setStyle(waterCell);
             GridPane.setConstraints(hbox,x,y);
             GridP.getChildren().add(hbox);
         }
@@ -125,7 +137,7 @@ public class Controller_PutShips implements Initializable {
             if(generated_Ships==null || generated_Ships.first==null){
                 generated_Ships= new ClickedShips(null,pos); //Für den "ersten" Klick
                 HBox hbox = new HBox();
-                hbox.setStyle("-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                hbox.setStyle(markCell);
                 GridPane.setConstraints(hbox, x, y);
                 GridP.getChildren().add(hbox);
                 }
@@ -135,7 +147,7 @@ public class Controller_PutShips implements Initializable {
             else {
                 generated_Ships = new ClickedShips(generated_Ships.first, pos);
                 HBox hbox = new HBox();
-                hbox.setStyle("-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                hbox.setStyle(markCell);
                 GridPane.setConstraints(hbox, x, y);
                 GridP.getChildren().add(hbox);
             }
@@ -144,7 +156,6 @@ public class Controller_PutShips implements Initializable {
     }
 
     public void autofill(ActionEvent event){
-        // TODO: 30.12.2020 Wenn mehr Schiffe gesetzt werden sollen als möglich ist, hängt sich das Spiel komplett auf
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
             ;
             noch_zu_setzende_schiffe.clear();
@@ -164,10 +175,10 @@ public class Controller_PutShips implements Initializable {
             for(int y = 0; y< game.getField().getHeight(); y++){
                 HBox cell = new HBox();
                 if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
-                    cell.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                    cell.setStyle(shipCell);
                 }
                 else {
-                    cell.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                    cell.setStyle(waterCell);
                 }
                 GridPane.setConstraints(cell,x,y);
                 GridP.getChildren().add(cell);
@@ -196,7 +207,7 @@ public class Controller_PutShips implements Initializable {
 
         for(int i=0;i< todel.length;i++){
             HBox hbox=new HBox();
-            hbox.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+            hbox.setStyle(waterCell);
             GridPane.setConstraints(hbox,todel[i].getX(),todel[i].getY());
             GridP.getChildren().add(hbox);
         }
@@ -206,7 +217,7 @@ public class Controller_PutShips implements Initializable {
     private void deleteLoeschpos(){
         if(loeschpos==null) return;
         HBox hbox=new HBox();
-        hbox.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+        hbox.setStyle(shipCell);
         GridPane.setConstraints(hbox,loeschpos.getX(),loeschpos.getY());
         GridP.getChildren().add(hbox);
         loeschpos=null;
@@ -226,12 +237,12 @@ public class Controller_PutShips implements Initializable {
 
                 for (int i = 0; i < todel.length; i++) {
                     HBox hbox = new HBox();
-                    hbox.setStyle("-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                    hbox.setStyle(shipCell);
                     GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
                     GridP.getChildren().add(hbox);
 
                 }
-                generated_Ships.first = null;
+                ClickedShips.first = null;
                 if(noch_zu_setzende_schiffe.isEmpty()) Start_bt.setDisable(false);
             }
         }
@@ -292,7 +303,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
-        // TODO: 30.12.2020 Entfernte Schiffe sollten eigentlich der nochzuplatzieren Liste hinzugefügt werden
+        // TODO: 30.12.2020 Entfernte Schiffe sollten eigentlich der nochzuplatzieren Liste hinzugefügt werden, klären was das Problem an dieser Methode ist
         if (loeschpos!=null) {
             //noch_zu_setzende_schiffe.add(game.getField().getShipLen(loeschpos));
             game.getField().removeShip(loeschpos);
@@ -302,7 +313,7 @@ public class Controller_PutShips implements Initializable {
 
         }
     }
-
+    // TODO: 01.01.2021 Back Button zum Auswahlmenü einbinden
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root);
@@ -321,13 +332,8 @@ public class Controller_PutShips implements Initializable {
         stage.setMaximized(true);
         stage.show();
     }
-    public void goBackToPutShips(ActionEvent event) throws IOException {
-        Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+    public static Game getGame(){
+        return game;
     }
 
 }

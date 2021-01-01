@@ -13,6 +13,9 @@ public class GameOptions implements Serializable {
     private int cruiser;    // length = 3
     private int destroyer;  // length = 2
 
+    /**
+     *Gibt eine ArrayList mit allen Schiffen gemäß ihrer Länge, der Länge absteigend sortiert zurück
+    **/
     public ArrayList<Integer> getShipList(){
         ArrayList<Integer> ShipList = new ArrayList<>();
         for (int i = 0; i < this.carrier; i++) {
