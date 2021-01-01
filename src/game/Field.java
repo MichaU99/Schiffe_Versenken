@@ -176,10 +176,15 @@ public class Field implements Serializable {
      * Gibt die Zelle zurueck, die durch die uebergebene {@link Position} spezifiziert ist
      * Nuetzlich um den Typ der Zelle mit instanceof zu vergleichen.
      * @param position Position der Zelle, welche zurueckgegeben werden soll
-     * @return <code>{@link Cell}</code> welche angefragt wurde.
+     * @return <code>{@link Cell}</code> welche angefragt wurde
      */
     public Cell getCell(Position position) {
-        return this.playfield[position.getY()][position.getX()];
+        try {
+            return this.playfield[position.getY()][position.getX()];
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+
     }
 
     /**
@@ -387,7 +392,9 @@ public class Field implements Serializable {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
                     try {
-                        this.playfield[pos.getY() + i][pos.getX() + j] = new Cell();
+                        if (!(this.playfield[pos.getY() + i][pos.getX() + j] instanceof Block)) {
+                            this.playfield[pos.getY() + i][pos.getX() + j] = new Cell();
+                        }
                     }
                     catch (ArrayIndexOutOfBoundsException ignored) {
                     }
@@ -396,10 +403,13 @@ public class Field implements Serializable {
         }
         return true;
     }
-    //Gibt die Länge eines angeklickten Schiffes zurück
-    public int getShipLen(Position position){
-        Ship s = ((Ship) this.playfield[position.getY()][position.getX()]);
-        return s.getPositions().length;
+
+    /**
+     * Setzt das Spielfeld zurück
+     * @see Field#resetField()
+     */
+    public void removeAllShips() {
+        this.resetField();
     }
 
     /**

@@ -34,7 +34,7 @@ public class StaticNodes {
     }
 
     public static VBox getContentVbox() {
-        VBox contentVBox = new VBox(20);
+        VBox contentVBox = new VBox(10);
         contentVBox.setPadding(new Insets(10, 10, 10, 10));
         return contentVBox;
     }

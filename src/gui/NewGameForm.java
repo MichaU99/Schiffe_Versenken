@@ -1,7 +1,5 @@
 package gui;
 
-import enums.KiStrength;
-import game.LocalGame;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -18,7 +16,7 @@ public class NewGameForm {
         VBox baseVBox = StaticNodes.getBaseVboxWithMenubar();
         VBox contentVBox = StaticNodes.getContentVbox();
 
-        Button spBtn = new Button("Singeplayer");
+        Button spBtn = new Button("Single player");
         spBtn.setOnAction(event -> {
 //            LocalGame game = new LocalGame(10, 10, KiStrength.INTERMEDIATE);
             primaryStage.setScene(PlaceShipsForm.create(primaryStage, false, null));

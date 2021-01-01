@@ -21,6 +21,14 @@
     -fx-background-color: #5900ff;
 }
 
+.dark_grey_bg {
+    -fx-background-color: #141414;
+}
+
+.light_red_bg {
+    -fx-background-color: #f76565;
+}
+
 .lbl_style_1 {
     -fx-font-size: 16;
     -fx-font-weight: bold;
@@ -30,6 +38,11 @@
     -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-underline: true;
+}
+
+.lbl_style_3 {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
 }
 
 .btn_style_1 {
