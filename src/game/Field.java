@@ -396,6 +396,11 @@ public class Field implements Serializable {
         }
         return true;
     }
+    //Gibt die Länge eines angeklickten Schiffes zurück
+    public int getShipLen(Position position){
+        Ship s = ((Ship) this.playfield[position.getY()][position.getX()]);
+        return s.getPositions().length;
+    }
 
     /**
      * Anzahl der Schiff, die sich auf dem Feld befinden
