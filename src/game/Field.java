@@ -392,14 +392,15 @@ public class Field implements Serializable {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
                     try {
-                        if (!(this.playfield[pos.getY() + i][pos.getX() + j] instanceof Block)) {
-                            this.playfield[pos.getY() + i][pos.getX() + j] = new Cell();
-                        }
+                        this.playfield[pos.getY() + i][pos.getX() + j] = new Cell();
                     }
                     catch (ArrayIndexOutOfBoundsException ignored) {
                     }
                 }
             }
+        }
+        for (Ship ship: this.extractShips(this.getHeight(), this.getLength())) {
+            this.blockFields(ship);
         }
         return true;
     }
