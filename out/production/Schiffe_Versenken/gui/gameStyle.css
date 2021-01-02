@@ -1,9 +1,56 @@
-.my-hbox {
+.hbox-water {
     -fx-border-style: solid;
     -fx-border-width: 1;
     -fx-border-color: white;
-    -fx-background-color: #a6a6a6;
+    -fx-background-color: #2389DA;
     -fx-padding: 5 5 5 5;
-    -fx-pref-width: 35px;
-    -fx-pref-height: 35px;
+}
+
+.hbox-hit {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-background-color: #660000;
+    -fx-padding: 5 5 5 5;
+}
+
+.hbox-miss {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-background-color: #FFA500;
+    -fx-padding: 5 5 5 5;
+}
+
+.hbox-marked {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-background-color: #F08080;
+    -fx-padding: 5 5 5 5;
+}
+
+.hbox-ship {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-background-color: #3d3d3d;
+    -fx-padding: 5 5 5 5;
+}
+
+.lbl-style {
+    -fx-font-family: arial;
+    -fx-font-size: 16px;
+    -fx-pref-width: 20em;
+}
+
+.btn-style {
+    -fx-pref-width: 10em;
+}
+
+.hbox-test {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: red;
+    -fx-alignment: top-right;
 }

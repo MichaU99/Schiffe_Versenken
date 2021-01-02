@@ -1,8 +1,6 @@
 package JavaFx;
 
-import game.Game;
-import game.LocalGame;
-import game.Position;
+import game.*;
 import game.cells.Cell;
 import game.cells.Ship;
 import guiLogic.ClickedShips;
@@ -35,7 +33,7 @@ public class Controller_PutShips implements Initializable {
     private ListView<String> listView;
     @FXML
     private Button Start_bt;
-    private static Game game;
+    public static Game game;
     public static boolean online = false;
     private GameOptions options;
     private Position loeschpos=null;
@@ -49,6 +47,11 @@ public class Controller_PutShips implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(online){
             // TODO: 30.12.2020 Add Gamestuff for Online Play
+            gui.GameOptions gOptions= ((OnlineGame) game).gameOptions;
+
+            noch_zu_setzende_schiffe=new ArrayList<>();
+            noch_zu_setzende_schiffe=gOptions.getShipList();
+            updateListView();
         }
         else {
             updateGameOptions();
@@ -70,6 +73,8 @@ public class Controller_PutShips implements Initializable {
     }
     private void updateGameOptions(){
         Start_bt.setDisable(true);
+
+
 
         try {
             ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("game.options"));
