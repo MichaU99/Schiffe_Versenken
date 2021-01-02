@@ -55,15 +55,18 @@ public class Controller_LoadingScreen {
                 }
                 updateStatusLabel("Success!");
 
-                try {
-                    Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) statusLbl.getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Controller_PutShips.online = true;
+                Platform.runLater(() -> {
+                    try {
+                        Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }, 500);
     }
@@ -74,15 +77,18 @@ public class Controller_LoadingScreen {
             boolean status = hostGame.waitForConnection();
 
             if (status) {
-                try {
-                    Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) statusLbl.getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Controller_PutShips.online = true;
+                Platform.runLater(() -> {
+                    try {
+                        Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }).start();
     }
