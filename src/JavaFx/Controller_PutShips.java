@@ -300,9 +300,8 @@ public class Controller_PutShips implements Initializable {
     }
 
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
-        // TODO: 30.12.2020 Entfernte Schiffe sollten eigentlich der nochzuplatzieren Liste hinzugefügt werden, klären was das Problem an dieser Methode ist
         if (loeschpos!=null) {
-            //noch_zu_setzende_schiffe.add(game.getField().getShipLen(loeschpos));
+            noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
             game.getField().removeShip(loeschpos);
             deletedMarked();
             updateGame();
