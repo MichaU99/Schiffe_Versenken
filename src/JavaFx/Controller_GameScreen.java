@@ -253,7 +253,7 @@ public class Controller_GameScreen implements Initializable {
                 for (int y = 0; y < game.getField().getHeight(); y++) {
                     HBox cell = new HBox();
                     if (game.getField().getCell(new Position(x, y)) instanceof Shot) {
-                        Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
+                        Shot s = ((Shot) game.getField().getCell(new Position(x, y)));
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
                             /*
