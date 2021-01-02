@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_StartingScreens">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_HostGame">
    <children>
       <Pane id="Trick" layoutX="109.0" layoutY="45.0" prefHeight="274.0" prefWidth="306.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
       <HBox id="Große Hbox" layoutX="8.0" layoutY="12.0" prefHeight="373.0" prefWidth="561.0" AnchorPane.bottomAnchor="14.800000000000011" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="12.0">

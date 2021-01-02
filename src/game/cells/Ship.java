@@ -5,12 +5,12 @@ import game.cells.Cell;
 
 import java.util.ArrayList;
 
+/**
+ * Stellt ein Schiff auf dem Spielfeld dar. Ein Objekt von {@link Ship} kann dabei an verschiedenen Positionen im
+ * Feld sein. Diese Position stehen in dem Position[] position array.
+ * Ein Schiff weiss immer wie oft es getroffen wurde, also seine HP und kann damit immer sagen, ob des zerstoert wurde.
+ */
 public class Ship extends Cell {
-    // Ship ist das Schiff in Schiffeversenken.
-    // Jedes Schiff hat alle Positionen, die zu diesem Schiff gehört
-    // Damit weiß jede Position dieses Schiffes wie viele Leben usw. es noch übrig hat.
-    // Die ID wird nur für interne Methoden des Felds benutzt.
-    // Wenn die Länge 0 ist, wurden alle Positionen des Schiffs getroffen -> es ist zerstört
 
     private Position[] positions;
     private int length;
@@ -18,16 +18,29 @@ public class Ship extends Cell {
 
     private static int idCounter = 0;
 
+    /**
+     * gibt die Positionen zurueck, auf denen das Schiff plaziert ist.
+     * @return Position array seiner Positionen
+     */
     public Position[] getPositions() {
         return positions;
     }
 
+    /**
+     * Gibt die aktuelle Laenge des Schiffs, d.h. die Anzahl seiner HP zurueck
+     * @return aktuelle laenge als int
+     */
     public int getLength() {
         return length;
     }
 
     public int getId() { return this.id; }
 
+    /**
+     * Konstruktur fuer ein Ship.
+     * Laenge des Schiffes wird berechnet durch die Groesse des Positionen Arrays
+     * @param positions Positionen Array, die in dem Schiff eingetragen werden, also wo das Schiff steht.
+     */
     public Ship(Position[] positions){
         super();
         this.positions = positions;
@@ -37,6 +50,11 @@ public class Ship extends Cell {
         idCounter++;
     }
 
+    /**
+     * Konstruktur fuer ein Ship.
+     * Laenge des Schiffes wird berechnet durch die Laenge des Positionen Arrays
+     * @param positions Positionen ArrayList, die in dem Schiff eingetragen werden, also wo das Schiff steht.
+     */
     public Ship(ArrayList<Position> positions) {
         super();
         this.positions = new Position[positions.size()];
@@ -49,6 +67,11 @@ public class Ship extends Cell {
         idCounter++;
     }
 
+    /**
+     * Wird aufgerufen, wenn auf die Positon geschossen wird. Passt die Laenge des Schiffes an und gibt zurueck,
+     * ob das Schiff getroffen oder zerstoert wurde
+     * @return 1 wenn Schiff getroffen wurde, 2 wenn zerstoert
+     */
     public int shot(){
         this.length--;
         if (this.destroyed())
@@ -57,6 +80,10 @@ public class Ship extends Cell {
             return 1;
     }
 
+    /**
+     * prueft ob das Schiff zerstoert ist
+     * @return {@code true} wenn Laenge des Schiffes 0, sonst {@code false}
+     */
     public boolean destroyed(){
         return this.length <= 0;
     }

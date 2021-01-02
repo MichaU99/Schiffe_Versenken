@@ -1,16 +1,21 @@
 package gui;
 
+import game.KiVsKiGame;
+import game.LocalGame;
+import game.OnlineHostGame;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MainMenuForm extends Application{
+import java.io.File;
+import java.io.IOException;
+
+public class MainMenuForm extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -18,62 +23,91 @@ public class MainMenuForm extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Main Menu");
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-
-        Text scenetitle = new Text("Battle Ships");
-        scenetitle.setId("welcome-text");
-        grid.add(scenetitle, 0, 0);
-
-        Button localBtn = new Button("Local Game");
-        localBtn.setAlignment(Pos.CENTER);
-        localBtn.setMinWidth(200);
-        localBtn.setOnAction(this::localBtnPressed);
-        grid.add(localBtn, 0, 1);
-
-        Button onlineBtn = new Button("Online Game");
-        onlineBtn.setAlignment(Pos.CENTER);
-        onlineBtn.setMinWidth(200);
-        onlineBtn.setOnAction(this::onlineBtnPressed);
-        grid.add(onlineBtn, 0, 2);
-
-        Button optionsBtn = new Button("Options");
-        optionsBtn.setAlignment(Pos.CENTER);
-        optionsBtn.setMinWidth(200);
-        optionsBtn.setOnAction(this::optionsBtnPressed);
-        grid.add(optionsBtn, 0, 3);
-
-        Button exitBtn = new Button("Exit");
-        exitBtn.setAlignment(Pos.CENTER);
-        exitBtn.setMinWidth(200);
-        exitBtn.setOnAction(e -> System.exit(0));
-        grid.add(exitBtn, 0, 4);
-
-        //grid.setGridLinesVisible(true);
-
-        Scene scene = new Scene(grid, 300, 275);
-        primaryStage.setScene(scene);
-        primaryStage.setMinWidth(275);
-        primaryStage.setMinHeight(300);
-        scene.getStylesheets().add(MainMenuForm.class.getResource("MainMenu.css").toExternalForm());
+        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
+        primaryStage.setScene(create(primaryStage));
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(400);
 
         primaryStage.show();
     }
 
-    private void localBtnPressed(ActionEvent e){
+    public static Scene create(Stage primaryStage) {
+        primaryStage.setTitle("Main Menu");
+        VBox baseVBox = StaticNodes.getBaseVboxWithMenubar();
+        VBox contentVBox = StaticNodes.getContentVbox();
 
-    }
+        Button ngBtn = new Button("New Game");
+        ngBtn.setOnAction(event -> primaryStage.setScene(NewGameForm.create(primaryStage)));
 
-    private void onlineBtnPressed(ActionEvent e) {
+        Button lgBtn = new Button("Load Game");
+        lgBtn.setOnAction(event -> {
+            FileChooser fs = new FileChooser();
+            fs.setTitle("Choose a savefile");
+            fs.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("all files", "*.*"),
+                    new FileChooser.ExtensionFilter("local games", "*.lsave"),
+                    new FileChooser.ExtensionFilter("online games", "*.hsave"),
+                    new FileChooser.ExtensionFilter("ki v ki games", "*.ksave")
+            );
 
-    }
+            //fs.setInitialDirectory(new File("./"));
+            File file = fs.showOpenDialog(primaryStage);
+            if (file != null) {
+                String filepath = file.getPath();
+                String ext = filepath.substring(filepath.lastIndexOf("."));
+                switch (ext) {
+                    case ".lsave":
+                        try {
+                            LocalGame game = LocalGame.loadGame(filepath);
+                            primaryStage.setScene(MainGameForm.create(primaryStage, game));
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case ".hsave":
+                        try {
+                            OnlineHostGame game = OnlineHostGame.loadGame(filepath);
+                            WaitingForConnectionForm.filename = file.getName();
+                            primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case ".ksave":
+                        try {
+                            KiVsKiGame game = KiVsKiGame.loadGame(filepath);
+                            primaryStage.setScene(MainGameForm.create(primaryStage, game));
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    default:
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error loading game");
+                        alert.setContentText("Filetyp does not match");
+                        alert.showAndWait();
+                        break;
+                }
+            }
+        });
 
-    private void optionsBtnPressed(ActionEvent e) {
+        Button optionsBtn = new Button("Options");
 
+        Button exitBtn = new Button("Exit");
+        exitBtn.setOnAction(event -> System.exit(0));
+
+
+        VBox btnVBox = new VBox(20);
+        btnVBox.getChildren().addAll(ngBtn, lgBtn, optionsBtn, exitBtn);
+
+        HBox centerHBox = new HBox(StaticNodes.getHSpacer(), btnVBox, StaticNodes.getHSpacer());
+
+        contentVBox.getChildren().add(centerHBox);
+
+        baseVBox.getChildren().addAll(StaticNodes.getVSpacer(), contentVBox, StaticNodes.getVSpacer());
+
+        Scene scene = new Scene(baseVBox, 300, 275);
+        scene.getStylesheets().add(MainMenuForm.class.getResource("MainMenu.css").toExternalForm());
+        return scene;
     }
 }
