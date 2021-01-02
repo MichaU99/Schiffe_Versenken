@@ -56,6 +56,7 @@ public class Controller_LoadingScreen {
                 updateStatusLabel("Success!");
 
                 Controller_PutShips.online = true;
+                Controller_PutShips.game = clientGame;
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
@@ -78,6 +79,7 @@ public class Controller_LoadingScreen {
 
             if (status) {
                 Controller_PutShips.online = true;
+                Controller_PutShips.game = hostGame;
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
