@@ -44,12 +44,12 @@
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
                                  <children>
-                                    <TextField />
-                                    <TextField />
-                                    <TextField />
-                                    <TextField prefHeight="25.0" prefWidth="38.0" />
-                                    <TextField layoutX="10.0" layoutY="10.0" />
-                                    <TextField layoutX="10.0" layoutY="91.0" />
+                                    <TextField fx:id="fsTbx" text="10" />
+                                    <TextField id="portTbx" fx:id="portTbx" text="55555" />
+                                    <TextField id="fiveTbx" fx:id="fiveTbx" text="1" />
+                                    <TextField id="fourTbx" fx:id="fourTbx" prefHeight="25.0" prefWidth="38.0" text="2" />
+                                    <TextField id="threeTbx" fx:id="threeTbx" layoutX="10.0" layoutY="10.0" text="3" />
+                                    <TextField fx:id="twoTbx" layoutX="10.0" layoutY="91.0" text="4" />
                                  </children>
                               </VBox>
                            </children>

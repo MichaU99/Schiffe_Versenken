@@ -28,7 +28,7 @@
             <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#addShip" prefHeight="25.0" prefWidth="49.0" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#remove" text="Rename" />
+                  <Button mnemonicParsing="false" onAction="#remove" text="Remove" />
                </children>
             </HBox>
             <Button fx:id="Start_bt" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="108.0" text="Start" />
