@@ -18,13 +18,13 @@ import java.util.ResourceBundle;
 
 public class Controller_GameScreen implements Initializable {
 
-
+    private boolean[][] knownField;
     private Game game;
     String waterCell="-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shipCell="-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shotCell="-fx-background-color: #ecfd01; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
-    String markCell="-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
-    Position markedPos=null;
+    String markCell="-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
+    Position markedPos=null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
 
     @FXML
     private GridPane GP_Player;
@@ -40,6 +40,7 @@ public class Controller_GameScreen implements Initializable {
 
         Shoot_bt.setDisable(true);
         game=Controller_PutShips.getGame();
+        knownField=new boolean[game.getField().getHeight()][game.getField().getLength()];
         updateField(GP_Player);
         makeFieldPlayer();
         makeFieldEnemy();
@@ -54,7 +55,10 @@ public class Controller_GameScreen implements Initializable {
         HBox cell = new HBox();
         if(markedPos!=null) {
             cell = new HBox();
-            if (game.getField().getCell(markedPos) instanceof Ship) {
+            if(!knownField[markedPos.getX()][markedPos.getY()]){
+                cell.setStyle(waterCell);
+            }
+            else if (game.getField().getCell(markedPos) instanceof Ship) {
                 cell.setStyle(shipCell);
             }
             else if (game.getField().getCell(markedPos) instanceof Shot) { //Unsicher ob Vergleich richtig
