@@ -14,13 +14,10 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Controller_LoadingScreen {
     public Stage stage;
     public static OnlineGame onlineGame;
-    private Timer timer;
 
     @FXML
     private Label statusLbl;
@@ -33,43 +30,30 @@ public class Controller_LoadingScreen {
         }
     }
 
-    public void changeToPutShips(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
-        Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root);
-
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
     private void connect(OnlineClientGame clientGame) {
         final int[] counter = {0};
         updateStatusLabel("Trying to connect!");
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                while (!clientGame.establishConnection()) {
-                    counter[0]++;
-                    Platform.runLater(() -> updateStatusLabel("Fail, retry: " + counter[0]));
-                }
-                updateStatusLabel("Success!");
-
-                Controller_PutShips.online = true;
-                Controller_PutShips.game = clientGame;
-                Platform.runLater(() -> {
-                    try {
-                        Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                        Scene scene = new Scene(root);
-                        Stage stage = (Stage) statusLbl.getScene().getWindow();
-                        stage.setScene(scene);
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+        new Thread(() -> {
+            while (!clientGame.establishConnection()) {
+                counter[0]++;
+                Platform.runLater(() -> updateStatusLabel("Fail, retry: " + counter[0]));
             }
-        }, 500);
+            updateStatusLabel("Success!");
+
+            Controller_PutShips.online = true;
+            Controller_PutShips.game = clientGame;
+            Platform.runLater(() -> {
+                try {
+                    Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) statusLbl.getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }).start();
     }
 
     private void waitForConnection(OnlineHostGame hostGame) {
@@ -98,13 +82,13 @@ public class Controller_LoadingScreen {
     public void onBackBtnClick(ActionEvent event) throws IOException {
         Parent root = null;
         if (onlineGame instanceof OnlineHostGame) {
-            //onlineGame.freeSocket();
-            //timer.cancel();
+            onlineGame.freeSocket();
             root = FXMLLoader.load(getClass().getResource("Layout_HostGame.fxml"));
         } else if (onlineGame instanceof OnlineClientGame) {
             root = FXMLLoader.load(getClass().getResource("NewGame_Muliti_Client.fxml"));
         }
 
+        assert root != null: "Unexpected game type!";
         Scene scene = new Scene(root);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

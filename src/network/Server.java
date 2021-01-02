@@ -57,7 +57,11 @@ public class Server implements Serializable {
         } catch (IOException e) {
             //e.printStackTrace();
         }
-        return this.clientSocket.isConnected();
+        if (this.clientSocket == null) {
+            return false;
+        } else {
+            return this.clientSocket.isConnected();
+        }
     }
 
     /**
