@@ -18,7 +18,7 @@
                   <Button mnemonicParsing="false" onAction="#changeToHostGame" styleClass="ButtonBlack" stylesheets="@button.css" text="Host Game" />
                   <Button mnemonicParsing="false" onAction="#changeToJoinServer" styleClass="ButtonBlack" stylesheets="@button.css" text="Join Game" />
                   <VBox prefHeight="46.0" prefWidth="110.0" />
-                  <Button mnemonicParsing="false" onAction="#backToStart" prefHeight="0.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
+                  <Button mnemonicParsing="false" onAction="#changeToNewGame" prefHeight="0.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
                </children>
             </VBox>
          </children>
