@@ -1,7 +1,6 @@
 package JavaFx;
 
-import game.Game;
-import game.Position;
+import game.*;
 import game.cells.Ship;
 import game.cells.Shot;
 import javafx.event.ActionEvent;
@@ -38,30 +37,46 @@ public class Controller_GameScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Shoot_bt.setDisable(true);
         game=Controller_PutShips.getGame();
         knownField=new boolean[game.getField().getHeight()][game.getField().getLength()];
         updateField(GP_Player);
-        makeFieldPlayer();
-        makeFieldEnemy();
+
+
+        //Unterscheidet zwischen Beobachteten Spielen, in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
+        // und normal gespielten Spielern in denen nur ein Feld bekannt ist
+        if(game instanceof KiVsKiGame){
+            updateFieldDisclosed(GP_Enemy);
+        }
+        else{
+            makeFieldEnemy();
+            Shoot_bt.setDisable(true);
+            if(game instanceof LocalGame){
+
+            }
+            else if(game instanceof OnlineGame){
+
+            }
+        }
+
+
 
         // Object[] array=GP_Player.getChildren().toArray();
         // Object[] array=GP_Enemy.getChildren().toArray();
-
     }
+
     public void markField(MouseEvent event){
         int x=GridPane.getColumnIndex((Node)event.getTarget());
         int y=GridPane.getRowIndex((Node)event.getTarget());
-        HBox cell = new HBox();
+        HBox cell;
         if(markedPos!=null) {
             cell = new HBox();
             if(!knownField[markedPos.getX()][markedPos.getY()]){
                 cell.setStyle(waterCell);
             }
-            else if (game.getField().getCell(markedPos) instanceof Ship) {
+            else if (game.getEnemyField().getCell(markedPos) instanceof Ship) {
                 cell.setStyle(shipCell);
             }
-            else if (game.getField().getCell(markedPos) instanceof Shot) { //Unsicher ob Vergleich richtig
+            else if (game.getEnemyField().getCell(markedPos) instanceof Shot) { //Unsicher ob Vergleich richtig
                 cell.setStyle(shotCell);
             }
             else {
@@ -75,13 +90,14 @@ public class Controller_GameScreen implements Initializable {
         cell.setStyle(markCell);
         GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
         GP_Enemy.getChildren().add(cell);
+        Shoot_bt.setDisable(false);
     }
 
 
-    private void makeFieldPlayer(){
 
-    }
-
+    /**
+     * Erstellt ein neutrales Feld für den Gegner
+     **/
     private void makeFieldEnemy(){
         for(int x=0;x<game.getEnemyField().getLength();x++){
             for(int y=0;y<game.getEnemyField().getHeight();y++){
@@ -93,26 +109,66 @@ public class Controller_GameScreen implements Initializable {
         }
     }
     public void shootbtn(ActionEvent event){
-        System.out.println("Bla");
+        if(!game.isMyTurn()) return;
+        if(game instanceof LocalGame) {
+            if (markedPos == null) return;
+            knownField[markedPos.getX()][markedPos.getY()] = true;
+            updateField(GP_Enemy);
+            Shoot_bt.setDisable(true);
+        }
+        else{
+
+        }
     }
 
-    private void updateField(GridPane gridPane){
-        gridPane.getChildren().clear();
-        for(int x = 0; x< game.getField().getLength(); x++){
-            for(int y = 0; y< game.getField().getHeight(); y++){
-                HBox cell = new HBox();
-                if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
-                    cell.setStyle(shipCell);
+    /**
+     * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
+     * Unterscheidet zwischen Spieler und Gegnerfeld, zeigt Felder auf den Gegnerfeld erst nach Schuss an
+     * @param gridPane gibt an welches Feld geupdated werden soll
+     */
+    private void updateField(GridPane gridPane) {
+        if (GP_Enemy.equals(gridPane)) {
+            gridPane.getChildren().clear();
+            for (int x = 0; x < game.getField().getLength(); x++) {
+                for (int y = 0; y < game.getField().getHeight(); y++) {
+                    HBox cell = new HBox();
+                    if(!knownField[x][y]) cell.setStyle(waterCell);
+                    else if (game.getEnemyField().getCell(new Position(x, y)) instanceof Ship) {
+                        cell.setStyle(shipCell);
+                    } else if (game.getEnemyField().getCell(new Position(x, y)) instanceof Shot) { //Unsicher ob Vergleich richtig
+                        cell.setStyle(shotCell);
+                    } else {
+                        cell.setStyle(waterCell);
+                    }
+                    GridPane.setConstraints(cell, x, y);
+                    gridPane.getChildren().add(cell);
                 }
-                else if (game.getField().getCell(new Position(x, y)) instanceof Shot) { //Unsicher ob Vergleich richtig
-                    cell.setStyle(shotCell);
-                }
-                else {
-                    cell.setStyle(waterCell);
-                }
-                GridPane.setConstraints(cell,x,y);
-                gridPane.getChildren().add(cell);
             }
         }
+        else{
+            gridPane.getChildren().clear();
+            for (int x = 0; x < game.getField().getLength(); x++) {
+                for (int y = 0; y < game.getField().getHeight(); y++) {
+                    HBox cell = new HBox();
+                    if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
+                        cell.setStyle(shipCell);
+                    } else if (game.getField().getCell(new Position(x, y)) instanceof Shot) { //Unsicher ob Vergleich richtig
+                        cell.setStyle(shotCell);
+                    } else {
+                        cell.setStyle(waterCell);
+                    }
+                    GridPane.setConstraints(cell, x, y);
+                    gridPane.getChildren().add(cell);
+                }
+            }
+        }
+    }
+
+    /**
+     * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
+     * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
+     */
+    private void updateFieldDisclosed(GridPane gridPane){
+
     }
 }
