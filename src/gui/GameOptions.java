@@ -3,6 +3,7 @@ package gui;
 import enums.KiStrength;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class GameOptions implements Serializable {
     private int fieldSize;
@@ -11,6 +12,24 @@ public class GameOptions implements Serializable {
     private int battleship; // length = 4
     private int cruiser;    // length = 3
     private int destroyer;  // length = 2
+
+    public ArrayList<Integer> getShipList(){
+        ArrayList<Integer> ShipList = new ArrayList<>();
+        for (int i = 0; i < this.carrier; i++) {
+            ShipList.add(5);
+        }
+        for (int i = 0; i < this.battleship; i++) {
+            ShipList.add(4);
+        }
+        for (int i = 0; i < this.cruiser; i++) {
+            ShipList.add(3);
+        }
+        for (int i = 0; i < destroyer; i++) {
+            ShipList.add(2);
+        }
+
+        return ShipList;
+    }
 
     public int getFieldSize() {
         return fieldSize;

@@ -10,15 +10,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller_GameScreen implements Initializable {
-
+    private Timer timer;
+    private int timerInterval = 1000;
     private Game game;
     String waterCell = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
@@ -122,42 +130,62 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
-    public void shootbtn(ActionEvent event){
-        if(game instanceof LocalGame && game.isMyTurn()) {
+    public void shootbtn(ActionEvent event) {
+        if (game instanceof LocalGame && game.isMyTurn()) {
             if (markedPos == null) return;
             Shoot_bt.setDisable(true);
-            int rc=game.shoot(markedPos);
+            int rc = game.shoot(markedPos);
             updateField(GP_Enemy);
-            if(rc==0){//Kein Treffer
+            if (rc == 0) {//Kein Treffer
                 // TODO: 02.01.2021 Labelchanges sobald endgültiges Feld da ist
                 //LabelChange to Enemy
                 //Label
+                new Thread(() -> {
+                    int rc1;
+                    while (true) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if (game.whoWon() != -1)
+                            break;
+                        rc1 = game.shoot(null);
+                        Platform.runLater(()->updateField(GP_Player));
+                        if (rc1 == 0) {
+                            //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
+                            break;
+                        } else if (rc1 == 2) {
+                            Platform.runLater(this::checkGameEnded);
+                        }
+                    }
+                }).start();
+            } else if (rc == 1) {
+                //lastPlayerShotLbl.setText("Last Shot: Hit");
+            } else if (rc == 2) {
+                //lastPlayerShotLbl.setText("Destroyed");
+                Platform.runLater(this::checkGameEnded);
             }
-            new Thread(() -> {
-                int rc1;
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (game.whoWon() != -1)
-                        break;
-                    rc1 = game.shoot(null);
-                    updateField(GP_Player);
-                    if (rc1 == 0) {
+        }
+            else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
+                OnlineGame onlineGame = ((OnlineGame) game);
+                int rc = onlineGame.shoot(markedPos);
+                updateField(GP_Enemy);
+
+                if (rc == 0) {
+                    //curPlayerNameLbl.setText(PLAYER2_NAME);
+                    new Thread(() -> {
+                        while (!onlineGame.isMyTurn()) {
+                            onlineGame.enemyShot();
+                            Platform.runLater(()->updateField(GP_Player));
+                        }
                         //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
-                        break;
-                    } else if (rc1 == 2) {
-                        Platform.runLater(this::checkGameEnded);
-                    }
+                    }).start();
                 }
-            }).start();
+            }
         }
-        else{
-            game.shoot(null);
-        }
-    }
+
+
     private void checkGameEnded() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
@@ -219,6 +247,7 @@ public class Controller_GameScreen implements Initializable {
             }
         }
         else{
+            // TODO: 02.01.2021 Fehler fixen bei dem das eigene Spielfeld verschwindet, Vermutung Spielfeld falschrum aufgebaut
             gridPane.getChildren().clear();
             for (int x = 0; x < game.getField().getLength(); x++) {
                 for (int y = 0; y < game.getField().getHeight(); y++) {
@@ -257,6 +286,42 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    private void onSaveClick(Stage primaryStage) {
+        FileChooser fs = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter;
+        if (game instanceof LocalGame) {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
+        }
+        else if (game instanceof OnlineHostGame) {
+            if (!game.isMyTurn())
+                return;
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.hsave)", "*.hsave");
+        }
+        else if (game instanceof OnlineClientGame) {
+            if (!game.isMyTurn())
+                return;
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
+        }
+        else {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
+        }
+
+        fs.getExtensionFilters().add(extensionFilter);
+        File file = fs.showSaveDialog(primaryStage);
+        if (file != null) {
+            try {
+                if (game instanceof OnlineHostGame || game instanceof OnlineClientGame) {
+                    ((OnlineGame)game).saveGame(file);
+                }
+                else {
+                    game.saveGame(file.getAbsolutePath());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
      * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
@@ -264,4 +329,47 @@ public class Controller_GameScreen implements Initializable {
     private void updateFieldDisclosed(GridPane gridPane){
 
     }
+
+    //----------------- Ki vs Ki Methods ----------------
+    private void onKvkStartBtnClick(ActionEvent event) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                game.shoot(null);
+                updateField(GP_Enemy);
+                updateField(GP_Player);
+            }
+        }, 0, timerInterval);
+    }
+
+    private void onKvkStopBtnClick(ActionEvent event) {
+        timer.cancel();
+    }
+
+    private void onKvkDelayCbxChange(ActionEvent event) {
+        ComboBox source = ((ComboBox) event.getSource());
+        switch (source.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                timerInterval = 4000;
+                break;
+            case 1:
+                timerInterval = 2000;
+                break;
+            case 2:
+                timerInterval = 1000;
+                break;
+            case 3:
+                timerInterval = 500;
+                break;
+            case 4:
+                timerInterval = 250;
+                break;
+            default:
+                break;
+        }
+        timer.cancel();
+        onKvkStartBtnClick(null);
+    }
+    //----------------- Ki vs Ki End --------------------
 }
