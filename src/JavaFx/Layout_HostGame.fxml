@@ -64,7 +64,7 @@
                   <HBox prefHeight="56.0" prefWidth="160.0">
                      <children>
                         <HBox prefHeight="87.0" prefWidth="27.0" />
-                        <Button mnemonicParsing="false" styleClass="ButtonBlack" stylesheets="@button.css" text="Create Lobby" />
+                        <Button mnemonicParsing="false" onAction="#changeToLoadingScreen" styleClass="ButtonBlack" stylesheets="@button.css" text="Create Lobby" />
                      </children>
                   </HBox>
                </children>

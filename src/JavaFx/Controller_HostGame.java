@@ -18,4 +18,12 @@ public class Controller_HostGame {
         stage.setScene(scene);
         stage.show();
     }
+    public void changeToLoadingScreen(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
+        Parent root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
+        Scene scene = new Scene(root);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 }
