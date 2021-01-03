@@ -54,12 +54,12 @@
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="18.0">
                                  <children>
-                                    <TextField fx:id="fsTbx" styleClass="textfeld" stylesheets="@textfeld.css" text="10" />
-                                    <TextField id="portTbx" fx:id="portTbx" styleClass="textfeld" stylesheets="@textfeld.css" text="55555" />
-                                    <TextField id="fiveTbx" fx:id="fiveTbx" styleClass="textfeld" stylesheets="@textfeld.css" text="1" />
+                                    <TextField fx:id="fsTbx" styleClass="textfeld2" stylesheets="@textfeld.css" text="10" />
+                                    <TextField id="portTbx" fx:id="portTbx" styleClass="textfeld2" stylesheets="@textfeld.css" text="55555" />
+                                    <TextField id="fiveTbx" fx:id="fiveTbx" styleClass="textfeld2" stylesheets="@textfeld.css" text="1" />
                                     <TextField id="fourTbx" fx:id="fourTbx" prefHeight="25.0" prefWidth="38.0" styleClass="textfeld2" stylesheets="@textfeld.css" text="2" />
                                     <TextField id="threeTbx" fx:id="threeTbx" layoutX="10.0" layoutY="10.0" styleClass="textfeld2" stylesheets="@textfeld.css" text="3" />
-                                    <TextField fx:id="twoTbx" layoutX="10.0" layoutY="91.0" styleClass="textfeldWRONG" stylesheets="@textfeld.css" text="4" />
+                                    <TextField fx:id="twoTbx" layoutX="10.0" layoutY="91.0" styleClass="textfeld2" stylesheets="@textfeld.css" text="4" />
                                  </children>
                               </VBox>
                            </children>

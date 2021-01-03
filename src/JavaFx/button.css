@@ -36,9 +36,27 @@
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
             #182e3f,
-            #1572a0,
-            radial-gradient(center 50% 50%, radius 100%, #1572a0, #1b5a7e);
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
+    -fx-effect: dropshadow( gaussian , #87CEEB , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.Button_StartGame:hover{
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow( gaussian , #1b5a7e , 30, 0.5 , 0 , 1 );
+
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Impact;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
+            #182e3f,
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
 }

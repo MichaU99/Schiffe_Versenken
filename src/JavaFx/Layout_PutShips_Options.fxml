@@ -39,7 +39,7 @@
                         <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" />
                      </children>
                   </HBox>
-                  <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
+                  <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" >
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <KiStrength fx:value="BEGINNER" />
