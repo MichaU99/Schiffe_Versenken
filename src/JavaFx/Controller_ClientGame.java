@@ -1,7 +1,6 @@
 package JavaFx;
 
 import game.OnlineClientGame;
-import game.OnlineHostGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +40,7 @@ public class Controller_ClientGame {
             Controller_LoadingScreen.onlineGame = game;
         }
 
-        Parent root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
         Scene scene = new Scene(root);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

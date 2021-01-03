@@ -72,7 +72,7 @@ public class Controller_GameOptions implements Initializable {
         int four = Integer.parseInt(ships4.getText());
         int three = Integer.parseInt(ships3.getText());
         int two = Integer.parseInt(ships2.getText());
-        KiStrength kiStrength = gDifficulty.getValue();
+        KiStrength kiStrength = gDifficulty.getSelectionModel().getSelectedItem();
         GameOptions options = new GameOptions(fs, kiStrength, five, four, three, two);
 
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("game.options"))) {

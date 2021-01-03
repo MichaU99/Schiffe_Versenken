@@ -38,7 +38,7 @@ public class Controller_LoadingScreen {
                 counter[0]++;
                 Platform.runLater(() -> updateStatusLabel("Fail, retry: " + counter[0]));
             }
-            updateStatusLabel("Success!");
+            Platform.runLater(() -> updateStatusLabel("Success!"));
 
             Controller_PutShips.online = true;
             Controller_PutShips.game = clientGame;
