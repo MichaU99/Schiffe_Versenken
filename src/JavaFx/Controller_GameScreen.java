@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -42,7 +43,8 @@ public class Controller_GameScreen implements Initializable {
     private GridPane GP_Enemy;
     @FXML
     private Button Shoot_bt;
-
+    @FXML
+    private AnchorPane ap;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,8 +91,7 @@ public class Controller_GameScreen implements Initializable {
                     cell= new HBox();
                     cell.setStyle(shotShip);
                     */
-                }
-                else {
+                } else {
                     cell.setStyle(shotWater);
                     /*
                     cell.setStyle(waterCell);
@@ -100,14 +101,13 @@ public class Controller_GameScreen implements Initializable {
                     cell.setStyle(shotWater);
                     */
                 }
-            }
-            else {
+            } else {
                 cell.setStyle(waterCell);
             }
-            GridPane.setConstraints(cell,markedPos.getX(),markedPos.getY());
+            GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
             GP_Enemy.getChildren().add(cell);
         }
-        cell=new HBox();
+        cell = new HBox();
         markedPos = new Position(x, y);
         cell.setStyle(markCell);
         GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
@@ -116,20 +116,20 @@ public class Controller_GameScreen implements Initializable {
     }
 
 
-
     /**
      * Erstellt ein neutrales Feld für den Gegner
      **/
-    private void makeFieldEnemy(){
-        for(int x=0;x<game.getEnemyField().getLength();x++){
-            for(int y=0;y<game.getEnemyField().getHeight();y++){
+    private void makeFieldEnemy() {
+        for (int x = 0; x < game.getEnemyField().getLength(); x++) {
+            for (int y = 0; y < game.getEnemyField().getHeight(); y++) {
                 HBox k = new HBox();
                 k.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                GridPane.setConstraints(k,x,y);
+                GridPane.setConstraints(k, x, y);
                 GP_Enemy.getChildren().add(k);
             }
         }
     }
+
     public void shootbtn(ActionEvent event) {
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (markedPos == null) return;
@@ -151,7 +151,7 @@ public class Controller_GameScreen implements Initializable {
                         if (game.whoWon() != -1)
                             break;
                         rc1 = game.shoot(null);
-                        Platform.runLater(()->updateField(GP_Player));
+                        Platform.runLater(() -> updateField(GP_Player));
                         if (rc1 == 0) {
                             //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
                             break;
@@ -166,37 +166,41 @@ public class Controller_GameScreen implements Initializable {
                 //lastPlayerShotLbl.setText("Destroyed");
                 Platform.runLater(this::checkGameEnded);
             }
-        }
-            else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
-                OnlineGame onlineGame = ((OnlineGame) game);
-                int rc = onlineGame.shoot(markedPos);
-                updateField(GP_Enemy);
+        } else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
+            OnlineGame onlineGame = ((OnlineGame) game);
+            int rc = onlineGame.shoot(markedPos);
+            updateField(GP_Enemy);
 
-                if (rc == 0) {
-                    //curPlayerNameLbl.setText(PLAYER2_NAME);
-                    new Thread(() -> {
-                        while (!onlineGame.isMyTurn()) {
-                            onlineGame.enemyShot();
-                            Platform.runLater(()->updateField(GP_Player));
-                        }
-                        //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
-                    }).start();
-                }
+            if (rc == 0) {
+                //curPlayerNameLbl.setText(PLAYER2_NAME);
+                new Thread(() -> {
+                    while (!onlineGame.isMyTurn()) {
+                        onlineGame.enemyShot();
+                        Platform.runLater(() -> updateField(GP_Player));
+                    }
+                    //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
+                }).start();
             }
         }
+    }
 
 
     private void checkGameEnded() {
+        Stage stage;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
         switch (game.whoWon()) {
             case 0:
                 alert.setContentText("You won!");
                 alert.showAndWait();
+                stage = (Stage) (ap.getScene().getWindow());
+                stage.close();
                 break;
             case 1:
                 alert.setContentText("You lost!");
                 alert.showAndWait();
+                stage = (Stage) (ap.getScene().getWindow());
+                stage.close();
                 break;
             default:
                 break;
@@ -206,6 +210,7 @@ public class Controller_GameScreen implements Initializable {
     /**
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
      * Unterscheidet zwischen Spieler und Gegnerfeld, zeigt Felder auf den Gegnerfeld erst nach Schuss an
+     *
      * @param gridPane gibt an welches Feld geupdated werden soll
      */
     private void updateField(GridPane gridPane) {
@@ -215,9 +220,9 @@ public class Controller_GameScreen implements Initializable {
                 for (int y = 0; y < game.getField().getHeight(); y++) {
                     HBox cell = new HBox();
                     // TODO: 02.01.2021 Prüfen ob es so funktioniert, soll eigentlich praktisch das Kreuz über die Originalcell legen, etwas fragwürdige umsetzung, vielleicht besser wenn man zwei css addieren kann
-                    if (game.getEnemyField().getCell(new Position(x, y)) instanceof Shot){
-                        Shot s = ((Shot) game.getEnemyField().getCell(new Position(x,y)));
-                        if(s.getWasShip()){
+                    if (game.getEnemyField().getCell(new Position(x, y)) instanceof Shot) {
+                        Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
+                        if (s.getWasShip()) {
                             cell.setStyle(shotShip);
                             /*
                             cell.setStyle(shipCell);
@@ -226,8 +231,7 @@ public class Controller_GameScreen implements Initializable {
                             //cell= new HBox();
                             //cell.setStyle(shotShip);
                             */
-                        }
-                        else{
+                        } else {
                             cell.setStyle(shotWater);
                             /*
                             cell.setStyle(waterCell);
@@ -237,17 +241,14 @@ public class Controller_GameScreen implements Initializable {
                             cell.setStyle(shotWater);
                            */
                         }
-                    }
-                    else {
+                    } else {
                         cell.setStyle(waterCell);
                     }
                     GridPane.setConstraints(cell, x, y);
                     gridPane.getChildren().add(cell);
                 }
             }
-        }
-        else{
-            // TODO: 02.01.2021 Fehler fixen bei dem das eigene Spielfeld verschwindet, Vermutung Spielfeld falschrum aufgebaut
+        } else {
             gridPane.getChildren().clear();
             for (int x = 0; x < game.getField().getLength(); x++) {
                 for (int y = 0; y < game.getField().getHeight(); y++) {
@@ -273,8 +274,7 @@ public class Controller_GameScreen implements Initializable {
                             cell.setStyle(shotWater);
                            */
                         }
-                    }
-                    else if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
+                    } else if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
                         cell.setStyle(shipCell);
                     } else {
                         cell.setStyle(waterCell);
@@ -291,18 +291,15 @@ public class Controller_GameScreen implements Initializable {
         FileChooser.ExtensionFilter extensionFilter;
         if (game instanceof LocalGame) {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
-        }
-        else if (game instanceof OnlineHostGame) {
+        } else if (game instanceof OnlineHostGame) {
             if (!game.isMyTurn())
                 return;
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.hsave)", "*.hsave");
-        }
-        else if (game instanceof OnlineClientGame) {
+        } else if (game instanceof OnlineClientGame) {
             if (!game.isMyTurn())
                 return;
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
-        }
-        else {
+        } else {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
         }
 
@@ -311,9 +308,8 @@ public class Controller_GameScreen implements Initializable {
         if (file != null) {
             try {
                 if (game instanceof OnlineHostGame || game instanceof OnlineClientGame) {
-                    ((OnlineGame)game).saveGame(file);
-                }
-                else {
+                    ((OnlineGame) game).saveGame(file);
+                } else {
                     game.saveGame(file.getAbsolutePath());
                 }
 
@@ -322,13 +318,89 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+
     /**
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
      * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
      */
-    private void updateFieldDisclosed(GridPane gridPane){
+    private void updateFieldDisclosed(GridPane gridPane) {
+        gridPane.getChildren().clear();
+        for (int x = 0; x < game.getField().getLength(); x++) {
+            for (int y = 0; y < game.getField().getHeight(); y++) {
+                HBox cell = new HBox();
+                if (gridPane.equals(GP_Enemy)) {
+                    if (game.getEnemyField().getCell(new Position(x, y)) instanceof Shot) {
+                        Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
+                        if (s.getWasShip()) {
+                            cell.setStyle(shotShip);
+                                /*
+                                cell.setStyle(shipCell);
+                                //GridPane.setConstraints(cell, x, y);
+                                //gridPane.getChildren().add(cell);
+                                //cell= new HBox();
+                                //cell.setStyle(shotShip);
+                                */
+                        } else {
+                            cell.setStyle(shotWater);
+                                /*
+                                cell.setStyle(waterCell);
+                                GridPane.setConstraints(cell, x, y);
+                                gridPane.getChildren().add(cell);
+                                cell= new HBox();
+                                cell.setStyle(shotWater);
+                               */
 
+                        }
+                    }
+                    else if (game.getEnemyField().getCell(new Position(x, y)) instanceof Ship) {
+                        cell.setStyle(shipCell);
+                    }
+                    else {
+                        cell.setStyle(waterCell);
+                    }
+                    GridPane.setConstraints(cell, x, y);
+                    gridPane.getChildren().add(cell);
+                }
+
+                else {
+                    if (game.getField().getCell(new Position(x, y)) instanceof Shot) {
+                    Shot s = ((Shot) game.getField().getCell(new Position(x, y)));
+                    if (s.getWasShip()) {
+                        cell.setStyle(shotShip);
+                                /*
+                                cell.setStyle(shipCell);
+                                //GridPane.setConstraints(cell, x, y);
+                                //gridPane.getChildren().add(cell);
+                                //cell= new HBox();
+                                //cell.setStyle(shotShip);
+                                */
+                    }
+                    else {
+                        cell.setStyle(shotWater);
+                                /*
+                                cell.setStyle(waterCell);
+                                GridPane.setConstraints(cell, x, y);
+                                gridPane.getChildren().add(cell);
+                                cell= new HBox();
+                                cell.setStyle(shotWater);
+                               */
+
+                    }
+                }
+
+                 else if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
+                    cell.setStyle(shipCell);
+                }
+                 else {
+                    cell.setStyle(waterCell);
+                }
+                GridPane.setConstraints(cell, x, y);
+                gridPane.getChildren().add(cell);
+                }
+            }
+        }
     }
+
 
     //----------------- Ki vs Ki Methods ----------------
     private void onKvkStartBtnClick(ActionEvent event) {
