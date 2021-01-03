@@ -37,8 +37,8 @@ public class Controller_GameScreen implements Initializable {
     String shotWater = "-fx-background-color: #060b60; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shotShip = "-fx-background-color: #e00c0c; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
-    private  String PLAYER1_NAME="Player1";
-    private  String PLAYER2_NAME="Player2";
+    private  String PLAYER1_NAME="YOU";
+    private  String PLAYER2_NAME="ENEMY";
 
     @FXML
     private GridPane GP_Player;
