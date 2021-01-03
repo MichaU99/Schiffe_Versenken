@@ -1,0 +1,46 @@
+.textfeld{
+    -fx-border-radius: 9px;
+    -fx-border-width: 2px;
+    -fx-box-sizing: border-box;
+    -fx-border-color: 	linear-gradient(rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+    -fx-background-color:
+            linear-gradient(rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+    -fx-background-radius: 10;
+
+
+
+
+}
+
+.textfeld:focused{
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color:linear-gradient(rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+}
+.textfeld2{
+    -fx-border-radius: 9px;
+    -fx-border-width: 2px;
+    -fx-box-sizing: border-box;
+    -fx-border-color: 	linear-gradient(rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+    -fx-background-color:
+            linear-gradient(to right,rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+    -fx-background-radius: 10;
+
+
+}
+
+.textfeld2:focused{
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color:linear-gradient(rgb(0,139,139)0%, #ffffff 40%,#ffffff 70%,rgb(0,139,139) 100%);
+}
+.textfeldWRONG{
+    -fx-border-radius: 9px;
+    -fx-border-width: 2px;
+    -fx-box-sizing: border-box;
+    -fx-border-color: rgb(118, 10, 10);
+    -fx-background-color:
+            linear-gradient(to right,	rgb(255, 128, 128)0%,#ffffff 50%,	rgb(255, 128, 128) 100%);
+    -fx-background-radius: 10;
+
+}
