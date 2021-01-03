@@ -5,17 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuItem?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_StartingScreens">
    <children>
-      <VBox alignment="CENTER" layoutX="250.0" layoutY="138.0" prefHeight="179.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="100.0">
+      <VBox alignment="CENTER" layoutX="242.0" layoutY="111.0" prefHeight="196.0" prefWidth="116.0" spacing="20.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="242.0" AnchorPane.topAnchor="111.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
-            <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
-            <Button mnemonicParsing="false" onAction="#changeToKiVKi" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
-            <Button mnemonicParsing="false" onAction="#backToStart" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" prefHeight="34.0" prefWidth="116.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
+            <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" prefHeight="34.0" prefWidth="117.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
+            <Button mnemonicParsing="false" onAction="#changeToKiVKi" prefHeight="34.0" prefWidth="116.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
+            <Button mnemonicParsing="false" onAction="#backToStart" prefHeight="34.0" prefWidth="118.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
          </children>
       </VBox>
    </children>

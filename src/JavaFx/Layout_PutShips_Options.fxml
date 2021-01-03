@@ -14,51 +14,100 @@
 <?import enums.KiStrength?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameOptions">
    <children>
-      <HBox layoutX="161.0" layoutY="25.0" prefHeight="40.0" prefWidth="228.0" styleClass="Text" stylesheets="@button.css" AnchorPane.topAnchor="25.0">
+      <HBox alignment="CENTER" layoutX="-1.0" prefHeight="402.0" prefWidth="600.0" styleClass="Text" stylesheets="@button.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
+            <VBox prefHeight="402.0" prefWidth="140.0" />
+            <VBox alignment="CENTER" layoutX="372.0" layoutY="10.0" prefHeight="402.0" prefWidth="339.0">
+               <children>
+                  <HBox prefHeight="0.0" prefWidth="339.0" />
+                  <Pane id="Hintergrundtrick" prefHeight="302.0" prefWidth="339.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
+               </children>
+            </VBox>
+            <VBox layoutX="372.0" layoutY="10.0" prefHeight="402.0" prefWidth="122.0" />
          </children>
       </HBox>
-      <Pane id="Hintergrundtrick" layoutX="15.0" layoutY="52.0" prefHeight="288.0" prefWidth="362.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
-      <Pane id="ContainerFürAlles" layoutX="14.0" layoutY="62.0" prefHeight="281.0" prefWidth="350.0">
+      <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox layoutX="19.0" layoutY="1.0" prefHeight="263.0" prefWidth="122.0" spacing="30.0" styleClass="Text" stylesheets="@button.css">
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="133.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spielschwierigkeit" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                  <Text layoutX="10.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-               </children>
-            </VBox>
-            <VBox layoutX="165.0" prefHeight="346.0" prefWidth="152.0" spacing="20.0">
-               <children>
-                  <HBox prefHeight="23.0" prefWidth="286.0" styleClass="Textkleiner" stylesheets="@button.css">
+                  <VBox prefHeight="316.0" prefWidth="128.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" />
+                        <HBox prefHeight="95.0" prefWidth="36.0" />
+                        <Button mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
                      </children>
                   </HBox>
-                  <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" >
-                     <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <KiStrength fx:value="BEGINNER" />
-                           <KiStrength fx:value="INTERMEDIATE" />
-                           <KiStrength fx:value="STRONG" />
-                           <KiStrength fx:value="HELL" />
-                        </FXCollections>
-                     </items>
-                  </ChoiceBox>
-                  <TextField fx:id="ships5" prefHeight="25.0" prefWidth="269.0" />
-                  <TextField fx:id="ships4" />
-                  <TextField fx:id="ships3" />
-                  <TextField fx:id="ships2" />
                </children>
             </VBox>
+            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="357.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="353.0" styleClass="Text" stylesheets="@button.css">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
+                     </children>
+                  </HBox>
+                  <Pane id="ContainerFürAlles" prefHeight="271.0" prefWidth="366.0">
+                     <children>
+                        <VBox layoutX="19.0" layoutY="1.0" prefHeight="263.0" prefWidth="122.0" spacing="30.0" styleClass="Textkleiner" stylesheets="@button.css">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Spielschwierigkeit" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                 </children>
+                              </VBox >
+                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578"  />
+                              <Text layoutX="10.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                              <Text layoutX="10.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                              <Text layoutX="10.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="165.0" prefHeight="346.0" prefWidth="152.0" spacing="20.0">
+                           <children>
+                              <HBox prefHeight="23.0" prefWidth="286.0" styleClass="Textkleiner" stylesheets="@button.css">
+                                 <children>
+                                    <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" />
+                                 </children>
+                              </HBox>
+                              <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <KiStrength fx:value="BEGINNER" />
+                                       <KiStrength fx:value="INTERMEDIATE" />
+                                       <KiStrength fx:value="STRONG" />
+                                       <KiStrength fx:value="HELL" />
+                                    </FXCollections>
+                                 </items>
+                              </ChoiceBox>
+                              <TextField fx:id="ships5" prefHeight="25.0" prefWidth="269.0" styleClass="Textkleiner" stylesheets="@button.css"/>
+                              <TextField fx:id="ships4" styleClass="Textkleiner" stylesheets="@button.css"/>
+                              <TextField fx:id="ships3" styleClass="Textkleiner" stylesheets="@button.css"/>
+                              <TextField fx:id="ships2" styleClass="Textkleiner" stylesheets="@button.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+                  <VBox prefHeight="70.0" prefWidth="353.0">
+                     <children>
+                        <VBox prefHeight="27.0" prefWidth="353.0" />
+                        <HBox prefHeight="46.0" prefWidth="353.0">
+                           <children>
+                              <VBox prefHeight="54.0" prefWidth="42.0" />
+                              <Button mnemonicParsing="false" onAction="#btndefault" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="130.0" />
+                              <Button mnemonicParsing="false" onAction="#restorebtn" styleClass="ButtonBlack" stylesheets="@button.css" text="restore" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="124.0" />
          </children>
-      </Pane>
-      <Button layoutX="15.0" layoutY="345.0" mnemonicParsing="false" onAction="#goBackToPutShips" prefHeight="21.0" prefWidth="66.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Back" />
-      <Button layoutX="409.0" layoutY="304.0" mnemonicParsing="false" onAction="#btndefault" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
-      <Button layoutX="502.0" layoutY="304.0" mnemonicParsing="false" onAction="#restorebtn" styleClass="ButtonBlack" stylesheets="@button.css" text="restore" />
+      </HBox>
    </children>
 </AnchorPane>
