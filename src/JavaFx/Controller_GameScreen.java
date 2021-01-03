@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +37,8 @@ public class Controller_GameScreen implements Initializable {
     String shotWater = "-fx-background-color: #060b60; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shotShip = "-fx-background-color: #e00c0c; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
+    private  String PLAYER1_NAME="Player1";
+    private  String PLAYER2_NAME="Player2";
 
     @FXML
     private GridPane GP_Player;
@@ -45,6 +48,10 @@ public class Controller_GameScreen implements Initializable {
     private Button Shoot_bt;
     @FXML
     private AnchorPane ap;
+    @FXML
+    private Label playerTag;
+    @FXML
+    private Label LastShotTag;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,8 +69,16 @@ public class Controller_GameScreen implements Initializable {
             Shoot_bt.setDisable(true);
             if (game instanceof LocalGame) {
 
-            } else if (game instanceof OnlineGame) {
-
+            } else if (game instanceof OnlineClientGame) {
+                    playerTag.setText(PLAYER2_NAME);
+                    OnlineClientGame clientGame = ((OnlineClientGame) game);
+                    new Thread(() -> {
+                        while (!clientGame.isMyTurn()) {
+                            clientGame.enemyShot();
+                            Platform.runLater(() -> updateField(GP_Player));
+                        }
+                        Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
+                    }).start();
             }
         }
 
@@ -117,7 +132,7 @@ public class Controller_GameScreen implements Initializable {
 
 
     /**
-     * Erstellt ein neutrales Feld für den Gegner
+     * Erstellt ein neutrales (Wasser-)Feld für den Gegner
      **/
     private void makeFieldEnemy() {
         for (int x = 0; x < game.getEnemyField().getLength(); x++) {
@@ -130,7 +145,12 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Methode des Buttons Shoot, ruft die shoot Methode des Spiel auf die aktuell markierte Position auf
+     * @param event wird nicht verwendet, ist nur wegen der Button Einbingung notwendig
+     */
     public void shootbtn(ActionEvent event) {
+        LastShotTag.setVisible(true);
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (markedPos == null) return;
             Shoot_bt.setDisable(true);
@@ -138,8 +158,8 @@ public class Controller_GameScreen implements Initializable {
             updateField(GP_Enemy);
             if (rc == 0) {//Kein Treffer
                 // TODO: 02.01.2021 Labelchanges sobald endgültiges Feld da ist
-                //LabelChange to Enemy
-                //Label
+                playerTag.setText(PLAYER2_NAME);
+                LastShotTag.setText("Last Shot: Miss");
                 new Thread(() -> {
                     int rc1;
                     while (true) {
@@ -153,17 +173,18 @@ public class Controller_GameScreen implements Initializable {
                         rc1 = game.shoot(null);
                         Platform.runLater(() -> updateField(GP_Player));
                         if (rc1 == 0) {
-                            //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
+                            Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                             break;
                         } else if (rc1 == 2) {
+                            LastShotTag.setText("Destroyed");
                             Platform.runLater(this::checkGameEnded);
                         }
                     }
                 }).start();
             } else if (rc == 1) {
-                //lastPlayerShotLbl.setText("Last Shot: Hit");
+                LastShotTag.setText("Last Shot: Hit");
             } else if (rc == 2) {
-                //lastPlayerShotLbl.setText("Destroyed");
+                LastShotTag.setText("Destroyed");
                 Platform.runLater(this::checkGameEnded);
             }
         } else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
@@ -172,13 +193,13 @@ public class Controller_GameScreen implements Initializable {
             updateField(GP_Enemy);
 
             if (rc == 0) {
-                //curPlayerNameLbl.setText(PLAYER2_NAME);
+                playerTag.setText(PLAYER2_NAME);
                 new Thread(() -> {
                     while (!onlineGame.isMyTurn()) {
                         onlineGame.enemyShot();
                         Platform.runLater(() -> updateField(GP_Player));
                     }
-                    //Platform.runLater(() -> curPlayerNameLbl.setText(PLAYER1_NAME));
+                    Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
             }
         }

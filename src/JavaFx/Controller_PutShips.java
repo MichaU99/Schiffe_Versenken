@@ -168,7 +168,9 @@ public class Controller_PutShips implements Initializable {
             updateGame();
             updateListView();
         }
-
+        else{
+            // TODO: 03.01.2021 Fehlerbehandlung falls Schiffe nicht draufpassen
+        }
         //if(Platzierte Schiffe=0) Fülle gesamtes Feld den Schiffen aus noch_zu_setzende_schiffe aus
         //if else(Platzierte_Schiffe>0, vielleicht mit der ersten if zusammen je nach umsetzung im backend) Behält die bereits gesetzten Schiffe und setzt die noch verbleibenden zufällig dazu
         //else Falls alle Schiffe gesetzt sind soll Autofill alle gesetzten Schiffe löschen und zufällig neu setzen
