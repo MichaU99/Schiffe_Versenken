@@ -15,8 +15,8 @@ public class JavaFXRealMain extends Application {
         public Stage stage;
         @Override
         public void start (Stage stage) throws Exception {
-
             this.stage=stage;
+            stage.setOnCloseRequest(windowEvent -> System.exit(0));
             Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
             Scene scene = new Scene(root, 600, 400);
 
