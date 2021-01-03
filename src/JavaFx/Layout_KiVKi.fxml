@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import enums.KiStrength?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_KiVKi">
+   <children>
+      <HBox id="trick" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="202.0" />
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="202.0" />
+            <VBox layoutX="212.0" layoutY="10.0" prefHeight="400.0" prefWidth="202.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="140.0">
+               <children>
+                  <HBox prefHeight="296.0" prefWidth="140.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="54.0" />
+                        <Button mnemonicParsing="false" text="Back" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="285.0">
+               <children>
+                  <HBox prefHeight="57.0" prefWidth="230.0" />
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="278.0" prefWidth="294.0">
+                     <children>
+                        <VBox prefHeight="303.0" prefWidth="139.0" spacing="20.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Feldgröße" wrappingWidth="69.7073974609375" />
+                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Ki Strength" />
+                              <Text layoutX="10.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second Ki Strength" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ships" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ships" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ships" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ships" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="10.0" prefHeight="216.0" prefWidth="128.0" spacing="10.0">
+                           <children>
+                              <TextField fx:id="fsize"/>
+                              <ChoiceBox fx:id="firstDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <KiStrength fx:value="BEGINNER" />
+                                       <KiStrength fx:value="INTERMEDIATE" />
+                                       <KiStrength fx:value="STRONG" />
+                                       <KiStrength fx:value="HELL" />
+                                    </FXCollections>
+                                 </items>
+                              </ChoiceBox>
+                              <ChoiceBox fx:id="secondDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <KiStrength fx:value="BEGINNER" />
+                                       <KiStrength fx:value="INTERMEDIATE" />
+                                       <KiStrength fx:value="STRONG" />
+                                       <KiStrength fx:value="HELL" />
+                                    </FXCollections>
+                                 </items>
+                              </ChoiceBox>
+                              <TextField fx:id="ships5" layoutX="10.0" layoutY="10.0" />
+                              <TextField fx:id="ships4" layoutX="10.0" layoutY="35.0" />
+                              <TextField fx:id="ships3" layoutX="10.0" layoutY="35.0" />
+                              <TextField fx:id="ships2" layoutX="10.0" layoutY="60.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="212.0" layoutY="10.0" prefHeight="400.0" prefWidth="171.0">
+               <children>
+                  <HBox prefHeight="301.0" prefWidth="140.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="38.0" />
+                        <Button mnemonicParsing="false" text="Start game" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
