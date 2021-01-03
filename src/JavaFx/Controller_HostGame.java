@@ -164,11 +164,14 @@ public class Controller_HostGame {
     }
 
     private void onTbxError(javafx.scene.control.TextField textField, int duration) {
-        textField.setStyle("-fx-text-inner-color: red; -fx-border-color: red; -fx-border-radius: 2 2 2 2; -fx-background-radius: 2 2 2 2;");
+        textField.getStyleClass().add("textfeldWRONG");
+        //textField.setStyle("-fx-text-inner-color: red; -fx-border-color: red; -fx-border-radius: 2 2 2 2; -fx-background-radius: 2 2 2 2;");
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                textField.setStyle("-fx-text-inner-color: black; -fx-border-color: transparent;");
+                //textField.setStyle("-fx-text-inner-color: black; -fx-border-color: transparent;");
+                textField.getStyleClass().remove("textfeldWRONG");
+                textField.getStyleClass().add("textfeld2");
             }
         }, duration);
     }

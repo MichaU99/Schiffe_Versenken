@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import enums.KiStrength?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameOptions">
    <children>
       <HBox layoutX="161.0" layoutY="25.0" prefHeight="40.0" prefWidth="228.0" styleClass="Text" stylesheets="@button.css" AnchorPane.topAnchor="25.0">
@@ -41,10 +42,10 @@
                   <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="BEGINNER" />
-                           <String fx:value="INTERMEDIANTE" />
-                           <String fx:value="STRONG" />
-                           <String fx:value="HELL" />
+                           <KiStrength fx:value="BEGINNER" />
+                           <KiStrength fx:value="INTERMEDIATE" />
+                           <KiStrength fx:value="STRONG" />
+                           <KiStrength fx:value="HELL" />
                         </FXCollections>
                      </items>
                   </ChoiceBox>
