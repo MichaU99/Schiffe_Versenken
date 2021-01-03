@@ -33,6 +33,8 @@ public class Controller_PutShips implements Initializable {
     private ListView<String> listView;
     @FXML
     private Button Start_bt;
+    @FXML
+    private Button optionbtn;
     public static Game game;
     public static boolean online = false;
     private GameOptions options;
@@ -48,7 +50,8 @@ public class Controller_PutShips implements Initializable {
         if(online){
             // TODO: 30.12.2020 Add Gamestuff for Online Play
             gui.GameOptions gOptions= ((OnlineGame) game).gameOptions;
-
+            optionbtn.setDisable(true);
+            optionbtn.setVisible(false);
             noch_zu_setzende_schiffe=new ArrayList<>();
             noch_zu_setzende_schiffe=gOptions.getShipList();
             updateListView();
