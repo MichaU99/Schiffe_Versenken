@@ -28,7 +28,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="54.0" />
-                        <Button onAction="#changeToMultGameChooseRole" mnemonicParsing="false" text="Back" />
+                        <Button onAction="#changeToNewGameChooseRole" mnemonicParsing="false" text="Back" />
                      </children>
                   </HBox>
                </children>

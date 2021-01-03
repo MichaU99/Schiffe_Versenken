@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" fx:controller="JavaFx.Controller_StartingScreens">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" fx:controller="JavaFx.Controller_Start_options">
    <children>
       <HBox layoutX="150.0" layoutY="66.0" prefHeight="267.0" prefWidth="276.0">
          <children>
@@ -34,6 +34,6 @@
             </VBox>
          </children>
       </HBox>
-      <Button layoutX="64.0" layoutY="308.0" mnemonicParsing="false" text="Back" styleClass="ButtonBlack" stylesheets="@button.css" />
+      <Button layoutX="64.0" layoutY="308.0" mnemonicParsing="false" text="Back" onAction="#goBackStart" styleClass="ButtonBlack" stylesheets="@button.css" />
    </children>
 </AnchorPane>
