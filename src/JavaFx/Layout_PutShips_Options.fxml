@@ -16,11 +16,12 @@
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" prefHeight="402.0" prefWidth="600.0" styleClass="Text" stylesheets="@button.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox prefHeight="402.0" prefWidth="140.0" />
+            <VBox prefHeight="400.0" prefWidth="117.0" />
             <VBox alignment="CENTER" layoutX="372.0" layoutY="10.0" prefHeight="402.0" prefWidth="339.0">
                <children>
-                  <HBox prefHeight="0.0" prefWidth="339.0" />
-                  <Pane id="Hintergrundtrick" prefHeight="302.0" prefWidth="339.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
+                  <HBox prefHeight="55.0" prefWidth="339.0" />
+                  <HBox id="trick" prefHeight="320.0" prefWidth="339.0" styleClass="hintergrundGameOptions" stylesheets="@hintergrundSchiff.css" />
+                  <HBox prefHeight="62.0" prefWidth="339.0" />
                </children>
             </VBox>
             <VBox layoutX="372.0" layoutY="10.0" prefHeight="402.0" prefWidth="122.0" />
@@ -30,7 +31,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="400.0" prefWidth="133.0">
                <children>
-                  <VBox prefHeight="316.0" prefWidth="128.0" />
+                  <VBox prefHeight="330.0" prefWidth="130.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <HBox prefHeight="95.0" prefWidth="36.0" />
@@ -39,38 +40,42 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="357.0">
+            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="392.0" prefWidth="353.0" spacing="10.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="353.0" styleClass="Text" stylesheets="@button.css">
+                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="350.0" spacing="5.0" styleClass="Text" stylesheets="@button.css">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game Options" textAlignment="CENTER" wrappingWidth="229.73676300048828" />
                      </children>
                   </HBox>
-                  <Pane id="ContainerFürAlles" prefHeight="271.0" prefWidth="366.0">
+                  <HBox prefHeight="240.0" prefWidth="350.0">
                      <children>
-                        <VBox layoutX="19.0" layoutY="1.0" prefHeight="263.0" prefWidth="122.0" spacing="30.0" styleClass="Textkleiner" stylesheets="@button.css">
+                        <VBox prefHeight="294.0" prefWidth="122.0" spacing="20.0" styleClass="Textkleiner" stylesheets="@button.css">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox prefHeight="34.0" prefWidth="122.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fieldsize" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox prefHeight="37.0" prefWidth="122.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Spielschwierigkeit" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
                                  </children>
-                              </VBox >
-                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578"  />
-                              <Text layoutX="10.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                              <Text layoutX="10.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
-                              <Text layoutX="10.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                              </VBox>
+                              <VBox prefHeight="151.0" prefWidth="122.0" spacing="40.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 5 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 4 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 3 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No. 2 Ship" textAlignment="CENTER" wrappingWidth="121.33673858642578" />
+                                 </children>
+                              </VBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="165.0" prefHeight="346.0" prefWidth="152.0" spacing="20.0">
+                        <VBox prefHeight="346.0" prefWidth="152.0" spacing="20.0" styleClass="Textkleiner" stylesheets="@button.css">
                            <children>
-                              <HBox prefHeight="23.0" prefWidth="286.0" styleClass="Textkleiner" stylesheets="@button.css">
+                              <HBox prefHeight="23.0" prefWidth="286.0">
                                  <children>
-                                    <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" />
+                                    <TextField fx:id="fsize" prefHeight="27.0" prefWidth="170.0" styleClass="textfeld2" stylesheets="@textfeld.css" />
                                  </children>
                               </HBox>
                               <ChoiceBox fx:id="gDifficulty" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css">
@@ -83,18 +88,18 @@
                                     </FXCollections>
                                  </items>
                               </ChoiceBox>
-                              <TextField fx:id="ships5" prefHeight="25.0" prefWidth="269.0" styleClass="Textkleiner" stylesheets="@button.css"/>
-                              <TextField fx:id="ships4" styleClass="Textkleiner" stylesheets="@button.css"/>
-                              <TextField fx:id="ships3" styleClass="Textkleiner" stylesheets="@button.css"/>
-                              <TextField fx:id="ships2" styleClass="Textkleiner" stylesheets="@button.css" />
+                              <TextField fx:id="ships5" prefHeight="25.0" prefWidth="269.0" styleClass="textfeld2" stylesheets="@textfeld.css" />
+                              <TextField fx:id="ships4" styleClass="textfeld2" stylesheets="@textfeld.css" />
+                              <TextField fx:id="ships3" styleClass="textfeld2" stylesheets="@textfeld.css" />
+                              <TextField fx:id="ships2" styleClass="textfeld2" stylesheets="@textfeld.css" />
                            </children>
                         </VBox>
                      </children>
-                  </Pane>
-                  <VBox prefHeight="70.0" prefWidth="353.0">
+                  </HBox>
+                  <VBox prefHeight="54.0" prefWidth="353.0">
                      <children>
-                        <VBox prefHeight="27.0" prefWidth="353.0" />
-                        <HBox prefHeight="46.0" prefWidth="353.0">
+                        <HBox prefHeight="12.0" prefWidth="350.0" />
+                        <HBox prefHeight="36.0" prefWidth="353.0">
                            <children>
                               <VBox prefHeight="54.0" prefWidth="42.0" />
                               <Button mnemonicParsing="false" onAction="#btndefault" styleClass="ButtonBlack" stylesheets="@button.css" text="default" />
