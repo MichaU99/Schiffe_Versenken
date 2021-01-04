@@ -10,9 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -55,6 +53,8 @@ public class Controller_GameScreen implements Initializable {
     private HBox GridHBox;
     @FXML
     private ChoiceBox<String> gamespdbox;
+    @FXML
+    private AnchorPane anchorE;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -173,14 +173,31 @@ public class Controller_GameScreen implements Initializable {
      * Erstellt ein neutrales (Wasser-)Feld für den Gegner
      **/
     private void makeFieldEnemy() {
+        GP_Enemy.getColumnConstraints().clear();
+        GP_Enemy.getRowConstraints().clear();
         for (int x = 0; x < game.getEnemyField().getLength(); x++) {
             for (int y = 0; y < game.getEnemyField().getHeight(); y++) {
                 HBox k = new HBox();
                 k.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
+                /*ColumnConstraints columnConstraints=new ColumnConstraints();
+                RowConstraints rowConstraints= new RowConstraints();
+                columnConstraints.setHgrow(Priority.ALWAYS);
+                columnConstraints.setMaxWidth(100);
+                columnConstraints.setMinWidth(10);
+                columnConstraints.setPrefWidth(100);
+
+                rowConstraints.setMinHeight(10);
+                rowConstraints.setPrefHeight(30);
+                rowConstraints.setVgrow(Priority.ALWAYS);
+
+                GP_Enemy.getRowConstraints().add(rowConstraints);
+                GP_Enemy.getColumnConstraints().add(columnConstraints);*/
                 GridPane.setConstraints(k, x, y);
                 GP_Enemy.getChildren().add(k);
             }
         }
+        //anchorE.getChildren().clear();
+        //anchorE.getChildren().add(GP_Enemy);
     }
 
     /**

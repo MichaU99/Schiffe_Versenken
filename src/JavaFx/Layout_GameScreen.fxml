@@ -34,7 +34,7 @@
       </Label>
       <HBox fx:id="GridHBox" alignment="CENTER" layoutX="31.0" layoutY="152.0" prefHeight="356.0" prefWidth="595.0" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="152.0">
          <children>
-            <AnchorPane HBox.hgrow="ALWAYS">
+            <AnchorPane fx:id="anchorE" HBox.hgrow="ALWAYS">
                <children>
                   <GridPane fx:id="GP_Enemy" alignment="CENTER" layoutX="0.5" layoutY="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#markField" prefHeight="230.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.5" AnchorPane.leftAnchor="0.5" AnchorPane.rightAnchor="0.5" AnchorPane.topAnchor="0.5">
                      <columnConstraints>
