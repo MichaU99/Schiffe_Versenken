@@ -5,6 +5,7 @@ import game.KiVsKiGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,10 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
-public class Controller_KiVKi {
+public class Controller_KiVKi implements Initializable {
     public Stage stage;
     @FXML
     private TextField fsize;
@@ -37,6 +40,18 @@ public class Controller_KiVKi {
     public static KiStrength kiStrength1=null;
     public static KiStrength kiStrength2=null;
     public static Integer fieldsize=null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Können wir später rausnehmen nur für leichteres Debugging
+        fsize.setText("10");
+        ships5.setText("1");
+        ships4.setText("2");
+        ships3.setText("3");
+        ships2.setText("4");
+        firstDifficulty.setValue(KiStrength.BEGINNER);
+        secondDifficulty.setValue(KiStrength.BEGINNER);
+    }
 
     public void changeToNewGameChooseRole(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
@@ -65,6 +80,10 @@ public class Controller_KiVKi {
         kiStrength1=firstDifficulty.getValue();
         kiStrength2=secondDifficulty.getValue();
 
+        fieldsize=Integer.parseInt(fsize.getText());
+
+        Controller_PutShips.game=new KiVsKiGame(fieldsize,fieldsize,kiStrength1,kiStrength2);
+
         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
         Scene scene = new Scene(root);
 
@@ -73,7 +92,10 @@ public class Controller_KiVKi {
         stage.show();
     }
 
+
     private KiVsKiGame validateInput() {
         return null;
     }
+
+
 }
