@@ -9,10 +9,10 @@
    <children>
       <VBox alignment="CENTER" layoutX="229.0" layoutY="111.0" prefHeight="196.0" prefWidth="142.0" spacing="20.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="229.0" AnchorPane.topAnchor="111.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" prefHeight="34.0" prefWidth="116.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
-            <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" prefHeight="34.0" prefWidth="117.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
-            <Button mnemonicParsing="false" onAction="#changeToKiVKi" prefHeight="34.0" prefWidth="116.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
-            <Button mnemonicParsing="false" onAction="#backToStart" prefHeight="34.0" prefWidth="118.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToSingleGame" prefHeight="34.0" prefWidth="129.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Singleplayer" />
+            <Button mnemonicParsing="false" onAction="#changeToMultGameChooseRole" prefHeight="34.0" prefWidth="129.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Multiplayer" />
+            <Button mnemonicParsing="false" onAction="#changeToKiVKi" prefHeight="34.0" prefWidth="129.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Ki vs. Ki" />
+            <Button mnemonicParsing="false" onAction="#backToStart" prefHeight="34.0" prefWidth="129.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Zurück" />
          </children>
       </VBox>
    </children>
