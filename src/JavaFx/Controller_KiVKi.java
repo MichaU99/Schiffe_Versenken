@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Controller_KiVKi implements Initializable {
@@ -35,11 +37,6 @@ public class Controller_KiVKi implements Initializable {
     private ChoiceBox<KiStrength> firstDifficulty;
     @FXML
     private ChoiceBox<KiStrength> secondDifficulty;
-
-    public static ArrayList<Integer> shipList=null;
-    public static KiStrength kiStrength1=null;
-    public static KiStrength kiStrength2=null;
-    public static Integer fieldsize=null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,26 +60,10 @@ public class Controller_KiVKi implements Initializable {
     }
 
     public void changeToGameScreenChooseRole(ActionEvent event) throws IOException {
-        ArrayList<Integer> ShipList = new ArrayList<>();
-        for (int i = 0; i < Integer.parseInt(ships5.getText()); i++) {
-            ShipList.add(5);
-        }
-        for (int i = 0; i < Integer.parseInt(ships4.getText()); i++) {
-            ShipList.add(4);
-        }
-        for (int i = 0; i < Integer.parseInt(ships3.getText()); i++) {
-            ShipList.add(3);
-        }
-        for (int i = 0; i < Integer.parseInt(ships2.getText()); i++) {
-            ShipList.add(2);
-        }
 
-        kiStrength1=firstDifficulty.getValue();
-        kiStrength2=secondDifficulty.getValue();
-
-        fieldsize=Integer.parseInt(fsize.getText());
-
-        Controller_PutShips.game=new KiVsKiGame(fieldsize,fieldsize,kiStrength1,kiStrength2);
+        if (!validateInput()) {
+            return;
+        }
 
         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
         Scene scene = new Scene(root);
@@ -93,9 +74,116 @@ public class Controller_KiVKi implements Initializable {
     }
 
 
-    private KiVsKiGame validateInput() {
-        return null;
+    private boolean validateInput() {
+        int fs = 0;
+        int five = 0;
+        int four = 0;
+        int three = 0;
+        int two = 0;
+        boolean status = true;
+
+        try {
+            fs = Integer.parseInt(fsize.getText());
+            if (fs < 5 || fs > 30) {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(fsize, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(fsize, 3000);
+        }
+
+        try {
+            five = Integer.parseInt(ships5.getText());
+            if (five < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(ships5, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(ships5, 3000);
+        }
+
+        try {
+            four = Integer.parseInt(ships4.getText());
+            if (four < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(ships4, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(ships4, 3000);
+        }
+
+        try {
+            three = Integer.parseInt(ships3.getText());
+            if (three < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(ships3, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(ships3, 3000);
+        }
+
+        try {
+            two = Integer.parseInt(ships2.getText());
+            if (two < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(ships2, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(ships2, 3000);
+        }
+
+        if (!status) {
+            return false;
+        }
+
+
+        ArrayList<Integer> shipList = new ArrayList<>();
+        for (int i = 0; i < five; i++) {
+            shipList.add(5);
+        }
+        for (int i = 0; i < four; i++) {
+            shipList.add(4);
+        }
+        for (int i = 0; i < three; i++) {
+            shipList.add(3);
+        }
+        for (int i = 0; i < two; i++) {
+            shipList.add(2);
+        }
+
+        KiVsKiGame game = new KiVsKiGame(fs, fs, firstDifficulty.getSelectionModel().getSelectedItem(),
+                secondDifficulty.getSelectionModel().getSelectedItem());
+        if (game.startGame(shipList)) {
+            Controller_GameScreen.game = game;
+            return true;
+        } else {
+            return false;
+        }
     }
 
-
+    private void onTbxError(javafx.scene.control.TextField textField, int duration) {
+        textField.getStyleClass().add("textfeldWRONG");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                textField.getStyleClass().remove("textfeldWRONG");
+                textField.getStyleClass().add("textfeld2");
+            }
+        }, duration);
+    }
 }
