@@ -54,7 +54,7 @@ public class Controller_GameScreen implements Initializable {
     @FXML
     private HBox GridHBox;
     @FXML
-    private ChoiceBox gamespdbox;
+    private ChoiceBox<String> gamespdbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -103,8 +103,9 @@ public class Controller_GameScreen implements Initializable {
             gamespdbox.setVisible(true);
             startbt.setDisable(false);
             gamespdbox.setDisable(false);
-            
+
             GP_Enemy.setOnMouseClicked(null);
+            gamespdbox.setValue("1x");
             gamespdbox.getItems().addAll("0.25x", "0.5x", "1x", "2x", "4x");
         }
         else{
