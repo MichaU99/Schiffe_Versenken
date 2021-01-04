@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -48,10 +49,15 @@ public class Controller_PutShips implements Initializable {
     String markCell="-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     // TODO: 30.12.2020 Minimalgröße der Stage festsetzen
 
+
+    /**
+     * Initialisiert das PutShips Layout, unterscheidet dabei zwischen Online und Local Play.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(online){
-            // TODO: 30.12.2020 Add Gamestuff for Online Play
             gui.GameOptions gOptions= ((OnlineGame) game).gameOptions;
             optionbtn.setDisable(true);
             optionbtn.setVisible(false);
@@ -64,23 +70,23 @@ public class Controller_PutShips implements Initializable {
             game = new LocalGame(options.getFieldSize(), options.getFieldSize(), options.getKiStrength());
         }
         makeField();
-//        VBox game = this.createGame();
-//        GridPane.setConstraints(game, 0, 0);
-//        GridP.getChildren().add(game);
-
-        Object[] array=GridP.getChildren().toArray();
-        //GridPane.getColumnIndex
     }
-    private void updateListView(){ //setzt ListView auf die aktuelle Anzahl unplatzierter Schiffe
+
+    /**
+     * Updated ListView um alle unplatzierten Schiffe anzuzeigen
+     */
+    private void updateListView(){
         listView.getItems().clear();
         for (Integer integer : noch_zu_setzende_schiffe) {
             listView.getItems().add("Schiff der Länge: " + integer);
         }
     }
+
+    /**
+     * Zieht sich aus den GameOptions die aktuellen Einstellungen
+     */
     private void updateGameOptions(){
         Start_bt.setDisable(true);
-
-
 
         try {
             ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("game.options"));
@@ -99,13 +105,14 @@ public class Controller_PutShips implements Initializable {
         updateListView();
     }
 
+    /**
+     * Generiert ein einfaches Wasserfeld
+     */
     private void makeField(){
         for(int x = 0; x< game.getField().getLength(); x++){
             for(int y = 0; y< game.getField().getHeight(); y++){
                 HBox l = new HBox();
                 l.setStyle(waterCell);
-               // Label h = new Label("1");
-               // l.getChildren().add(h);
                 GridPane.setConstraints(l,x,y);
                 GridP.getChildren().add(l);
             }
@@ -171,6 +178,10 @@ public class Controller_PutShips implements Initializable {
 
     }
 
+    /**
+     * Methode des autofill Buttons, setzt alle noch ungesetzten Schiffe nach Möglichkeit zufällig ins Feld
+     * @param event
+     */
     public void autofill(ActionEvent event){
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
             noch_zu_setzende_schiffe.clear();
@@ -179,13 +190,15 @@ public class Controller_PutShips implements Initializable {
             updateListView();
         }
         else{
-            // TODO: 03.01.2021 Fehlerbehandlung falls Schiffe nicht draufpassen
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("NICHT ALLE SCHIFFE PASSEN INS FELD\nVergrößern Sie entweder das Feld oder\nwählen Sie weniger Schiffe in den Optionen");
+            alert.showAndWait();
         }
-        //if(Platzierte Schiffe=0) Fülle gesamtes Feld den Schiffen aus noch_zu_setzende_schiffe aus
-        //if else(Platzierte_Schiffe>0, vielleicht mit der ersten if zusammen je nach umsetzung im backend) Behält die bereits gesetzten Schiffe und setzt die noch verbleibenden zufällig dazu
-        //else Falls alle Schiffe gesetzt sind soll Autofill alle gesetzten Schiffe löschen und zufällig neu setzen
     }
 
+    /**
+     * Updated visuell die GridPane nach den bereits addierten Schiffen
+     */
     private void updateGame(){
         GridP.getChildren().clear();
         for(int x = 0; x< game.getField().getLength(); x++){
@@ -203,6 +216,11 @@ public class Controller_PutShips implements Initializable {
         }
     }
 
+    /**
+     * Überprüft ob eine Position eine valide Platzierung für ein Schiffselement wäre
+     * @param pos Position die zu überprüfen ist
+     * @return
+     */
     public boolean check_valid_pos(Position pos){
         System.out.println(generated_Ships.getLengh());
         if (generated_Ships.getLengh()>=maxShipLen) return false; //Schiff ist Länger als das längste Schiff
@@ -219,7 +237,11 @@ public class Controller_PutShips implements Initializable {
         }
         return true;
     }
-    private void deletedMarked(){//Löscht alle aktuell markierten Positionen aus der Liste und visuell
+
+    /**
+     * Löscht alle aktuell markierten Positionen aus der Liste und visuell
+     */
+    private void deletedMarked(){
         Position[] todel=ClickedShipsToArray();
 
         for(int i=0;i< todel.length;i++){
@@ -231,6 +253,10 @@ public class Controller_PutShips implements Initializable {
         deleteLoeschpos();
         ClickedShips.first=null;
     }
+
+    /**
+     * Entfernt die Löschmarkierung
+     */
     private void deleteLoeschpos(){
         if(loeschpos==null) return;
         HBox hbox=new HBox();
@@ -240,7 +266,12 @@ public class Controller_PutShips implements Initializable {
         loeschpos=null;
     }
 
-    public void addShip(ActionEvent event){ //Falls genug Felder markiert sind addiert die Methode das Schiff zum Spiel
+    /**
+     * Fügt alle markierten Felder als ein Schiff zum Spiel hinzu falls es valide ist.
+     * valide: Entspricht in der Länge einem Schiff der Liste
+     * @param event
+     */
+    public void addShip(ActionEvent event){
         if(generated_Ships!=null && noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
             if(!working_ship()){
                 deletedMarked();
@@ -266,6 +297,10 @@ public class Controller_PutShips implements Initializable {
         else System.out.println("Anzahl gewählter Felder stimmt nicht mit noch zu setzenden Schiffen überein");
     }
 
+    /**
+     * Interne Methode die prüft ob Markierungen ein zusammenhängendes Schiff bilden
+     * @return
+     */
     private boolean working_ship(){//Interne Methode die prüft ob ein Schiff zusammenhängend ist
         int min=1000;
         if(ClickedShips.first.next!=null && ClickedShips.first.getPosition().getY()==ClickedShips.first.next.getPosition().getY()) {
@@ -296,7 +331,11 @@ public class Controller_PutShips implements Initializable {
         return true;
     }
 
-    private Position[] ClickedShipsToArray(){//Gibt die interne Datenstruktur generated_ships als array von Positions zurück
+    /**
+     * Gibt die interne Datenstruktur generated_ships als array von Positions zurück
+     * @return
+     */
+    private Position[] ClickedShipsToArray(){
         ArrayList<Position> pos=new ArrayList<>();
         ClickedShips lauf=ClickedShips.first;
         while (lauf!=null ){
