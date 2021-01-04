@@ -8,10 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -47,11 +44,17 @@ public class Controller_GameScreen implements Initializable {
     @FXML
     private Button Shoot_bt;
     @FXML
+    private Button startbt;
+    @FXML
     private AnchorPane ap;
     @FXML
     private Label playerTag;
     @FXML
     private Label LastShotTag;
+    @FXML
+    private HBox GridHBox;
+    @FXML
+    private ChoiceBox gamespdbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,9 +67,10 @@ public class Controller_GameScreen implements Initializable {
         // und normal gespielten Spielern in denen nur ein Feld bekannt ist
         if (game instanceof KiVsKiGame) {
             updateFieldDisclosed(GP_Enemy);
+            setButtons(true);
         } else {
             makeFieldEnemy();
-            Shoot_bt.setDisable(true);
+            setButtons(false);
             if (game instanceof LocalGame) {
 
             } else if (game instanceof OnlineClientGame) {
@@ -85,6 +89,33 @@ public class Controller_GameScreen implements Initializable {
 
         // Object[] array=GP_Player.getChildren().toArray();
         // Object[] array=GP_Enemy.getChildren().toArray();
+    }
+
+    /**
+     * Sets the visibility and disables Buttons that are not needed for the current scene
+     * @param ki true-> game ist ki game; false-> game is not ki game
+     */
+    public void setButtons(Boolean ki){
+        if(ki){
+            Shoot_bt.setDisable(true);
+            Shoot_bt.setVisible(false);
+            startbt.setVisible(true);
+            gamespdbox.setVisible(true);
+            startbt.setDisable(false);
+            gamespdbox.setDisable(false);
+            
+            GP_Enemy.setOnMouseClicked(null);
+            gamespdbox.getItems().addAll("0.25x", "0.5x", "1x", "2x", "4x");
+        }
+        else{
+            GP_Enemy.setOnMouseClicked(this::markField);
+            Shoot_bt.setDisable(true);
+            Shoot_bt.setVisible(true);
+            startbt.setVisible(false);
+            gamespdbox.setVisible(false);
+            startbt.setDisable(true);
+            gamespdbox.setDisable(true);
+        }
     }
 
     public void markField(MouseEvent event) {
@@ -204,6 +235,21 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Eventhandler for both the start and stop Button in KIvsKIGames.
+     * Button changes Text when clicked on it Start->Stop->Start
+     * @param event Actionevent on ButtonClick
+     */
+    public void startstopbtnOnClick(ActionEvent event){
+        if(startbt.getText().equals("Start")){
+            startbt.setText("Stop");
+            onKvkStartBtnClick();
+        }
+        else{
+            startbt.setText("Start");
+            onKvkStopBtnClick();
+        }
+    }
 
     private void checkGameEnded() {
         Stage stage;
@@ -423,7 +469,8 @@ public class Controller_GameScreen implements Initializable {
 
 
     //----------------- Ki vs Ki Methods ----------------
-    private void onKvkStartBtnClick(ActionEvent event) {
+    // TODO: 04.01.2021 Fehler im Thread 
+    private void onKvkStartBtnClick() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -435,12 +482,13 @@ public class Controller_GameScreen implements Initializable {
         }, 0, timerInterval);
     }
 
-    private void onKvkStopBtnClick(ActionEvent event) {
+    private void onKvkStopBtnClick() {
         timer.cancel();
     }
 
+    // TODO: 04.01.2021 Welcher Actionstyp ist das bei der ChoiceBox? 
     private void onKvkDelayCbxChange(ActionEvent event) {
-        ComboBox source = ((ComboBox) event.getSource());
+        ChoiceBox source = ((ChoiceBox) event.getSource());
         switch (source.getSelectionModel().getSelectedIndex()) {
             case 0:
                 timerInterval = 4000;
@@ -461,7 +509,7 @@ public class Controller_GameScreen implements Initializable {
                 break;
         }
         timer.cancel();
-        onKvkStartBtnClick(null);
+        onKvkStartBtnClick();
     }
     //----------------- Ki vs Ki End --------------------
 }
