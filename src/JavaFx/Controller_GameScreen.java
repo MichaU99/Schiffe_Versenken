@@ -59,7 +59,7 @@ public class Controller_GameScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        game = Controller_PutShips.getGame();
+        //game = Controller_PutShips.getGame();
         updateField(GP_Player);
         game.startGame();
 
