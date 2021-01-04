@@ -1,6 +1,9 @@
 package JavaFx;
 
-import game.*;
+import game.Game;
+import game.LocalGame;
+import game.OnlineGame;
+import game.Position;
 import game.cells.Cell;
 import game.cells.Ship;
 import guiLogic.ClickedShips;
@@ -114,10 +117,17 @@ public class Controller_PutShips implements Initializable {
      */
 
     public void klickShipintoExistance(MouseEvent event){
-
+        int x,y;
         if(event==null ||event.getTarget()==null) return;
-        int x=GridPane.getColumnIndex((Node)event.getTarget());
-        int y=GridPane.getRowIndex((Node)event.getTarget());
+        try {
+            x = GridPane.getColumnIndex((Node) event.getTarget());
+            y = GridPane.getRowIndex((Node) event.getTarget());
+        }
+        catch (NullPointerException doNothing){
+            return;
+        }
+
+
         Position pos=new Position(x,y); //in Pos liegt die aus der GridPane erhaltene position des Klicks
         deleteLoeschpos(); //Reset der löschpos
         if(!noch_zu_setzende_schiffe.isEmpty()) maxShipLen=noch_zu_setzende_schiffe.get(0);

@@ -120,8 +120,14 @@ public class Controller_GameScreen implements Initializable {
 
     public void markField(MouseEvent event) {
         // TODO: 02.01.2021 Felder sollten gezielt gelöscht und gesetzt werden sonst gibt es Komplikationen mit dickem Rand
-        int x = GridPane.getColumnIndex((Node) event.getTarget());
-        int y = GridPane.getRowIndex((Node) event.getTarget());
+        int x,y;
+        try {
+            x = GridPane.getColumnIndex((Node) event.getTarget());
+            y = GridPane.getRowIndex((Node) event.getTarget());
+        }
+        catch (NullPointerException doNothing){
+            return;
+        }
         HBox cell;
         if (markedPos != null) {
             cell = new HBox();
