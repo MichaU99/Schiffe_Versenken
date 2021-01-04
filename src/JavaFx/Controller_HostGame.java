@@ -60,107 +60,117 @@ public class Controller_HostGame {
     }
 
     private OnlineHostGame validateInput() {
-        int status = 0;
+        boolean status = true;
+        int fs = 0;
+        int pn = 0;
+        int five = 0;
+        int four = 0;
+        int three = 0;
+        int two = 0;
+
         try {
-            int fs = Integer.parseInt(this.fsTbx.getText());
-            if (fs > 30 || fs < 5) {
+            fs = Integer.parseInt(fsTbx.getText());
+            if (fs < 5 || fs > 30) {
                 throw new IndexOutOfBoundsException();
             }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(fsTbx, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(fsTbx, 3000);
+        }
 
-            status = 1;
-            int pn = Integer.parseInt(portTbx.getText());
+        try {
+            pn = Integer.parseInt(portTbx.getText());
             if (pn < 0) {
                 throw new IndexOutOfBoundsException();
             }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(fsTbx, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(fsTbx, 3000);
+        }
 
-            status = 2;
-            int five = Integer.parseInt(fiveTbx.getText());
+        try {
+            five = Integer.parseInt(fiveTbx.getText());
             if (five < 0) {
                 throw new IndexOutOfBoundsException();
             }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(fiveTbx, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(fiveTbx, 3000);
+        }
 
-            status = 3;
-            int four = Integer.parseInt(fourTbx.getText());
+        try {
+            four = Integer.parseInt(fourTbx.getText());
             if (four < 0) {
                 throw new IndexOutOfBoundsException();
             }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(fourTbx, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(fourTbx, 3000);
+        }
 
-            status = 4;
-            int three = Integer.parseInt(threeTbx.getText());
+        try {
+            three = Integer.parseInt(threeTbx.getText());
             if (three < 0) {
                 throw new IndexOutOfBoundsException();
             }
+        } catch (NumberFormatException e) {
+            status = false;
+            onTbxError(threeTbx, 3000);
+        } catch (IndexOutOfBoundsException e) {
+            status = false;
+            onTbxError(threeTbx, 3000);
+        }
 
-            status = 5;
-            int two = Integer.parseInt(twoTbx.getText());
+        try {
+            two = Integer.parseInt(twoTbx.getText());
             if (two < 0) {
                 throw new IndexOutOfBoundsException();
             }
-
-            ArrayList<Integer> shipLengthsAr = new ArrayList<>();
-            for (int i = 0; i < five; i++) {
-                shipLengthsAr.add(5);
-            }
-            for (int i = 0; i < four; i++) {
-                shipLengthsAr.add(4);
-            }
-            for (int i = 0; i < three; i++) {
-                shipLengthsAr.add(3);
-            }
-            for (int i = 0; i < two; i++) {
-                shipLengthsAr.add(2);
-            }
-
-            int[] shipLengths = new int[shipLengthsAr.size()];
-            for (int i = 0; i < shipLengthsAr.size(); i++) {
-                shipLengths[i] = shipLengthsAr.get(i);
-            }
-
-            gui.GameOptions go = new GameOptions(fs, KiStrength.INTERMEDIATE, five, four, three, two);
-            OnlineHostGame hostGame = new OnlineHostGame(fs, fs, pn, shipLengths, go);
-            return hostGame;
         } catch (NumberFormatException e) {
-            switch (status) {
-                case 0:
-                    onTbxError(fsTbx, 3000);
-                    break;
-                case 1:
-                    onTbxError(portTbx, 3000);
-                    break;
-                case 2:
-                    onTbxError(fiveTbx, 3000);
-                    break;
-                case 3:
-                    onTbxError(fourTbx, 3000);
-                    break;
-                case 4:
-                    onTbxError(threeTbx, 3000);
-                    break;
-                case 5:
-                    onTbxError(twoTbx, 3000);
-                    break;
-                default:
-                    break;
-            }
+            status = false;
+            onTbxError(twoTbx, 3000);
         } catch (IndexOutOfBoundsException e) {
-            switch (status) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                default:
-                    break;
-            }
+            status = false;
+            onTbxError(twoTbx, 3000);
         }
-        return null;
+
+        ArrayList<Integer> shipLengthsAr = new ArrayList<>();
+        for (int i = 0; i < five; i++) {
+            shipLengthsAr.add(5);
+        }
+        for (int i = 0; i < four; i++) {
+            shipLengthsAr.add(4);
+        }
+        for (int i = 0; i < three; i++) {
+            shipLengthsAr.add(3);
+        }
+        for (int i = 0; i < two; i++) {
+            shipLengthsAr.add(2);
+        }
+
+        int[] shipLengths = new int[shipLengthsAr.size()];
+        for (int i = 0; i < shipLengthsAr.size(); i++) {
+            shipLengths[i] = shipLengthsAr.get(i);
+        }
+
+        if (!status) {
+            return null;
+        }
+
+        gui.GameOptions go = new GameOptions(fs, KiStrength.INTERMEDIATE, five, four, three, two);
+        return new OnlineHostGame(fs, fs, pn, shipLengths, go);
     }
 
     private void onTbxError(javafx.scene.control.TextField textField, int duration) {

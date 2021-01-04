@@ -49,26 +49,41 @@ public class Controller_ClientGame {
     }
 
     private OnlineClientGame validateInput() {
+        boolean status = true;
+        int pn = 0;
         try {
-            int pn = Integer.parseInt(portTbx.getText());
+            pn = Integer.parseInt(portTbx.getText());
             if (pn < 0) {
                 throw new IndexOutOfBoundsException();
             }
-            return new OnlineClientGame(serverTbx.getText(), pn);
         } catch (NumberFormatException e) {
+            status = false;
             onTbxError(portTbx, 3000);
         } catch (IndexOutOfBoundsException e) {
+            status = false;
             onTbxError(portTbx, 3000);
         }
-        return null;
+
+        String serverName = serverTbx.getText();
+        if (serverName.isEmpty()) {
+            status = false;
+            onTbxError(serverTbx, 3000);
+        }
+
+        if (status) {
+            return new OnlineClientGame(serverName, pn);
+        } else {
+            return null;
+        }
     }
 
     private void onTbxError(javafx.scene.control.TextField textField, int duration) {
-        textField.setStyle("-fx-text-inner-color: red; -fx-border-color: red; -fx-border-radius: 2 2 2 2; -fx-background-radius: 2 2 2 2;");
+        textField.getStyleClass().add("textfeldWRONG");
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                textField.setStyle("-fx-text-inner-color: black; -fx-border-color: transparent;");
+                textField.getStyleClass().remove("textfeldWRONG");
+                textField.getStyleClass().add("textfeld2");
             }
         }, duration);
     }

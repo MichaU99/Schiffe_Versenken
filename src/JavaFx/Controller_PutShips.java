@@ -1,6 +1,9 @@
 package JavaFx;
 
-import game.*;
+import game.Game;
+import game.LocalGame;
+import game.OnlineGame;
+import game.Position;
 import game.cells.Cell;
 import game.cells.Ship;
 import guiLogic.ClickedShips;
@@ -35,7 +38,7 @@ public class Controller_PutShips implements Initializable {
     private Button Start_bt;
     @FXML
     private Button optionbtn;
-    public static Game game;
+    private Game game;
     public static boolean online = false;
     private GameOptions options;
     private Position loeschpos=null;
@@ -114,10 +117,17 @@ public class Controller_PutShips implements Initializable {
      */
 
     public void klickShipintoExistance(MouseEvent event){
-
+        int x,y;
         if(event==null ||event.getTarget()==null) return;
-        int x=GridPane.getColumnIndex((Node)event.getTarget());
-        int y=GridPane.getRowIndex((Node)event.getTarget());
+        try {
+            x = GridPane.getColumnIndex((Node) event.getTarget());
+            y = GridPane.getRowIndex((Node) event.getTarget());
+        }
+        catch (NullPointerException doNothing){
+            return;
+        }
+
+
         Position pos=new Position(x,y); //in Pos liegt die aus der GridPane erhaltene position des Klicks
         deleteLoeschpos(); //Reset der löschpos
         if(!noch_zu_setzende_schiffe.isEmpty()) maxShipLen=noch_zu_setzende_schiffe.get(0);
@@ -296,8 +306,15 @@ public class Controller_PutShips implements Initializable {
         return pos.toArray(Position[]::new);
     }
 
+    /**
+     * Schaut ob alle Schiffe gesetzt wurden, setzt game in Controller_GameScreen und wechselt die Szene dorthin.
+     * TL;DR: Wechselt zum Gamescreen
+     * @param event
+     * @throws IOException
+     */
     public void startGame(ActionEvent event) throws IOException {
         if(noch_zu_setzende_schiffe.isEmpty()){
+            Controller_GameScreen.game=this.game;
             Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
             Scene scene = new Scene(root);
 
@@ -309,6 +326,10 @@ public class Controller_PutShips implements Initializable {
         else System.out.println("Es gibt noch ungesetzte Schiffe");
     }
 
+    /**
+     * Falls ein Schiff markiert wurde wird es aus dem Spiel entfernt und wieder der Liste zum neuplatzieren hinzugefügt
+     * @param event
+     */
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         if (loeschpos!=null) {
             noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
@@ -328,6 +349,12 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
+     * @param event
+     * @throws IOException
+     */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
         Scene scene = new Scene(root);
@@ -337,9 +364,6 @@ public class Controller_PutShips implements Initializable {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
-    }
-    public static Game getGame(){
-        return game;
     }
 
 }

@@ -8,10 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -29,7 +26,7 @@ import java.util.TimerTask;
 public class Controller_GameScreen implements Initializable {
     private Timer timer;
     private int timerInterval = 1000;
-    private Game game;
+    public static Game game;
     String waterCell = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
     String markCell = "-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em";
@@ -47,16 +44,22 @@ public class Controller_GameScreen implements Initializable {
     @FXML
     private Button Shoot_bt;
     @FXML
+    private Button startbt;
+    @FXML
     private AnchorPane ap;
     @FXML
     private Label playerTag;
     @FXML
     private Label LastShotTag;
+    @FXML
+    private HBox GridHBox;
+    @FXML
+    private ChoiceBox gamespdbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        game = Controller_PutShips.getGame();
+        //game = Controller_PutShips.getGame();
         updateField(GP_Player);
         game.startGame();
 
@@ -64,9 +67,10 @@ public class Controller_GameScreen implements Initializable {
         // und normal gespielten Spielern in denen nur ein Feld bekannt ist
         if (game instanceof KiVsKiGame) {
             updateFieldDisclosed(GP_Enemy);
+            setButtons(true);
         } else {
             makeFieldEnemy();
-            Shoot_bt.setDisable(true);
+            setButtons(false);
             if (game instanceof LocalGame) {
 
             } else if (game instanceof OnlineClientGame) {
@@ -87,10 +91,43 @@ public class Controller_GameScreen implements Initializable {
         // Object[] array=GP_Enemy.getChildren().toArray();
     }
 
+    /**
+     * Sets the visibility and disables Buttons that are not needed for the current scene
+     * @param ki true-> game ist ki game; false-> game is not ki game
+     */
+    public void setButtons(Boolean ki){
+        if(ki){
+            Shoot_bt.setDisable(true);
+            Shoot_bt.setVisible(false);
+            startbt.setVisible(true);
+            gamespdbox.setVisible(true);
+            startbt.setDisable(false);
+            gamespdbox.setDisable(false);
+            
+            GP_Enemy.setOnMouseClicked(null);
+            gamespdbox.getItems().addAll("0.25x", "0.5x", "1x", "2x", "4x");
+        }
+        else{
+            GP_Enemy.setOnMouseClicked(this::markField);
+            Shoot_bt.setDisable(true);
+            Shoot_bt.setVisible(true);
+            startbt.setVisible(false);
+            gamespdbox.setVisible(false);
+            startbt.setDisable(true);
+            gamespdbox.setDisable(true);
+        }
+    }
+
     public void markField(MouseEvent event) {
         // TODO: 02.01.2021 Felder sollten gezielt gelöscht und gesetzt werden sonst gibt es Komplikationen mit dickem Rand
-        int x = GridPane.getColumnIndex((Node) event.getTarget());
-        int y = GridPane.getRowIndex((Node) event.getTarget());
+        int x,y;
+        try {
+            x = GridPane.getColumnIndex((Node) event.getTarget());
+            y = GridPane.getRowIndex((Node) event.getTarget());
+        }
+        catch (NullPointerException doNothing){
+            return;
+        }
         HBox cell;
         if (markedPos != null) {
             cell = new HBox();
@@ -151,13 +188,12 @@ public class Controller_GameScreen implements Initializable {
      */
     public void shootbtn(ActionEvent event) {
         LastShotTag.setVisible(true);
+        Shoot_bt.setDisable(true);
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (markedPos == null) return;
-            Shoot_bt.setDisable(true);
             int rc = game.shoot(markedPos);
             updateField(GP_Enemy);
             if (rc == 0) {//Kein Treffer
-                // TODO: 02.01.2021 Labelchanges sobald endgültiges Feld da ist
                 playerTag.setText(PLAYER2_NAME);
                 LastShotTag.setText("Last Shot: Miss");
                 new Thread(() -> {
@@ -176,7 +212,7 @@ public class Controller_GameScreen implements Initializable {
                             Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                             break;
                         } else if (rc1 == 2) {
-                            LastShotTag.setText("Destroyed");
+                            Platform.runLater(() ->LastShotTag.setText("Destroyed"));
                             Platform.runLater(this::checkGameEnded);
                         }
                     }
@@ -205,6 +241,21 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Eventhandler for both the start and stop Button in KIvsKIGames.
+     * Button changes Text when clicked on it Start->Stop->Start
+     * @param event Actionevent on ButtonClick
+     */
+    public void startstopbtnOnClick(ActionEvent event){
+        if(startbt.getText().equals("Start")){
+            startbt.setText("Stop");
+            onKvkStartBtnClick();
+        }
+        else{
+            startbt.setText("Start");
+            onKvkStopBtnClick();
+        }
+    }
 
     private void checkGameEnded() {
         Stage stage;
@@ -424,7 +475,8 @@ public class Controller_GameScreen implements Initializable {
 
 
     //----------------- Ki vs Ki Methods ----------------
-    private void onKvkStartBtnClick(ActionEvent event) {
+    // TODO: 04.01.2021 Fehler im Thread 
+    private void onKvkStartBtnClick() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -436,12 +488,13 @@ public class Controller_GameScreen implements Initializable {
         }, 0, timerInterval);
     }
 
-    private void onKvkStopBtnClick(ActionEvent event) {
+    private void onKvkStopBtnClick() {
         timer.cancel();
     }
 
+    // TODO: 04.01.2021 Welcher Actionstyp ist das bei der ChoiceBox? 
     private void onKvkDelayCbxChange(ActionEvent event) {
-        ComboBox source = ((ComboBox) event.getSource());
+        ChoiceBox source = ((ChoiceBox) event.getSource());
         switch (source.getSelectionModel().getSelectedIndex()) {
             case 0:
                 timerInterval = 4000;
@@ -462,7 +515,7 @@ public class Controller_GameScreen implements Initializable {
                 break;
         }
         timer.cancel();
-        onKvkStartBtnClick(null);
+        onKvkStartBtnClick();
     }
     //----------------- Ki vs Ki End --------------------
 }
