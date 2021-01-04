@@ -151,13 +151,12 @@ public class Controller_GameScreen implements Initializable {
      */
     public void shootbtn(ActionEvent event) {
         LastShotTag.setVisible(true);
+        Shoot_bt.setDisable(true);
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (markedPos == null) return;
-            Shoot_bt.setDisable(true);
             int rc = game.shoot(markedPos);
             updateField(GP_Enemy);
             if (rc == 0) {//Kein Treffer
-                // TODO: 02.01.2021 Labelchanges sobald endgültiges Feld da ist
                 playerTag.setText(PLAYER2_NAME);
                 LastShotTag.setText("Last Shot: Miss");
                 new Thread(() -> {
@@ -176,7 +175,7 @@ public class Controller_GameScreen implements Initializable {
                             Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                             break;
                         } else if (rc1 == 2) {
-                            LastShotTag.setText("Destroyed");
+                            Platform.runLater(() ->LastShotTag.setText("Destroyed"));
                             Platform.runLater(this::checkGameEnded);
                         }
                     }
