@@ -378,6 +378,11 @@ public class Controller_PutShips implements Initializable {
             updateListView();
 
         }
+        else{
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Für das entfernen von Schiffen,\nmuss erst ein Schiffsfeld zum entfernen gewählt werden");
+            alert.showAndWait();
+        }
     }
     // TODO: 01.01.2021 Back Button zum Auswahlmenü einbinden
     public void backToStart(ActionEvent event) throws IOException {
