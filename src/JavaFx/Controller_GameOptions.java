@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -67,11 +68,46 @@ public class Controller_GameOptions implements Initializable {
     }
 
     public void goBackToPutShips(ActionEvent event) throws IOException {
-        int fs = Integer.parseInt(fsize.getText());
-        int five = Integer.parseInt(ships5.getText());
-        int four = Integer.parseInt(ships4.getText());
-        int three = Integer.parseInt(ships3.getText());
-        int two = Integer.parseInt(ships2.getText());
+        int fs=0;
+        int five=0;
+        int four=0;
+        int three=0;
+        int two=0;
+        try {
+            fs = Integer.parseInt(fsize.getText());
+        }catch (NumberFormatException e){
+            fsize.setText("0");
+        }
+
+        try {
+            five = Integer.parseInt(ships5.getText());
+        }catch (NumberFormatException e){
+            ships5.setText("0");
+        }
+
+        try {
+            four = Integer.parseInt(ships4.getText());
+        }catch (NumberFormatException e){
+            ships4.setText("0");
+        }
+
+        try {
+            three = Integer.parseInt(ships3.getText());
+        }catch (NumberFormatException e){
+            ships3.setText("0");
+        }
+
+        try {
+            two = Integer.parseInt(ships2.getText());
+        }catch (NumberFormatException e){
+            ships2.setText("0");
+        }
+        if(five==0 && four==0 && three==0 && two==0){
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("KEINE SCHIFFE GESETZT\n Bitte setzen Sie ein Schiff");
+            alert.showAndWait();
+            return;
+        }
         KiStrength kiStrength = gDifficulty.getSelectionModel().getSelectedItem();
         GameOptions options = new GameOptions(fs, kiStrength, five, four, three, two);
 

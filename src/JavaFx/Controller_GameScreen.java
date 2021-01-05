@@ -282,6 +282,8 @@ public class Controller_GameScreen implements Initializable {
         Stage stage;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
+        updateFieldDisclosed(GP_Player);
+        updateFieldDisclosed(GP_Enemy);
         switch (game.whoWon()) {
             case 0:
                 alert.setContentText("You won!");
