@@ -1,13 +1,20 @@
 package JavaFx;
 
+import game.LocalGame;
+import game.OnlineClientGame;
+import game.OnlineHostGame;
+import gui.WaitingForConnectionForm;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -88,6 +95,63 @@ public class Controller_StartingScreens implements Initializable {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
+    public void loadGame(ActionEvent event){
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FileChooser fs = new FileChooser();
+        fs.setTitle("Choose a savefile");
+        fs.setInitialDirectory(new File("./"));
+        File file = fs.showOpenDialog(primaryStage);
+        if (file != null) {
+            String filepath = file.getPath();
+            String ext = filepath.substring(filepath.lastIndexOf("."));
+            if (ext.equals(".lsave")) {
+                try {
+                    Controller_GameScreen.game = LocalGame.loadGame(filepath);
+                    //primaryStage.setScene(MainGameForm.create(primaryStage, game));
+                    Parent  root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
+                    Scene scene = new Scene(root);
 
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (ext.equals(".hsave")) {
+                try {
+                    // TODO: 06.01.2021 Muss in den Hostgame waiting Screen laden, tut grade noch nicht
+                    Controller_GameScreen.game = OnlineHostGame.loadGame(filepath);
+                    WaitingForConnectionForm.filename = file.getName();
+                    Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
+                    Scene scene = new Scene(root);
+
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+                    //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (ext.equals(".csave")) {
+                try {
+                    Controller_GameScreen.game = OnlineClientGame.loadGame(filepath);
+                    WaitingForConnectionForm.filename = file.getName();
+                    //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
+                    Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
+                    Scene scene = new Scene(root);
+
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("DIES IST KEINE SPEICHERDATEI DES SPIELS");
+                alert.showAndWait();
+            }
+        }
+    }
 
 }
