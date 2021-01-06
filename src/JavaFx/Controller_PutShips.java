@@ -388,7 +388,6 @@ public class Controller_PutShips implements Initializable {
             alert.showAndWait();
         }
     }
-    // TODO: 01.01.2021 Back Button zum Auswahlmenü einbinden
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root);

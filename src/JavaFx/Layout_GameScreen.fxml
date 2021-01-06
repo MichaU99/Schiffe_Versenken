@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameScreen">
+<AnchorPane fx:id="ap" minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameScreen">
    <children>
       <Label layoutX="196.0" layoutY="79.0" text="ENEMY" AnchorPane.topAnchor="79.0">
          <font>
@@ -26,8 +26,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="More">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Back" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#backToStart" text="Back" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSaveClick" text="Save" />
                </items></Menu>
         </menus>
       </MenuBar>
