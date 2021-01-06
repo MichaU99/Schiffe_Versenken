@@ -16,9 +16,11 @@ public class JavaFXRealMain extends Application {
         @Override
         public void start (Stage stage) throws Exception {
             this.stage=stage;
+            stage.setMinHeight(600);
+            stage.setMinWidth(800);
             stage.setOnCloseRequest(windowEvent -> System.exit(0));
             Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root,800,600);
 
             //scene.getStylesheets().add(this.getClass().getResource("./gameStyle.css").toExternalForm());
 

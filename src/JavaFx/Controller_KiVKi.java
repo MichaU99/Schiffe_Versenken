@@ -52,24 +52,25 @@ public class Controller_KiVKi implements Initializable {
 
     public void changeToNewGameChooseRole(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    public void changeToGameScreenChooseRole(ActionEvent event) throws IOException {
+    public void changeToGameScreenChooseRole(ActionEvent event) throws IOException { // name falsch aber wechselt auf gamescreen
 
         if (!validateInput()) {
             return;
         }
 
         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

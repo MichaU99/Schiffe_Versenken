@@ -20,8 +20,7 @@ public class Controller_StartingScreens implements Initializable {
 
     public void changeToNewGame(ActionEvent event) throws IOException { //Wechselt die Szene von Start zu NewGame
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root);
-
+        Scene scene = new Scene(root,800,600);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -29,7 +28,7 @@ public class Controller_StartingScreens implements Initializable {
 
     public void backToStart(ActionEvent event) throws IOException{ //Wechselt die Szene von NewGame zu Start
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -37,7 +36,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToSingleGame(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -45,7 +44,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToHostGame(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Hostgame.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -53,7 +52,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToJoinServer(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
         Parent  root= FXMLLoader.load(getClass().getResource("NewGame_Muliti_Client.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -61,7 +60,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToMultGameChooseRole(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
         Parent root= FXMLLoader.load(getClass().getResource("Layout_Mult_ChooseRole.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -69,7 +68,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToKiVKi(ActionEvent event) throws IOException { // wechselt zu Optionen von Ki vs.Ki
         Parent root= FXMLLoader.load(getClass().getResource("Layout_KiVKi.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -78,7 +77,7 @@ public class Controller_StartingScreens implements Initializable {
     }
     public void changeToStartOptions(ActionEvent event) throws IOException{ // Wechselt in die Szene von Startoptions
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start_Options.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

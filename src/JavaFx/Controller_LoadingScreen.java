@@ -45,7 +45,7 @@ public class Controller_LoadingScreen {
             Platform.runLater(() -> {
                 try {
                     Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                    Scene scene = new Scene(root);
+                    Scene scene = new Scene(root,800,600);
                     Stage stage = (Stage) statusLbl.getScene().getWindow();
                     stage.setScene(scene);
                     stage.show();
@@ -67,7 +67,7 @@ public class Controller_LoadingScreen {
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                        Scene scene = new Scene(root);
+                        Scene scene = new Scene(root,800,600);
                         Stage stage = (Stage) statusLbl.getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
@@ -89,7 +89,7 @@ public class Controller_LoadingScreen {
         }
 
         assert root != null: "Unexpected game type!";
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

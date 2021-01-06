@@ -358,7 +358,7 @@ public class Controller_PutShips implements Initializable {
         if(noch_zu_setzende_schiffe.isEmpty()){
             Controller_GameScreen.game=this.game;
             Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,800,600);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -390,7 +390,7 @@ public class Controller_PutShips implements Initializable {
     // TODO: 01.01.2021 Back Button zum Auswahlmenü einbinden
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -404,12 +404,11 @@ public class Controller_PutShips implements Initializable {
      */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,800,600);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setOnHiding(windowEvent -> updateGameOptions());
         stage.setScene(scene);
-        stage.setMaximized(true);
         stage.show();
     }
 
