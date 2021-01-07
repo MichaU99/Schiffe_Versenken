@@ -91,7 +91,11 @@ public class Controller_GameScreen implements Initializable {
             setButtons(false);
             if (game instanceof LocalGame) {
 
-            } else if (game instanceof OnlineClientGame) {
+            }
+            else  if(game instanceof OnlineHostGame){
+                playerTag.setText(PLAYER1_NAME);
+            }
+            else if (game instanceof OnlineClientGame) {
                     playerTag.setText(PLAYER2_NAME);
                     OnlineClientGame clientGame = ((OnlineClientGame) game);
                     new Thread(() -> {
