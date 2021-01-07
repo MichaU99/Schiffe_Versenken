@@ -293,13 +293,7 @@ public class Controller_PutShips implements Initializable {
                 noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
                 listView.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
 
-                for (int i = 0; i < todel.length; i++) {
-                    HBox hbox = new HBox();
-                    hbox.setStyle(shipCell);
-                    GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
-                    GridP.getChildren().add(hbox);
-
-                }
+                updateGame();
                 ClickedShips.first = null;
                 if(noch_zu_setzende_schiffe.isEmpty()) Start_bt.setDisable(false);
             }
