@@ -1,5 +1,9 @@
-package gui;
+package JavaFx;
 
+import guiLogic.MainGameForm;
+import guiLogic.NewGameForm;
+import guiLogic.StaticNodes;
+import guiLogic.WaitingForConnectionForm;
 import game.KiVsKiGame;
 import game.LocalGame;
 import game.OnlineHostGame;

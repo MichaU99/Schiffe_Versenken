@@ -1,8 +1,8 @@
 package game;
 
+import JavaFx.GameOptions;
 import enums.ProtComs;
 import game.cells.Shot;
-import gui.GameOptions;
 import network.BattleshipProtocol;
 import network.Server;
 

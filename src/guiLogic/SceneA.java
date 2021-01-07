@@ -1,5 +1,6 @@
-package gui;
+package guiLogic;
 
+import JavaFx.GameOptions;
 import enums.KiStrength;
 import game.LocalGame;
 import game.Position;
@@ -21,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SceneA {
 

@@ -1,5 +1,6 @@
-package gui;
+package guiLogic;
 
+import JavaFx.GameOptions;
 import enums.KiStrength;
 import game.OnlineHostGame;
 import javafx.scene.Scene;
@@ -7,12 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ServerModeForm {
 

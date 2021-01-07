@@ -1,5 +1,7 @@
-package gui;
+package guiLogic;
 
+import JavaFx.GameOptions;
+import JavaFx.GameOptionsForm;
 import game.*;
 import game.cells.Block;
 import game.cells.Cell;

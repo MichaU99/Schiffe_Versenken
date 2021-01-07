@@ -3,7 +3,7 @@ package JavaFx;
 import game.LocalGame;
 import game.OnlineClientGame;
 import game.OnlineHostGame;
-import gui.WaitingForConnectionForm;
+import guiLogic.WaitingForConnectionForm;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
