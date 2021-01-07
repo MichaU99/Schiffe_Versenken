@@ -63,6 +63,11 @@ public class Controller_GameScreen implements Initializable {
     @FXML
     private AnchorPane anchorE;
 
+    /**
+     * Initialisiert die GUI abhängig vom Spieltyp
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GP_Enemy.getColumnConstraints().clear();
@@ -104,7 +109,7 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Sets the visibility and disables Buttons that are not needed for the current scene
+     * Aktiviert die für den Spieltyp relevanten Buttons
      * @param ki true-> game ist ki game; false-> game is not ki game
      */
     public void setButtons(Boolean ki){
@@ -131,6 +136,11 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Markiert Felder auf die geschossen werden soll mit einem dicken Rand,
+     * entfernt bei einer zweiten Markierung die erste
+     * @param event
+     */
     public void markField(MouseEvent event) {
         int x,y;
         try {
@@ -213,7 +223,8 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Methode des Buttons Shoot, ruft die shoot Methode des Spiel auf die aktuell markierte Position auf
-     * @param event wird nicht verwendet, ist nur wegen der Button Einbingung notwendig
+     * und aktualisert das Spielerlabel und lastShot Label
+     * @param event wird nicht verwendet, ist nur wegen der Button Einbindung notwendig
      */
     public void shootbtn(ActionEvent event) {
         LastShotTag.setVisible(true);
@@ -292,6 +303,10 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Überprüft ob das Spiel vorbeit ist (alle Schiffe eines Spielers zerstört sind)
+     * und zeigt bei Spielende das Gegnerfeld + passendes alert
+     */
     private void checkGameEnded() {
         Stage stage;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -397,6 +412,12 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+
+    /**
+     * Ändert die aktuelle Scene von Layout_GameScreen auf Layout_NewGame
+     * @param event
+     * @throws IOException
+     */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root);
@@ -406,6 +427,10 @@ public class Controller_GameScreen implements Initializable {
         stage.show();
     }
 
+    /**
+     * Speichert das aktuelle GFame in eine Save Datei mit passender Dateiendung
+     * @param event
+     */
     public void onSaveClick(ActionEvent event) {
         Stage primaryStage= (Stage) ap.getScene().getWindow();
         FileChooser fs = new FileChooser();
