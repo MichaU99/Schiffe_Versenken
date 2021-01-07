@@ -250,6 +250,7 @@ public class Controller_GameScreen implements Initializable {
                         Platform.runLater(() -> updateField(GP_Player));
                         if (rc1 == 0) {
                             Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
+                            if(markedPos!=null) Shoot_bt.setDisable(false);
                             break;
                         } else if (rc1 == 2) {
                             Platform.runLater(() ->LastShotTag.setText("Destroyed"));
