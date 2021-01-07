@@ -215,7 +215,8 @@ public class Controller_PutShips implements Initializable {
                     cell.setStyle(shipCell);
                 }
                 else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){
-
+                    cell.setStyle(waterCell);
+                    cell.getStyleClass().add("crossPut");
                 }
                 else {
                     cell.setStyle(waterCell);

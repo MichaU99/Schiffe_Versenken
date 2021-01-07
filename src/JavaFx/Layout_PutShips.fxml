@@ -22,7 +22,7 @@
                </items></Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="optionbtn" layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="34.0" prefWidth="131.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Options" AnchorPane.rightAnchor="35.0" />
+      <Button fx:id="optionbtn" layoutX="534.0" layoutY="41.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="34.0" prefWidth="131.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Options" AnchorPane.rightAnchor="35.0" />
       <Button layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#autofill" styleClass="ButtonBlack" stylesheets="@button.css" text="Autofill" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="14.0" />
       <ListView fx:id="listView" disable="true" layoutX="432.0" layoutY="91.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="138.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="91.0" />
       <VBox alignment="TOP_CENTER" layoutX="432.0" layoutY="328.0" prefHeight="133.0" prefWidth="159.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="20.0">
@@ -32,7 +32,7 @@
             <Button fx:id="Start_bt" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="108.0" styleClass="Button_StartGame" stylesheets="@button.css" text="Start" />
          </children>
       </VBox>
-      <Label layoutX="432.0" layoutY="75.0" prefHeight="17.0" prefWidth="145.0" text="Noch zu setzende Schiffe:" textAlignment="CENTER" underline="true" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="75.0" />
+      <Label layoutX="432.0" layoutY="75.0" prefHeight="17.0" prefWidth="145.0" styleClass="Textkleiner" stylesheets="@button.css" text="Noch zu setzende Schiffe:" textAlignment="CENTER" underline="true" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="75.0" />
       <AnchorPane layoutX="21.0" layoutY="86.0" prefHeight="265.0" prefWidth="408.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="86.0">
          <children>
             <GridPane fx:id="GridP" alignment="CENTER" layoutX="1.0" onMouseClicked="#klickShipintoExistance" prefHeight="265.0" prefWidth="408.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">

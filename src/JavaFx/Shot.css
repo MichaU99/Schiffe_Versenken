@@ -78,6 +78,16 @@
     -fx-min-width: 1em;
 
 }
+.crossPut{
+    -fx-background-image: url("crossPut.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 3em;
+    -fx-background-position: center center;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
 .loeschMarkCell{
     -fx-background-color: #7700ff;
     -fx-margin: 5 5 5 5;
