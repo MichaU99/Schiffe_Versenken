@@ -35,8 +35,9 @@ public class Controller_GameScreen implements Initializable {
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String markCell = "-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     // TODO: 02.01.2021 shotWater und shotShip sollten jeweils ein rotes und dunkelblaues kreuz ohne Hintergrund enthalten 
-    String shotWater = "-fx-background-color: #060b60; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
-    String shotShip = "-fx-background-color: #e00c0c; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
+
+    String shotWater = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
+    String shotShip = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
     private  String PLAYER1_NAME="YOU";
     private  String PLAYER2_NAME="ENEMY";
@@ -158,6 +159,8 @@ public class Controller_GameScreen implements Initializable {
                 Shot s = ((Shot) game.getEnemyField().getCell(markedPos));
                 if (s.getWasShip()) {
                     cell.setStyle(shotShip);
+                    cell.getStyleClass().add("cross");
+
                     /*
                     cell.setStyle(shipCell);
                     GridPane.setConstraints(cell, x, y);
@@ -167,6 +170,7 @@ public class Controller_GameScreen implements Initializable {
                     */
                 } else {
                     cell.setStyle(shotWater);
+                    cell.getStyleClass().add("crossW");
                     /*
                     cell.setStyle(waterCell);
                     GridPane.setConstraints(cell, x, y);
@@ -352,6 +356,8 @@ public class Controller_GameScreen implements Initializable {
                         Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
+                            cell.getStyleClass().add("cross");
+
                             /*
                             cell.setStyle(shipCell);
                             //GridPane.setConstraints(cell, x, y);
@@ -361,6 +367,7 @@ public class Controller_GameScreen implements Initializable {
                             */
                         } else {
                             cell.setStyle(shotWater);
+                            cell.getStyleClass().add("crossW");
                             /*
                             cell.setStyle(waterCell);
                             GridPane.setConstraints(cell, x, y);
@@ -385,6 +392,7 @@ public class Controller_GameScreen implements Initializable {
                         Shot s = ((Shot) game.getField().getCell(new Position(x, y)));
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
+                            cell.getStyleClass().add("cross");
                             /*
                             cell.setStyle(shipCell);
                             //GridPane.setConstraints(cell, x, y);
@@ -394,6 +402,7 @@ public class Controller_GameScreen implements Initializable {
                             */
                         } else {
                             cell.setStyle(shotWater);
+                            cell.getStyleClass().add("crossW");
                             /*
                             cell.setStyle(waterCell);
                             GridPane.setConstraints(cell, x, y);
@@ -481,6 +490,7 @@ public class Controller_GameScreen implements Initializable {
                         Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
+                            cell.getStyleClass().add("cross");
                                 /*
                                 cell.setStyle(shipCell);
                                 //GridPane.setConstraints(cell, x, y);
@@ -490,6 +500,7 @@ public class Controller_GameScreen implements Initializable {
                                 */
                         } else {
                             cell.setStyle(shotWater);
+                            cell.getStyleClass().add("crossW");
                                 /*
                                 cell.setStyle(waterCell);
                                 GridPane.setConstraints(cell, x, y);
@@ -515,6 +526,7 @@ public class Controller_GameScreen implements Initializable {
                     Shot s = ((Shot) game.getField().getCell(new Position(x, y)));
                     if (s.getWasShip()) {
                         cell.setStyle(shotShip);
+                        cell.getStyleClass().add("cross");
                                 /*
                                 cell.setStyle(shipCell);
                                 //GridPane.setConstraints(cell, x, y);
@@ -525,6 +537,7 @@ public class Controller_GameScreen implements Initializable {
                     }
                     else {
                         cell.setStyle(shotWater);
+                        cell.getStyleClass().add("crossW");
                                 /*
                                 cell.setStyle(waterCell);
                                 GridPane.setConstraints(cell, x, y);
