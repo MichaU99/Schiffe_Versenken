@@ -1,5 +1,6 @@
 package JavaFx;
 
+import enums.KiStrength;
 import game.OnlineClientGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -16,7 +19,10 @@ import java.util.TimerTask;
 
 public class Controller_ClientGame {
     public Stage stage;
-
+    @FXML
+    private ChoiceBox<KiStrength> choiceBox;
+    @FXML
+    private CheckBox checkBox;
     @FXML
     private TextField serverTbx;
     @FXML
@@ -86,5 +92,12 @@ public class Controller_ClientGame {
                 textField.getStyleClass().add("textfeld2");
             }
         }, duration);
+    }
+
+    public void KIvsKIbtn(ActionEvent actionEvent) {
+        if(checkBox.isSelected()){
+            choiceBox.setDisable(false);
+        }
+        else choiceBox.setDisable(true);
     }
 }
