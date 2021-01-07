@@ -231,11 +231,13 @@ public class Controller_GameScreen implements Initializable {
      * @param event wird nicht verwendet, ist nur wegen der Button Einbindung notwendig
      */
     public void shootbtn(ActionEvent event) {
+        Position tmpPos =markedPos;
+        markedPos=null;
         LastShotTag.setVisible(true);
         Shoot_bt.setDisable(true);
         if (game instanceof LocalGame && game.isMyTurn()) {
-            if (markedPos == null) return;
-            int rc = game.shoot(markedPos);
+            if (tmpPos == null) return;
+            int rc = game.shoot(tmpPos);
             updateField(GP_Enemy);
             if (rc == 0) {//Kein Treffer
                 playerTag.setText(PLAYER2_NAME);
@@ -270,7 +272,7 @@ public class Controller_GameScreen implements Initializable {
             }
         } else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
             OnlineGame onlineGame = ((OnlineGame) game);
-            int rc = onlineGame.shoot(markedPos);
+            int rc = onlineGame.shoot(tmpPos);
             updateField(GP_Enemy);
 
             if (rc == 0) {
