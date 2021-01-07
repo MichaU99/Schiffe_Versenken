@@ -6,6 +6,7 @@ import gui.GameOptions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,15 +16,17 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Controller_HostGame {
+public class Controller_HostGame implements Initializable {
     public Stage stage;
 
     @FXML
-    private ChoiceBox choiceBox;
+    private ChoiceBox<KiStrength> choiceBox;
     @FXML
     private CheckBox checkBox;
     @FXML
@@ -39,6 +42,11 @@ public class Controller_HostGame {
     @FXML
     private TextField twoTbx;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        choiceBox.setDisable(true);
+        choiceBox.getSelectionModel().select(KiStrength.INTERMEDIATE);
+    }
     public void changeToMultGameChooseRole(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
         Parent root= FXMLLoader.load(getClass().getResource("Layout_Mult_ChooseRole.fxml"));
         Scene scene = new Scene(root,800,600);
@@ -174,8 +182,8 @@ public class Controller_HostGame {
         if (!status) {
             return null;
         }
-
-        gui.GameOptions go = new GameOptions(fs, KiStrength.INTERMEDIATE, five, four, three, two);
+        KiStrength kiStrength=choiceBox.getSelectionModel().getSelectedItem();
+        gui.GameOptions go = new GameOptions(fs, kiStrength, five, four, three, two);
         return new OnlineHostGame(fs, fs, pn, shipLengths, go);
     }
 
@@ -198,4 +206,6 @@ public class Controller_HostGame {
             }
         }, duration);
     }
+
+
 }
