@@ -18,7 +18,8 @@ import java.io.IOException;
 public class Controller_LoadingScreen {
     public Stage stage;
     public static OnlineGame onlineGame;
-
+    public static boolean wasSave=false;
+    public static String filename;
     @FXML
     private Label statusLbl;
 
@@ -42,7 +43,20 @@ public class Controller_LoadingScreen {
 
             Controller_PutShips.online = true;
             Controller_GameScreen.game = clientGame;
-            Platform.runLater(() -> {
+            if(wasSave){
+                Platform.runLater(() -> {
+                    try {
+                        Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
+                        Scene scene = new Scene(root,800,600);
+                        Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            else Platform.runLater(() -> {
                 try {
                     Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
                     Scene scene = new Scene(root,800,600);
@@ -59,7 +73,24 @@ public class Controller_LoadingScreen {
     private void waitForConnection(OnlineHostGame hostGame) {
         updateStatusLabel("Waiting for Connection!");
         new Thread(() -> {
-            boolean status = hostGame.waitForConnection();
+            if(wasSave){
+                boolean status = hostGame.waitForConnectionLoadSave(filename);
+                if(status){
+                    Platform.runLater(() ->{
+                        try {
+                        Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
+                        Scene scene = new Scene(root,800,600);
+                        Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                })
+                    ;}
+            }
+            else {
+                boolean status = hostGame.waitForConnection();
 
             if (status) {
                 Controller_PutShips.online = true;
@@ -75,6 +106,7 @@ public class Controller_LoadingScreen {
                         e.printStackTrace();
                     }
                 });
+            }
             }
         }).start();
     }

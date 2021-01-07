@@ -190,6 +190,10 @@ public class Controller_PutShips implements Initializable {
      * @param event
      */
     public void autofill(ActionEvent event){
+        if(noch_zu_setzende_schiffe.isEmpty()){
+            game.getField().resetField();
+            noch_zu_setzende_schiffe=options.getShipList();
+        }
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
             noch_zu_setzende_schiffe.clear();
             Start_bt.setDisable(false);
