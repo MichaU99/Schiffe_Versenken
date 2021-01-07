@@ -99,7 +99,7 @@
 .bomb{
     -fx-background-image: url("bomb.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 3em;
+    -fx-background-size: 2em;
     -fx-background-position: center center;
     -fx-pref-height: 5em;
     -fx-pref-width: 5em;
