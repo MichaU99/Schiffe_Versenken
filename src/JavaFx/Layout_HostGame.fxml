@@ -11,6 +11,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.collections.FXCollections?>
+<?import enums.KiStrength?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_HostGame">
    <children>
       <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -93,7 +95,16 @@
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></CheckBox>
-                        <ChoiceBox fx:id="choiceBox" disable="true" prefWidth="150.0" />
+                        <ChoiceBox fx:id="choiceBox" layoutX="10.0" layoutY="10.0" prefWidth="150.0" styleClass="Choicebox" stylesheets="@button.css" value="BEGINNER">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <KiStrength fx:value="BEGINNER" />
+                                 <KiStrength fx:value="INTERMEDIATE" />
+                                 <KiStrength fx:value="STRONG" />
+                                 <KiStrength fx:value="HELL" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
                      </children>
                   </VBox>
                   <HBox prefHeight="56.0" prefWidth="160.0">
