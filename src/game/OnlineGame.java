@@ -1,6 +1,6 @@
 package game;
 
-import gui.GameOptions;
+import JavaFx.GameOptions;
 
 import java.io.File;
 import java.io.IOException;

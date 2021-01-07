@@ -1,10 +1,10 @@
 package game;
 
+import JavaFx.GameOptions;
 import enums.KiStrength;
 import enums.ProtComs;
 import game.cells.Shot;
-import gui.GameOptions;
-import gui.WaitingForConnectionForm;
+import guiLogic.WaitingForConnectionForm;
 import network.BattleshipProtocol;
 import network.Client;
 

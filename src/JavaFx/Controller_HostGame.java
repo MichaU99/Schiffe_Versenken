@@ -2,7 +2,6 @@ package JavaFx;
 
 import enums.KiStrength;
 import game.OnlineHostGame;
-import gui.GameOptions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -183,7 +182,7 @@ public class Controller_HostGame implements Initializable {
             return null;
         }
         KiStrength kiStrength=choiceBox.getSelectionModel().getSelectedItem();
-        gui.GameOptions go = new GameOptions(fs, kiStrength, five, four, three, two);
+        GameOptions go = new GameOptions(fs, kiStrength, five, four, three, two);
         return new OnlineHostGame(fs, fs, pn, shipLengths, go);
     }
 

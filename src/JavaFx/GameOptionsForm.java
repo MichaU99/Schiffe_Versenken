@@ -1,6 +1,7 @@
-package gui;
+package JavaFx;
 
 import enums.KiStrength;
+import guiLogic.StaticNodes;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

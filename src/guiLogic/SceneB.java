@@ -1,4 +1,4 @@
-package gui;
+package guiLogic;
 
 import game.Game;
 import game.KiVsKiGame;

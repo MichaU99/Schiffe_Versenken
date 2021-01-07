@@ -1,4 +1,4 @@
-package gui;
+package guiLogic;
 
 import enums.KiStrength;
 import game.KiVsKiGame;

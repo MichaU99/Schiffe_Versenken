@@ -1,4 +1,4 @@
-package gui;
+package guiLogic;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;

@@ -95,10 +95,10 @@
                            </children>
                         </VBox>
                         <Button fx:id="startbt" disable="true" layoutX="80.0" layoutY="119.0" mnemonicParsing="false" onAction="#startstopbtnOnClick" text="Start" visible="false" />
-                        <ChoiceBox fx:id="gamespdbox" disable="true" layoutX="25.0" layoutY="155.0" prefWidth="150.0" visible="false" />
+                        <ChoiceBox fx:id="gamespdbox" disable="true" layoutX="25.0" layoutY="155.0" onMouseClicked="#onKvkDelayCbxChange" prefWidth="150.0" visible="false" />
                      </children>
                   </AnchorPane>
-                  <Button fx:id="Shoot_bt" mnemonicParsing="false" onAction="#shootbtn" prefHeight="43.0" prefWidth="74.0" text="Shoot" styleClass="Button_StartGame" stylesheets="@button.css"/>
+                  <Button fx:id="Shoot_bt" mnemonicParsing="false" onAction="#shootbtn" prefHeight="43.0" prefWidth="74.0" styleClass="Button_StartGame" stylesheets="@button.css" text="Shoot" />
                </children>
             </VBox>
             <AnchorPane HBox.hgrow="ALWAYS">

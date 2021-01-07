@@ -1,5 +1,6 @@
-package gui;
+package guiLogic;
 
+import JavaFx.*;
 import game.OnlineClientGame;
 import game.OnlineHostGame;
 import game.OnlineGame;
