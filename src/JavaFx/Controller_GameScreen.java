@@ -281,6 +281,7 @@ public class Controller_GameScreen implements Initializable {
                         onlineGame.enemyShot();
                         Platform.runLater(() -> updateField(GP_Player));
                     }
+                    if(markedPos!=null) Shoot_bt.setDisable(false);
                     Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
             }
