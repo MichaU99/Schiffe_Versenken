@@ -100,7 +100,7 @@
                   <HBox prefHeight="59.0" prefWidth="171.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="38.0" />
-                        <Button mnemonicParsing="false" onAction="#changeToGameScreenChooseRole" styleClass="Button_StartGame" stylesheets="@button.css" text="Start game" />
+                        <Button mnemonicParsing="false" onAction="#changeToGameScreen" styleClass="Button_StartGame" stylesheets="@button.css" text="Start game" />
                      </children>
                   </HBox>
                </children>

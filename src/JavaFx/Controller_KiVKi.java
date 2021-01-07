@@ -59,7 +59,7 @@ public class Controller_KiVKi implements Initializable {
         stage.show();
     }
 
-    public void changeToGameScreenChooseRole(ActionEvent event) throws IOException { // name falsch aber wechselt auf gamescreen
+    public void changeToGameScreen(ActionEvent event) throws IOException { // name falsch aber wechselt auf gamescreen
 
         if (!validateInput()) {
             return;
@@ -69,6 +69,8 @@ public class Controller_KiVKi implements Initializable {
         Scene scene = new Scene(root,1000,600);
         scene.getStylesheets().add("JavaFx/Shot.css");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinHeight(600);
+        stage.setMinWidth(1000);
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();

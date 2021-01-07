@@ -67,11 +67,11 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <VBox alignment="CENTER" prefHeight="231.0" prefWidth="200.0">
+            <VBox alignment="CENTER" prefHeight="300.0" prefWidth="200.0">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="78.0" prefWidth="100.0" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="14.0">
+                        <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="76.0" prefWidth="167.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="14.0">
                            <children>
                               <Label styleClass="Textg" stylesheets="@button.css" text="Current Player:">
                                  <font>
@@ -90,8 +90,8 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button fx:id="startbt" disable="true" layoutX="80.0" layoutY="119.0" mnemonicParsing="false" onAction="#startstopbtnOnClick" text="Start" visible="false" />
-                        <ChoiceBox fx:id="gamespdbox" disable="true" layoutX="25.0" layoutY="155.0" onMouseClicked="#onKvkDelayCbxChange" prefWidth="150.0" visible="false" />
+                        <Button fx:id="startbt" disable="true" layoutX="54.0" layoutY="92.0" mnemonicParsing="false" onAction="#startstopbtnOnClick" prefHeight="40.0" prefWidth="88.0" styleClass="Button_StartGame" stylesheets="@button.css" text="Start" visible="false" />
+                        <ChoiceBox fx:id="gamespdbox" disable="true" layoutX="14.0" layoutY="138.0" onMouseClicked="#onKvkDelayCbxChange" prefHeight="58.0" prefWidth="178.0" styleClass="ChoiceboxKi" stylesheets="@button.css" visible="false" />
                      </children>
                   </AnchorPane>
                   <Button fx:id="Shoot_bt" mnemonicParsing="false" onAction="#shootbtn" prefHeight="43.0" prefWidth="74.0" styleClass="Button_Shot" stylesheets="@button.css" text="Shoot" />

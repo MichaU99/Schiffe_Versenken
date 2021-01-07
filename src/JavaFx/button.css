@@ -126,5 +126,12 @@
     -fx-padding: 10 20 10 20;
     -fx-effect: innershadow( gaussian , rgb(0,139,139) , 20,0,0,1 );
 }
-
+.ChoiceboxKi{
+    -fx-background-color: #ffff;
+    -fx-font-family: "Garamond";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-padding: 10 20 10 20;
+    -fx-effect: innershadow( gaussian , #1b5a7e , 20,0,0,1 );
+}
 
