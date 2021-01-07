@@ -198,38 +198,6 @@ public class Controller_GameScreen implements Initializable {
         if(game.isMyTurn())Shoot_bt.setDisable(false);
     }
 
-
-    /**
-     * Erstellt ein neutrales (Wasser-)Feld für den Gegner
-     **/
-    private void makeFieldEnemy() {
-        GP_Enemy.getColumnConstraints().clear();
-        GP_Enemy.getRowConstraints().clear();
-        for (int x = 0; x < game.getEnemyField().getLength(); x++) {
-            for (int y = 0; y < game.getEnemyField().getHeight(); y++) {
-                HBox k = new HBox();
-                k.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                /*ColumnConstraints columnConstraints=new ColumnConstraints();
-                RowConstraints rowConstraints= new RowConstraints();
-                columnConstraints.setHgrow(Priority.ALWAYS);
-                columnConstraints.setMaxWidth(100);
-                columnConstraints.setMinWidth(10);
-                columnConstraints.setPrefWidth(100);
-
-                rowConstraints.setMinHeight(10);
-                rowConstraints.setPrefHeight(30);
-                rowConstraints.setVgrow(Priority.ALWAYS);
-
-                GP_Enemy.getRowConstraints().add(rowConstraints);
-                GP_Enemy.getColumnConstraints().add(columnConstraints);*/
-                GridPane.setConstraints(k, x, y);
-                GP_Enemy.getChildren().add(k);
-            }
-        }
-        //anchorE.getChildren().clear();
-        //anchorE.getChildren().add(GP_Enemy);
-    }
-
     /**
      * Methode des Buttons Shoot, ruft die shoot Methode des Spiel auf die aktuell markierte Position auf
      * und aktualisert das Spielerlabel und lastShot Label
