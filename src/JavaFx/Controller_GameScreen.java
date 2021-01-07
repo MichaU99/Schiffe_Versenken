@@ -33,7 +33,7 @@ public class Controller_GameScreen implements Initializable {
     public  static boolean saveGame=false;
     String waterCell = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
-    String markCell = "-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
+    String markCell = "-fx-border-width:0.5em;  -fx-margin: 1 1 1 1;-fx-border-color: #ffccff;-fx-pref-height: 1em;-fx-pref-width:1em;-fx-min-height: 1em;-fx-min-width: 1em";
     // TODO: 02.01.2021 shotWater und shotShip sollten jeweils ein rotes und dunkelblaues kreuz ohne Hintergrund enthalten 
 
     String shotWater = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
@@ -188,6 +188,7 @@ public class Controller_GameScreen implements Initializable {
         cell = new HBox();
         markedPos = new Position(x, y);
         cell.setStyle(markCell);
+        cell.getStyleClass().add("bomb");
         GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
         GP_Enemy.getChildren().add(cell);
         if(game.isMyTurn())Shoot_bt.setDisable(false);

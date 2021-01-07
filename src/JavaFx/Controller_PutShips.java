@@ -365,6 +365,8 @@ public class Controller_PutShips implements Initializable {
             scene.getStylesheets().add("JavaFx/Shot.css");
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setMinHeight(600);
+            stage.setMinWidth(1000);
             stage.setMaximized(true);
             stage.show();
         }
@@ -401,6 +403,9 @@ public class Controller_PutShips implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         Stage stage = (Stage) GridP.getScene().getWindow();
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+
         stage.setScene(scene);
         stage.show();
     }

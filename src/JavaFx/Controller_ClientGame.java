@@ -1,26 +1,41 @@
 package JavaFx;
 
+import enums.KiStrength;
 import game.OnlineClientGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Controller_ClientGame {
+public class Controller_ClientGame implements Initializable {
     public Stage stage;
-
+    @FXML
+    private ChoiceBox<KiStrength> choiceBox;
+    @FXML
+    private CheckBox checkBox;
     @FXML
     private TextField serverTbx;
     @FXML
     private TextField portTbx;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        choiceBox.setDisable(true);
+        choiceBox.getSelectionModel().select(KiStrength.INTERMEDIATE);
+    }
 
     public void changeToMultGameChooseRole(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
         Parent root= FXMLLoader.load(getClass().getResource("Layout_Mult_ChooseRole.fxml"));
@@ -87,4 +102,13 @@ public class Controller_ClientGame {
             }
         }, duration);
     }
+
+    public void KIvsKIbtn(ActionEvent actionEvent) {
+        if(checkBox.isSelected()){
+            choiceBox.setDisable(false);
+        }
+        else choiceBox.setDisable(true);
+    }
+
+
 }

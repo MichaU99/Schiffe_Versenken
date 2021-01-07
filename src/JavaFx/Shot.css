@@ -60,7 +60,7 @@
 .cross{
     -fx-background-image: url("cross-red.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 5em;
+    -fx-background-size: 3em;
     -fx-background-position: center center;
     -fx-pref-height: 5em;
     -fx-pref-width: 5em;
@@ -70,7 +70,7 @@
 .crossW{
     -fx-background-image: url("cross-blue.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 5em;
+    -fx-background-size: 3em;
     -fx-background-position: center center;
     -fx-pref-height: 5em;
     -fx-pref-width: 5em;
@@ -91,6 +91,16 @@
     -fx-background-color: #A52A2A;
     -fx-margin: 5 5 5 5;
     -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.bomb{
+    -fx-background-image: url("bomb.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2em;
+    -fx-background-position: center center;
     -fx-pref-height: 5em;
     -fx-pref-width: 5em;
     -fx-min-height: 1em;
