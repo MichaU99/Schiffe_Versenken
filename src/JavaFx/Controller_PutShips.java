@@ -63,6 +63,7 @@ public class Controller_PutShips implements Initializable {
         GridP.getRowConstraints().clear();
         if(online){
             //System.out.println(game);
+            game=Controller_GameScreen.game;
             gui.GameOptions gOptions= ((OnlineGame) game).gameOptions;
             optionbtn.setDisable(true);
             optionbtn.setVisible(false);
