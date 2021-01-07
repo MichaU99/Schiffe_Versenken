@@ -435,6 +435,7 @@ public class Controller_GameScreen implements Initializable {
         Stage primaryStage= (Stage) ap.getScene().getWindow();
         FileChooser fs = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter;
+        fs.setInitialDirectory(new File("./"));
         if (game instanceof LocalGame) {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
         } else if (game instanceof OnlineHostGame) {
@@ -567,7 +568,7 @@ public class Controller_GameScreen implements Initializable {
     }
 
     // TODO: 04.01.2021 Welcher Actionstyp ist das bei der ChoiceBox? 
-    private void onKvkDelayCbxChange(ActionEvent event) {
+    public void onKvkDelayCbxChange(ActionEvent event) {
         ChoiceBox source = ((ChoiceBox) event.getSource());
         switch (source.getSelectionModel().getSelectedIndex()) {
             case 0:
