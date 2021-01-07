@@ -66,7 +66,7 @@ public class Controller_KiVKi implements Initializable {
         }
 
         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-        Scene scene = new Scene(root,800,600);
+        Scene scene = new Scene(root,1000,600);
         scene.getStylesheets().add("JavaFx/Shot.css");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
