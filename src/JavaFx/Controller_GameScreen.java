@@ -285,16 +285,19 @@ public class Controller_GameScreen implements Initializable {
         Stage stage;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
-        updateFieldDisclosed(GP_Player);
-        updateFieldDisclosed(GP_Enemy);
+
         switch (game.whoWon()) {
             case 0:
+                updateFieldDisclosed(GP_Player);
+                updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You won!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
                 stage.close();
                 break;
             case 1:
+                updateFieldDisclosed(GP_Player);
+                updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You lost!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
