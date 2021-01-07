@@ -61,6 +61,7 @@ public class Controller_PutShips implements Initializable {
         Controller_GameScreen.saveGame=false;
         GridP.getColumnConstraints().clear();
         GridP.getRowConstraints().clear();
+        Start_bt.setDisable(true);
         if(online){
             //System.out.println(game);
             game=Controller_GameScreen.game;
@@ -212,6 +213,9 @@ public class Controller_PutShips implements Initializable {
                 HBox cell = new HBox();
                 if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
                     cell.setStyle(shipCell);
+                }
+                else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){
+
                 }
                 else {
                     cell.setStyle(waterCell);
@@ -370,7 +374,11 @@ public class Controller_PutShips implements Initializable {
             stage.setMaximized(true);
             stage.show();
         }
-        else System.out.println("Es gibt noch ungesetzte Schiffe");
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Es gibt noch ungesetzte Schiffe");
+            Start_bt.setDisable(true);
+        }
     }
 
     /**
