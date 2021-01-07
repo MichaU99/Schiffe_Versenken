@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -20,6 +22,10 @@ import java.util.TimerTask;
 public class Controller_HostGame {
     public Stage stage;
 
+    @FXML
+    private ChoiceBox choiceBox;
+    @FXML
+    private CheckBox checkBox;
     @FXML
     private TextField fsTbx;
     @FXML
@@ -171,6 +177,13 @@ public class Controller_HostGame {
 
         gui.GameOptions go = new GameOptions(fs, KiStrength.INTERMEDIATE, five, four, three, two);
         return new OnlineHostGame(fs, fs, pn, shipLengths, go);
+    }
+
+    public void KIvsKIbtn(ActionEvent event){
+        if(checkBox.isSelected()){
+            choiceBox.setDisable(false);
+        }
+        else choiceBox.setDisable(true);
     }
 
     private void onTbxError(javafx.scene.control.TextField textField, int duration) {
