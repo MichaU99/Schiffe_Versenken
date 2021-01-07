@@ -6,8 +6,11 @@ import game.cells.Shot;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -284,16 +287,19 @@ public class Controller_GameScreen implements Initializable {
         Stage stage;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
-        updateFieldDisclosed(GP_Player);
-        updateFieldDisclosed(GP_Enemy);
+
         switch (game.whoWon()) {
             case 0:
+                updateFieldDisclosed(GP_Player);
+                updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You won!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
                 stage.close();
                 break;
             case 1:
+                updateFieldDisclosed(GP_Player);
+                updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You lost!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
@@ -382,8 +388,17 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+    public void backToStart(ActionEvent event) throws IOException {
+        Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
+        Scene scene = new Scene(root);
 
-    private void onSaveClick(Stage primaryStage) {
+        Stage stage = (Stage) ap.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void onSaveClick(ActionEvent event) {
+        Stage primaryStage= (Stage) ap.getScene().getWindow();
         FileChooser fs = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter;
         if (game instanceof LocalGame) {

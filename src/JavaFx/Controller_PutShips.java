@@ -61,6 +61,7 @@ public class Controller_PutShips implements Initializable {
         GridP.getColumnConstraints().clear();
         GridP.getRowConstraints().clear();
         if(online){
+            //System.out.println(game);
             gui.GameOptions gOptions= ((OnlineGame) game).gameOptions;
             optionbtn.setDisable(true);
             optionbtn.setVisible(false);
@@ -387,12 +388,11 @@ public class Controller_PutShips implements Initializable {
             alert.showAndWait();
         }
     }
-    // TODO: 01.01.2021 Back Button zum Auswahlmenü einbinden
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root,800,600);
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) GridP.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
