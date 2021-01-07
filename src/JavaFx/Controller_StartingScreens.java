@@ -101,6 +101,7 @@ public class Controller_StartingScreens implements Initializable {
         fs.setInitialDirectory(new File("./"));
         File file = fs.showOpenDialog(primaryStage);
         if (file != null) {
+            Controller_GameScreen.saveGame=true;
             String filepath = file.getPath();
             String ext = filepath.substring(filepath.lastIndexOf("."));
             if (ext.equals(".lsave")) {

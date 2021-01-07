@@ -58,6 +58,7 @@ public class Controller_PutShips implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Controller_GameScreen.saveGame=false;
         GridP.getColumnConstraints().clear();
         GridP.getRowConstraints().clear();
         if(online){
@@ -388,6 +389,12 @@ public class Controller_PutShips implements Initializable {
             alert.showAndWait();
         }
     }
+
+    /**
+     * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
+     * @param event
+     * @throws IOException
+     */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root,800,600);

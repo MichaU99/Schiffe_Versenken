@@ -30,6 +30,7 @@ public class Controller_GameScreen implements Initializable {
     private Timer timer;
     private int timerInterval = 1000;
     public static Game game;
+    public  static boolean saveGame=false;
     String waterCell = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String markCell = "-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
@@ -39,6 +40,7 @@ public class Controller_GameScreen implements Initializable {
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
     private  String PLAYER1_NAME="YOU";
     private  String PLAYER2_NAME="ENEMY";
+
 
     @FXML
     private GridPane GP_Player;
@@ -69,7 +71,9 @@ public class Controller_GameScreen implements Initializable {
         GP_Player.getColumnConstraints().clear();
         //game = Controller_PutShips.getGame();
         updateField(GP_Player);
-        game.startGame();
+        if(!saveGame){
+            game.startGame();
+        }
 
         //Unterscheidet zwischen Beobachteten Spielen, in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
         // und normal gespielten Spielern in denen nur ein Feld bekannt ist
@@ -77,7 +81,7 @@ public class Controller_GameScreen implements Initializable {
             updateFieldDisclosed(GP_Enemy);
             setButtons(true);
         } else {
-            makeFieldEnemy();
+            updateField(GP_Enemy);
             setButtons(false);
             if (game instanceof LocalGame) {
 
