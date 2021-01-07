@@ -132,7 +132,6 @@ public class Controller_GameScreen implements Initializable {
     }
 
     public void markField(MouseEvent event) {
-        // TODO: 02.01.2021 Felder sollten gezielt gelöscht und gesetzt werden sonst gibt es Komplikationen mit dickem Rand
         int x,y;
         try {
             x = GridPane.getColumnIndex((Node) event.getTarget());
@@ -177,7 +176,7 @@ public class Controller_GameScreen implements Initializable {
         cell.setStyle(markCell);
         GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
         GP_Enemy.getChildren().add(cell);
-        Shoot_bt.setDisable(false);
+        if(game.isMyTurn())Shoot_bt.setDisable(false);
     }
 
 
@@ -260,6 +259,7 @@ public class Controller_GameScreen implements Initializable {
 
             if (rc == 0) {
                 playerTag.setText(PLAYER2_NAME);
+                LastShotTag.setText("Last Shot: Miss");
                 new Thread(() -> {
                     while (!onlineGame.isMyTurn()) {
                         onlineGame.enemyShot();
@@ -267,6 +267,11 @@ public class Controller_GameScreen implements Initializable {
                     }
                     Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
+            }
+            else if (rc == 1) {
+                LastShotTag.setText("Last Shot: Hit");
+            } else if (rc == 2) {
+                LastShotTag.setText("Destroyed");
             }
         }
     }
