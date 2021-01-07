@@ -75,7 +75,7 @@ public class Field implements Serializable {
     /**
      * Setzt alle Cells des {@link Field} auf {@link Cell}, also auf frei zurueck.
      */
-    private void resetField() {
+    public void resetField() {
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.length; j++) {
                 this.playfield[i][j] = new Cell();
