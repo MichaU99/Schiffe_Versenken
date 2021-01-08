@@ -33,7 +33,7 @@ public class Controller_GameScreen implements Initializable {
     public  static boolean saveGame=false;
     String waterCell = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String shipCell = "-fx-background-color: #000000; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
-    String markCell = "-fx-border-width:1em;  -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
+    String markCell = "-fx-border-width:0.5em;  -fx-margin: 1 1 1 1;-fx-border-color: #ffccff;-fx-pref-height: 1em;-fx-pref-width:1em;-fx-min-height: 1em;-fx-min-width: 1em";
     // TODO: 02.01.2021 shotWater und shotShip sollten jeweils ein rotes und dunkelblaues kreuz ohne Hintergrund enthalten 
 
     String shotWater = "-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
@@ -91,7 +91,11 @@ public class Controller_GameScreen implements Initializable {
             setButtons(false);
             if (game instanceof LocalGame) {
 
-            } else if (game instanceof OnlineClientGame) {
+            }
+            else  if(game instanceof OnlineHostGame){
+                playerTag.setText(PLAYER1_NAME);
+            }
+            else if (game instanceof OnlineClientGame) {
                     playerTag.setText(PLAYER2_NAME);
                     OnlineClientGame clientGame = ((OnlineClientGame) game);
                     new Thread(() -> {
@@ -188,41 +192,10 @@ public class Controller_GameScreen implements Initializable {
         cell = new HBox();
         markedPos = new Position(x, y);
         cell.setStyle(markCell);
+        cell.getStyleClass().add("bomb");
         GridPane.setConstraints(cell, markedPos.getX(), markedPos.getY());
         GP_Enemy.getChildren().add(cell);
         if(game.isMyTurn())Shoot_bt.setDisable(false);
-    }
-
-
-    /**
-     * Erstellt ein neutrales (Wasser-)Feld für den Gegner
-     **/
-    private void makeFieldEnemy() {
-        GP_Enemy.getColumnConstraints().clear();
-        GP_Enemy.getRowConstraints().clear();
-        for (int x = 0; x < game.getEnemyField().getLength(); x++) {
-            for (int y = 0; y < game.getEnemyField().getHeight(); y++) {
-                HBox k = new HBox();
-                k.setStyle("-fx-background-color: #00BFFF; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em");
-                /*ColumnConstraints columnConstraints=new ColumnConstraints();
-                RowConstraints rowConstraints= new RowConstraints();
-                columnConstraints.setHgrow(Priority.ALWAYS);
-                columnConstraints.setMaxWidth(100);
-                columnConstraints.setMinWidth(10);
-                columnConstraints.setPrefWidth(100);
-
-                rowConstraints.setMinHeight(10);
-                rowConstraints.setPrefHeight(30);
-                rowConstraints.setVgrow(Priority.ALWAYS);
-
-                GP_Enemy.getRowConstraints().add(rowConstraints);
-                GP_Enemy.getColumnConstraints().add(columnConstraints);*/
-                GridPane.setConstraints(k, x, y);
-                GP_Enemy.getChildren().add(k);
-            }
-        }
-        //anchorE.getChildren().clear();
-        //anchorE.getChildren().add(GP_Enemy);
     }
 
     /**
@@ -231,11 +204,13 @@ public class Controller_GameScreen implements Initializable {
      * @param event wird nicht verwendet, ist nur wegen der Button Einbindung notwendig
      */
     public void shootbtn(ActionEvent event) {
+        Position tmpPos =markedPos;
+        markedPos=null;
         LastShotTag.setVisible(true);
         Shoot_bt.setDisable(true);
         if (game instanceof LocalGame && game.isMyTurn()) {
-            if (markedPos == null) return;
-            int rc = game.shoot(markedPos);
+            if (tmpPos == null) return;
+            int rc = game.shoot(tmpPos);
             updateField(GP_Enemy);
             if (rc == 0) {//Kein Treffer
                 playerTag.setText(PLAYER2_NAME);
@@ -270,7 +245,7 @@ public class Controller_GameScreen implements Initializable {
             }
         } else if ((game instanceof OnlineHostGame || game instanceof OnlineClientGame) && game.isMyTurn()) {
             OnlineGame onlineGame = ((OnlineGame) game);
-            int rc = onlineGame.shoot(markedPos);
+            int rc = onlineGame.shoot(tmpPos);
             updateField(GP_Enemy);
 
             if (rc == 0) {
@@ -281,6 +256,7 @@ public class Controller_GameScreen implements Initializable {
                         onlineGame.enemyShot();
                         Platform.runLater(() -> updateField(GP_Player));
                     }
+                    if(markedPos!=null) Shoot_bt.setDisable(false);
                     Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
             }

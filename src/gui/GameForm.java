@@ -69,7 +69,7 @@ public class GameForm extends Application{
         Scene scene = new Scene(baseVBox, 960, 600);
 
         primaryStage.setScene(scene);
-        scene.getStylesheets().add(MainMenuForm.class.getResource("gameStyle.css").toExternalForm());
+        //scene.getStylesheets().add(MainMenuForm.class.getResource("gameStyle.css").toExternalForm());
         primaryStage.show();
     }
 

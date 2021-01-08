@@ -61,6 +61,7 @@ public class Controller_PutShips implements Initializable {
         Controller_GameScreen.saveGame=false;
         GridP.getColumnConstraints().clear();
         GridP.getRowConstraints().clear();
+        Start_bt.setDisable(true);
         if(online){
             //System.out.println(game);
             game=Controller_GameScreen.game;
@@ -189,6 +190,10 @@ public class Controller_PutShips implements Initializable {
      * @param event
      */
     public void autofill(ActionEvent event){
+        if(noch_zu_setzende_schiffe.isEmpty()){
+            game.getField().resetField();
+            noch_zu_setzende_schiffe=options.getShipList();
+        }
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
             noch_zu_setzende_schiffe.clear();
             Start_bt.setDisable(false);
@@ -212,6 +217,10 @@ public class Controller_PutShips implements Initializable {
                 HBox cell = new HBox();
                 if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
                     cell.setStyle(shipCell);
+                }
+                else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){
+                    cell.setStyle(waterCell);
+                    cell.getStyleClass().add("crossPut");
                 }
                 else {
                     cell.setStyle(waterCell);
@@ -289,13 +298,7 @@ public class Controller_PutShips implements Initializable {
                 noch_zu_setzende_schiffe.remove(noch_zu_setzende_schiffe.indexOf(generated_Ships.getLengh())); //Entfernt einen den Eintrag der Länge des eingefügten Schiffs aus der Liste
                 listView.getItems().remove("Schiff der Länge: " + generated_Ships.getLengh());
 
-                for (int i = 0; i < todel.length; i++) {
-                    HBox hbox = new HBox();
-                    hbox.setStyle(shipCell);
-                    GridPane.setConstraints(hbox, todel[i].getX(), todel[i].getY());
-                    GridP.getChildren().add(hbox);
-
-                }
+                updateGame();
                 ClickedShips.first = null;
                 if(noch_zu_setzende_schiffe.isEmpty()) Start_bt.setDisable(false);
             }
@@ -365,10 +368,16 @@ public class Controller_PutShips implements Initializable {
             scene.getStylesheets().add("JavaFx/Shot.css");
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setMinHeight(600);
+            stage.setMinWidth(1000);
             stage.setMaximized(true);
             stage.show();
         }
-        else System.out.println("Es gibt noch ungesetzte Schiffe");
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Es gibt noch ungesetzte Schiffe");
+            Start_bt.setDisable(true);
+        }
     }
 
     /**
@@ -401,6 +410,9 @@ public class Controller_PutShips implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         Stage stage = (Stage) GridP.getScene().getWindow();
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+
         stage.setScene(scene);
         stage.show();
     }
