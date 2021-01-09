@@ -3,6 +3,7 @@ package game;
 import JavaFx.GameOptions;
 import enums.ProtComs;
 import game.cells.Shot;
+import ki.Ki;
 import network.BattleshipProtocol;
 import network.Server;
 
@@ -11,6 +12,8 @@ import java.io.*;
 public class OnlineHostGame extends OnlineGame {
     private Server server;
     private int[] shipLengths; // the user has to specify the amount of each ship he wants to place before the game
+    public static boolean kiPlays=false;
+    private Ki ki;
 
     public OnlineHostGame(int playFieldHeight, int playFieldLength, int portNumber, int[] shipLengths, GameOptions gameOptions) {
         super(playFieldHeight, playFieldLength);
@@ -18,6 +21,7 @@ public class OnlineHostGame extends OnlineGame {
         this.server.setPortNumber(portNumber);
         this.shipLengths = shipLengths;
         this.gameOptions = gameOptions;
+        ki=new Ki(this.field,this.gameOptions.getKiStrength());
     }
 
     public boolean waitForConnection() {
@@ -59,6 +63,10 @@ public class OnlineHostGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
+        if(kiPlays){
+            this.ki.shoot();
+            position=this.enemyField.lastShotPos();
+        }
 
         //shoot
         this.server.writeLine(BattleshipProtocol.formatShot(position.getX(), position.getY()));
@@ -66,6 +74,7 @@ public class OnlineHostGame extends OnlineGame {
 
         if (answer[0] != ProtComs.ANSWER) {
             //failure -> stop connection
+            this.enemyField.undoLastShot();
             this.server.closeConnection();
         } else {
             int code = (int)answer[1];
