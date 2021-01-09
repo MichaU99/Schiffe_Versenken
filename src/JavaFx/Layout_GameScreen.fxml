@@ -95,6 +95,7 @@
                      </children>
                   </AnchorPane>
                   <Button fx:id="Shoot_bt" mnemonicParsing="false" onAction="#shootbtn" prefHeight="43.0" prefWidth="74.0" styleClass="Button_Shot" stylesheets="@button.css" text="Shoot" />
+                  <Button fx:id="auto_btn" disable="true" mnemonicParsing="false" onAction="#auto_btnClick" text="Auto" visible="false" />
                </children>
             </VBox>
             <AnchorPane HBox.hgrow="ALWAYS">
