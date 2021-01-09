@@ -33,7 +33,7 @@ public abstract class OnlineGame extends Game {
     public OnlineGame(int playFieldHeight, int playFieldLength) {
         super(playFieldHeight, playFieldLength);
     }
-
+    public abstract int getShipCount();
     /**
      * Beendet die Verbindung und gibt die Ports der Sockets wieder frei. Ist wichtig aufzurufen, wenn man die
      * z.B. als Host vorzeitig aufhört, auf eine Client Verbindung zu warten, da es sonst zu Exceptions kommt, sollte
