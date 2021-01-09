@@ -75,7 +75,6 @@ public class Controller_GameScreen implements Initializable {
         GP_Enemy.getRowConstraints().clear();
         GP_Player.getRowConstraints().clear();
         GP_Player.getColumnConstraints().clear();
-        //game = Controller_PutShips.getGame();
         updateField(GP_Player);
         if(!saveGame){
             game.startGame();
@@ -96,8 +95,13 @@ public class Controller_GameScreen implements Initializable {
                 playerTag.setText(PLAYER1_NAME);
             }
             else if (game instanceof OnlineClientGame) {
-                    playerTag.setText(PLAYER2_NAME);
-                    OnlineClientGame clientGame = ((OnlineClientGame) game);
+                playerTag.setText(PLAYER2_NAME);
+                OnlineClientGame clientGame = ((OnlineClientGame) game);
+                if (OnlineClientGame.kiPlays) {
+                    assert (false):"This part is not ready yet";
+                    // TODO: 09.01.2021 Hier fehlt ein Thread der die Ki an deiner Stelle schießen lässt
+                }
+                else {
                     new Thread(() -> {
                         while (!clientGame.isMyTurn()) {
                             clientGame.enemyShot();
@@ -105,6 +109,7 @@ public class Controller_GameScreen implements Initializable {
                         }
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                     }).start();
+                }
             }
         }
 
@@ -115,7 +120,7 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Aktiviert die für den Spieltyp relevanten Buttons
-     * @param ki true-> game ist ki game; false-> game is not ki game
+     * @param ki true-> game ist kivski game; false-> game is not ki game
      */
     public void setButtons(Boolean ki){
         if(ki){
