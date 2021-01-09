@@ -48,7 +48,8 @@ public class Controller_LoadingScreen {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
                         Scene scene = new Scene(root,800,600);
-                        Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        this.stage=GuiMain.stage;
+                        // Stage stage = (Stage) statusLbl.getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
                     } catch (IOException e) {
@@ -60,7 +61,8 @@ public class Controller_LoadingScreen {
                 try {
                     Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
                     Scene scene = new Scene(root,800,600);
-                    Stage stage = (Stage) statusLbl.getScene().getWindow();
+                    //Stage stage = (Stage) statusLbl.getScene().getWindow();
+                    this.stage=GuiMain.stage;
                     stage.setScene(scene);
                     stage.show();
                 } catch (IOException e) {

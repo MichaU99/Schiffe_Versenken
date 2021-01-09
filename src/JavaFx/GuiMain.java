@@ -12,7 +12,7 @@ public class GuiMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-        public Stage stage;
+        public static Stage stage;
         @Override
         public void start (Stage stage) throws Exception {
             this.stage=stage;
