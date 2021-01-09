@@ -7,6 +7,7 @@ import game.Position;
 import game.cells.Cell;
 import game.cells.Ship;
 import guiLogic.ClickedShips;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -39,6 +41,8 @@ public class Controller_PutShips implements Initializable {
     private Button Start_bt;
     @FXML
     private Button optionbtn;
+    @FXML
+    private ProgressIndicator progressIndicator;
     private Game game;
     public static boolean online = false;
     private GameOptions options;
@@ -361,17 +365,27 @@ public class Controller_PutShips implements Initializable {
      * @throws IOException
      */
     public void startGame(ActionEvent event) throws IOException {
+
         if(noch_zu_setzende_schiffe.isEmpty()){
-            Controller_GameScreen.game=this.game;
-            Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-            Scene scene = new Scene(root,1000,600);
-            scene.getStylesheets().add("JavaFx/Shot.css");
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinHeight(600);
-            stage.setMinWidth(1000);
-            stage.setMaximized(true);
-            stage.show();
+            progressIndicator.setVisible(true);
+            new Thread(() -> Platform.runLater(()->{
+
+                Controller_GameScreen.game=this.game;
+                Parent root= null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Scene scene = new Scene(root,1000,600);
+                scene.getStylesheets().add("JavaFx/Shot.css");
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.setMinHeight(600);
+                stage.setMinWidth(1000);
+                stage.setMaximized(true);
+                stage.show();})).start();
+
         }
         else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
