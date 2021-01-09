@@ -5,6 +5,7 @@ import enums.KiStrength;
 import enums.ProtComs;
 import game.cells.Shot;
 import guiLogic.WaitingForConnectionForm;
+import ki.Ki;
 import network.BattleshipProtocol;
 import network.Client;
 
@@ -16,7 +17,9 @@ import java.io.*;
 public class OnlineClientGame extends OnlineGame {
     private Client client;
     private int[] shipLengths;
-
+    public static boolean kiPlays=false;
+    private KiStrength tmpkiStrengh=null; //Da das Feld erst nach dem Verbindungsaufbau verfügbar ist, muss die KiStrengh zwischengespeichert werden
+    private Ki ki=null;
     public void setShipLengths(int[] shipLengths) {
         this.shipLengths = shipLengths;
     }
@@ -27,10 +30,19 @@ public class OnlineClientGame extends OnlineGame {
      * @param portNumber Nummer des Ports auf dem die Verbindung laufen soll
      */
     public OnlineClientGame(String hostName, int portNumber) {
+        kiPlays=false;
         this.client = new Client();
         this.client.setHostname(hostName);
         this.client.setPortnumber(portNumber);
         this.myTurn = false;
+    }
+    public OnlineClientGame(String hostName, int portNumber, KiStrength ki) {
+        kiPlays=true;
+        this.client = new Client();
+        this.client.setHostname(hostName);
+        this.client.setPortnumber(portNumber);
+        this.myTurn = false;
+        this.tmpkiStrengh=ki;
     }
 
     /**
@@ -59,6 +71,7 @@ public class OnlineClientGame extends OnlineGame {
             }
             WaitingForConnectionForm.wasSave = true;
             this.field = temp.field;
+            if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh);
             this.enemyField = temp.enemyField;
             //this.client = temp.client;
             this.myTurn = temp.myTurn;
@@ -114,12 +127,17 @@ public class OnlineClientGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
+        if(kiPlays){
+            ki.shoot();
+            position=enemyField.lastShotPos();
+        }
         //shoot
         this.client.writeLine(BattleshipProtocol.formatShot(position.getX(), position.getY()));
         Object[] answer = BattleshipProtocol.processInput(this.client.readLine());
 
         if (answer[0] != ProtComs.ANSWER) {
             //failure -> stop connection
+            enemyField.undoLastShot();
             this.client.closeConnection();
         } else {
             int code = (int)answer[1];

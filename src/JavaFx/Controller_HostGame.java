@@ -183,6 +183,8 @@ public class Controller_HostGame implements Initializable {
         }
         KiStrength kiStrength=choiceBox.getSelectionModel().getSelectedItem();
         GameOptions go = new GameOptions(fs, kiStrength, five, four, three, two);
+        if(checkBox.isSelected()) OnlineHostGame.kiPlays=true;
+        else OnlineHostGame.kiPlays=false;
         return new OnlineHostGame(fs, fs, pn, shipLengths, go);
     }
 

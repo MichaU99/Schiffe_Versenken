@@ -79,6 +79,7 @@ public class Controller_ClientGame implements Initializable {
             onTbxError(portTbx, 3000);
         }
 
+        KiStrength kiStrength=choiceBox.getSelectionModel().getSelectedItem();
         String serverName = serverTbx.getText();
         if (serverName.isEmpty()) {
             status = false;
@@ -86,7 +87,15 @@ public class Controller_ClientGame implements Initializable {
         }
 
         if (status) {
-            return new OnlineClientGame(serverName, pn);
+            if(checkBox.isSelected()){
+                OnlineClientGame.kiPlays=true;
+                return new OnlineClientGame(serverName,pn,kiStrength);
+            }
+            else{
+                OnlineClientGame.kiPlays=false;
+                return new OnlineClientGame(serverName, pn);
+            }
+
         } else {
             return null;
         }
