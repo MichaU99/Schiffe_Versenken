@@ -26,6 +26,8 @@ public class Field implements Serializable {
     private Cell[][] playfield;
     private int height;
     private int length;
+    private Position lastShotPos =null;
+    private Cell lastShotHit= null;
 
     /**
      * Die Methode sollte nicht oft benoeigt werden. Wird nur benoetigt um Positionen neu zu setzen, wenn die Schiffe
@@ -473,7 +475,9 @@ public class Field implements Serializable {
      * @return 0 falls Cell, 1 falls Ship, 2 falls Ship destroyed
      */
     public int registerShot(Position position){
+        lastShotPos =position;
         Cell cell = this.playfield[position.getY()][position.getX()];
+        lastShotHit=cell;
         this.playfield[position.getY()][position.getX()] = new Shot();
 
         if (cell instanceof Ship) {
@@ -482,6 +486,20 @@ public class Field implements Serializable {
         }
 
         return cell.shot();
+    }
+
+    /**
+     * @return Gibt die letzte registrierte beschossene Position zurück, null falls noch nie geschossen wurde oder der letzte Schuss rückgängig gemacht wurde
+     */
+    public Position lastShotPos(){
+        return lastShotPos;
+    }
+
+    /**
+     * Überschreibt das Feld, worauf zuletzt geschossen wurde, mit dem Feld, das vor dem Schuss da war
+     */
+    public void undoLastShot(){
+        this.playfield[lastShotPos.getY()][lastShotPos.getX()]=lastShotHit;
     }
 
     /**
