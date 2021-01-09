@@ -23,7 +23,9 @@ public class OnlineHostGame extends OnlineGame {
         this.gameOptions = gameOptions;
         ki=new Ki(this.enemyField,this.gameOptions.getKiStrength());
     }
-
+    public int getShipCount(){
+        return shipLengths.length;
+    }
     public boolean waitForConnection() {
         // wait for connection, when connection is established exchange game Configuration
         if (!this.server.waitForConnection())
@@ -63,9 +65,11 @@ public class OnlineHostGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
+        System.out.println(kiPlays);
         if(kiPlays){
             this.ki.shoot();
             position=this.enemyField.lastShotPos();
+            System.out.println(position);
         }
 
         //shoot

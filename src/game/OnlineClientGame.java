@@ -36,6 +36,9 @@ public class OnlineClientGame extends OnlineGame {
         this.client.setPortnumber(portNumber);
         this.myTurn = false;
     }
+    public int getShipCount(){
+        return shipLengths.length;
+    }
     public OnlineClientGame(String hostName, int portNumber, KiStrength ki) {
         kiPlays=true;
         this.client = new Client();
@@ -127,6 +130,7 @@ public class OnlineClientGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
+        if(kiPlays && ki==null) this.ki=new Ki(enemyField,tmpkiStrengh);
         if(kiPlays){
             ki.shoot();
             position=enemyField.lastShotPos();

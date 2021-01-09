@@ -5,13 +5,17 @@ import game.cells.Ship;
 import game.cells.Shot;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -27,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Controller_GameScreen implements Initializable {
+    private int schiffeZerstoert=0;
     private Timer timer;
     private int timerInterval = 1000;
     public static Game game;
@@ -63,47 +68,75 @@ public class Controller_GameScreen implements Initializable {
     private ChoiceBox<String> gamespdbox;
     @FXML
     private AnchorPane anchorE;
+    @FXML
+    private Button auto_btn;
 
     /**
      * Initialisiert die GUI abhängig vom Spieltyp
      * @param url
      * @param resourceBundle
      */
+    // TODO: 09.01.2021 In eigenen Methoden verpacken oder die init Übersichtlicher machen 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Clears constrains from fxml to have a uniform field
         GP_Enemy.getColumnConstraints().clear();
         GP_Enemy.getRowConstraints().clear();
         GP_Player.getRowConstraints().clear();
         GP_Player.getColumnConstraints().clear();
+
+        GP_Enemy.setOnMouseClicked(new EventHandler<MouseEvent>() { //Test
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                markField(mouseEvent);
+            }
+        });
         updateField(GP_Player);
         if(!saveGame){
             game.startGame();
         }
 
-        //Unterscheidet zwischen Beobachteten Spielen, in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
+        //Unterscheidet zwischen Beobachteten Spielen (KivsKiGame), in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
         // und normal gespielten Spielern in denen nur ein Feld bekannt ist
         if (game instanceof KiVsKiGame) {
             updateFieldDisclosed(GP_Enemy);
             setButtons(true);
-        } else {
+        }
+        else {
             updateField(GP_Enemy);
             setButtons(false);
-            if (game instanceof LocalGame) {
-
-            }
-            else  if(game instanceof OnlineHostGame){
+            //Unterscheidet zwischen den verschiedenen gespielten Spieltypen
+            if(game instanceof OnlineHostGame){
+                if (OnlineHostGame.kiPlays) {
+                    auto_btn.setVisible(true);
+                    auto_btn.setDisable(false);
+                    Shoot_bt.setDisable(false);
+                    GP_Enemy.setOnMouseClicked(null);
+                    // TODO: 09.01.2021 Hier fehlt ein Thread der die Ki an deiner Stelle schießen lässt
+                }
                 playerTag.setText(PLAYER1_NAME);
             }
             else if (game instanceof OnlineClientGame) {
                 playerTag.setText(PLAYER2_NAME);
                 OnlineClientGame clientGame = ((OnlineClientGame) game);
                 if (OnlineClientGame.kiPlays) {
-                    assert (false):"This part is not ready yet";
+                    auto_btn.setVisible(true);
+                    auto_btn.setDisable(false);
+                    Shoot_bt.setDisable(true);
+                    GP_Enemy.setOnMouseClicked(null);
+                    new Thread(() -> {
+                        while (!clientGame.isMyTurn()) { //Boolean als objekt
+                            clientGame.enemyShot();
+                            Platform.runLater(() -> updateField(GP_Player));
+                        }
+                        Shoot_bt.setDisable(false);
+                        Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
+                    }).start();
                     // TODO: 09.01.2021 Hier fehlt ein Thread der die Ki an deiner Stelle schießen lässt
                 }
                 else {
                     new Thread(() -> {
-                        while (!clientGame.isMyTurn()) {
+                        while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
                         }
@@ -123,7 +156,10 @@ public class Controller_GameScreen implements Initializable {
      * @param ki true-> game ist kivski game; false-> game is not ki game
      */
     public void setButtons(Boolean ki){
+        auto_btn.setDisable(true);
+        auto_btn.setVisible(false);
         if(ki){
+
             Shoot_bt.setDisable(true);
             Shoot_bt.setVisible(false);
             startbt.setVisible(true);
@@ -261,14 +297,16 @@ public class Controller_GameScreen implements Initializable {
                         onlineGame.enemyShot();
                         Platform.runLater(() -> updateField(GP_Player));
                     }
-                    if(markedPos!=null) Shoot_bt.setDisable(false);
+                    if(markedPos!=null ||(game instanceof OnlineHostGame && OnlineHostGame.kiPlays) || (game instanceof OnlineClientGame && OnlineClientGame.kiPlays) ) Shoot_bt.setDisable(false);
                     Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
             }
             else if (rc == 1) {
                 LastShotTag.setText("Last Shot: Hit");
+                if((game instanceof OnlineHostGame && OnlineHostGame.kiPlays) || (game instanceof OnlineClientGame && OnlineClientGame.kiPlays)) Shoot_bt.setDisable(false);
             } else if (rc == 2) {
                 LastShotTag.setText("Destroyed");
+                Platform.runLater(this::checkGameEnded);
             }
         }
     }
@@ -298,25 +336,46 @@ public class Controller_GameScreen implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
 
-        switch (game.whoWon()) {
-            case 0:
+        // TODO: 09.01.2021 Zähle Schiffe die zerstört sind im Online Game hoch if Schiffe zerstört =Schiffe gesetzt gewonnen bzw verloren
+        if(game instanceof OnlineGame){
+            if(++schiffeZerstoert>= ((OnlineGame) game).getShipCount()){
                 updateFieldDisclosed(GP_Player);
                 updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You won!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
                 stage.close();
-                break;
-            case 1:
+            }
+            else if(game.didYouLose()){
                 updateFieldDisclosed(GP_Player);
                 updateFieldDisclosed(GP_Enemy);
                 alert.setContentText("You lost!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
                 stage.close();
-                break;
-            default:
-                break;
+            }
+        }
+        else {
+            switch (game.whoWon()) {
+                case 0:
+                    updateFieldDisclosed(GP_Player);
+                    updateFieldDisclosed(GP_Enemy);
+                    alert.setContentText("You won!");
+                    alert.showAndWait();
+                    stage = (Stage) (ap.getScene().getWindow());
+                    stage.close();
+                    break;
+                case 1:
+                    updateFieldDisclosed(GP_Player);
+                    updateFieldDisclosed(GP_Enemy);
+                    alert.setContentText("You lost!");
+                    alert.showAndWait();
+                    stage = (Stage) (ap.getScene().getWindow());
+                    stage.close();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -332,30 +391,14 @@ public class Controller_GameScreen implements Initializable {
             for (int x = 0; x < game.getField().getLength(); x++) {
                 for (int y = 0; y < game.getField().getHeight(); y++) {
                     HBox cell = new HBox();
-                    // TODO: 02.01.2021 Prüfen ob es so funktioniert, soll eigentlich praktisch das Kreuz über die Originalcell legen, etwas fragwürdige umsetzung, vielleicht besser wenn man zwei css addieren kann
                     if (game.getEnemyField().getCell(new Position(x, y)) instanceof Shot) {
                         Shot s = ((Shot) game.getEnemyField().getCell(new Position(x, y)));
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
                             cell.getStyleClass().add("cross");
-
-                            /*
-                            cell.setStyle(shipCell);
-                            //GridPane.setConstraints(cell, x, y);
-                            //gridPane.getChildren().add(cell);
-                            //cell= new HBox();
-                            //cell.setStyle(shotShip);
-                            */
                         } else {
                             cell.setStyle(shotWater);
                             cell.getStyleClass().add("crossW");
-                            /*
-                            cell.setStyle(waterCell);
-                            GridPane.setConstraints(cell, x, y);
-                            gridPane.getChildren().add(cell);
-                            cell= new HBox();
-                            cell.setStyle(shotWater);
-                           */
                         }
                     } else {
                         cell.setStyle(waterCell);
@@ -374,23 +417,9 @@ public class Controller_GameScreen implements Initializable {
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
                             cell.getStyleClass().add("cross");
-                            /*
-                            cell.setStyle(shipCell);
-                            //GridPane.setConstraints(cell, x, y);
-                            //gridPane.getChildren().add(cell);
-                            //cell= new HBox();
-                            //cell.setStyle(shotShip);
-                            */
                         } else {
                             cell.setStyle(shotWater);
                             cell.getStyleClass().add("crossW");
-                            /*
-                            cell.setStyle(waterCell);
-                            GridPane.setConstraints(cell, x, y);
-                            gridPane.getChildren().add(cell);
-                            cell= new HBox();
-                            cell.setStyle(shotWater);
-                           */
                         }
                     } else if (game.getField().getCell(new Position(x, y)) instanceof Ship) {
                         cell.setStyle(shipCell);
@@ -508,24 +537,11 @@ public class Controller_GameScreen implements Initializable {
                     if (s.getWasShip()) {
                         cell.setStyle(shotShip);
                         cell.getStyleClass().add("cross");
-                                /*
-                                cell.setStyle(shipCell);
-                                //GridPane.setConstraints(cell, x, y);
-                                //gridPane.getChildren().add(cell);
-                                //cell= new HBox();
-                                //cell.setStyle(shotShip);
-                                */
+
                     }
                     else {
                         cell.setStyle(shotWater);
                         cell.getStyleClass().add("crossW");
-                                /*
-                                cell.setStyle(waterCell);
-                                GridPane.setConstraints(cell, x, y);
-                                gridPane.getChildren().add(cell);
-                                cell= new HBox();
-                                cell.setStyle(shotWater);
-                               */
 
                     }
                 }
@@ -542,18 +558,30 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+    public void auto_btnClick(ActionEvent event){
+        if(auto_btn.getText().equals("Auto")){
+            auto_btn.setText("Stop");
+            Shoot_bt.setDisable(true);
+            // TODO: 09.01.2021 Soll eine Endlosschleife beginnen die shooted und Gegnerische Shots abwartet bis entweder das Spiel vorbei ist oder der Button nochmal geklickt wird
+        }
+        else{
+            auto_btn.setText("Auto");
+            Shoot_bt.setDisable(false);
+            // TODO: 09.01.2021 Beendet den Thread oben und legt den Schussbefehl wieder auf den Shoot_btn
+        }
+    }
 
 
     //----------------- Ki vs Ki Methods ----------------
-    // TODO: 04.01.2021 Fehler im Thread 
     private void onKvkStartBtnClick() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 game.shoot(null);
-                updateField(GP_Enemy);
+                Platform.runLater(()->{ updateField(GP_Enemy);
                 updateField(GP_Player);
+                });
             }
         }, 0, timerInterval);
     }
@@ -562,8 +590,8 @@ public class Controller_GameScreen implements Initializable {
         timer.cancel();
     }
 
-    // TODO: 04.01.2021 Welcher Actionstyp ist das bei der ChoiceBox? 
-    public void onKvkDelayCbxChange(ActionEvent event) {
+    public void onKvkDelayCbxChange(MouseEvent event) {
+        if(timer==null) return;
         ChoiceBox source = ((ChoiceBox) event.getSource());
         switch (source.getSelectionModel().getSelectedIndex()) {
             case 0:
