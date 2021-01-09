@@ -99,7 +99,8 @@ public class Client implements Serializable {
             String line = this.in.readLine();
             System.out.println("CLIENT read: " + line);
             return line;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            // TODO: 09.01.2021 Spiel beenden 
             e.printStackTrace();
         }
         return null;
