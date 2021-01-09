@@ -33,7 +33,7 @@ public abstract class Game implements Serializable {
      * Gibt zurück wer gerade seinen nächsten Zug machen darf
      * @return {@code true} falls Spieler 1 an der Reihe ist, sonst {@code false}
      */
-    public boolean isMyTurn() {
+    public boolean isMyTurn() { //volatile
         return myTurn;
     }
 
@@ -77,6 +77,10 @@ public abstract class Game implements Serializable {
         if (this.enemyField.getShipCount() == 0)
             return 0;
         return -1;
+    }
+
+    public boolean didYouLose() {
+        return this.field.getShipCount() == 0;
     }
 
     /**
