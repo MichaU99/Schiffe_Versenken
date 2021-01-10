@@ -141,7 +141,7 @@ public class OnlineClientGame extends OnlineGame {
 
         if (answer[0] != ProtComs.ANSWER) {
             //failure -> stop connection
-            enemyField.undoLastShot();
+            if(enemyField.lastShotPos()!=null)enemyField.undoLastShot();
             this.client.closeConnection();
         } else {
             int code = (int)answer[1];
