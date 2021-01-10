@@ -12,7 +12,6 @@ import java.io.*;
 public class OnlineHostGame extends OnlineGame {
     private Server server;
     private int[] shipLengths; // the user has to specify the amount of each ship he wants to place before the game
-    public static boolean kiPlays=false;
     private Ki ki;
 
     public OnlineHostGame(int playFieldHeight, int playFieldLength, int portNumber, int[] shipLengths, GameOptions gameOptions) {

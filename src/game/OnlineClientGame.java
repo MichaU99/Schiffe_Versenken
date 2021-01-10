@@ -17,7 +17,6 @@ public class OnlineClientGame extends OnlineGame {
     private Client client;
     public static boolean wasSave=false;
     private int[] shipLengths;
-    public static boolean kiPlays=false;
     private KiStrength tmpkiStrengh=null; //Da das Feld erst nach dem Verbindungsaufbau verfügbar ist, muss die KiStrengh zwischengespeichert werden
     private Ki ki=null;
     public void setShipLengths(int[] shipLengths) {

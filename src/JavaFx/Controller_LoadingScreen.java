@@ -19,14 +19,22 @@ public class Controller_LoadingScreen {
     public Stage stage;
     public static OnlineGame onlineGame;
     public static boolean wasSave=false;
-    public static String filename;
     @FXML
     private Label statusLbl;
 
     public void initialize() {
+        if(wasSave) {
+            if (onlineGame.youInitatedSave && onlineGame instanceof OnlineClientGame) {
+                // TODO: 10.01.2021 Method to turn ClientGame into HostGame
+            }
+            else if(!onlineGame.youInitatedSave && onlineGame instanceof OnlineHostGame){
+                // TODO: 10.01.2021 Method to turn HostGame into ClientGame
+            }
+        }
         if (onlineGame instanceof OnlineHostGame) {
             waitForConnection((OnlineHostGame) onlineGame);
-        } else if (onlineGame instanceof OnlineClientGame) {
+        }
+        else if (onlineGame instanceof OnlineClientGame) {
             connect((OnlineClientGame) onlineGame);
         }
     }
@@ -44,6 +52,7 @@ public class Controller_LoadingScreen {
             Controller_PutShips.online = true;
             Controller_GameScreen.game = clientGame;
             if(wasSave){
+                System.out.println("Versucht Verbindung mit Savedatei herzustellen");
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
@@ -58,6 +67,7 @@ public class Controller_LoadingScreen {
                 });
             }
             else Platform.runLater(() -> {
+                System.out.println("Versucht Verbindung herzustellen");
                 try {
                     Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
                     Scene scene = new Scene(root,800,600);
@@ -76,7 +86,8 @@ public class Controller_LoadingScreen {
         updateStatusLabel("Waiting for Connection!");
         new Thread(() -> {
             if(wasSave){
-                boolean status = hostGame.waitForConnectionLoadSave(filename);
+                System.out.println("Läd Spiel");
+                boolean status = hostGame.waitForConnectionLoadSave(String.valueOf(onlineGame.ID));
                 if(status){
                     Platform.runLater(() ->{
                         try {

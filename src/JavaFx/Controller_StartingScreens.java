@@ -118,8 +118,8 @@ public class Controller_StartingScreens implements Initializable {
             else if (ext.equals(".hsave")) {
                 try {
                     // TODO: 06.01.2021 Muss in den Hostgame waiting Screen laden, tut grade noch nicht
-                    Controller_GameScreen.game = OnlineHostGame.loadGame(filepath);
-                    Controller_LoadingScreen.filename = file.getName();
+                    Controller_LoadingScreen.onlineGame = OnlineHostGame.loadGame(filepath);
+                    //Controller_LoadingScreen.filename = file.getName();
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
                     Scene scene = new Scene(root);
@@ -133,8 +133,8 @@ public class Controller_StartingScreens implements Initializable {
             }
             else if (ext.equals(".csave")) {
                 try {
-                    Controller_GameScreen.game = OnlineClientGame.loadGame(filepath);
-                    Controller_LoadingScreen.filename = file.getName();
+                    Controller_LoadingScreen.onlineGame = OnlineClientGame.loadGame(filepath);
+                    //Controller_LoadingScreen.filename = file.getName();
                     //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));

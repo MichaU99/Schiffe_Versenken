@@ -15,7 +15,8 @@ import java.io.Serializable;
  * Game ist {@link Serializable} um es speichern zu können (Spielstand speichern)
  */
 public abstract class OnlineGame extends Game {
-
+    public static boolean youInitatedSave=false;
+    public static int ID=0;
     public GameOptions gameOptions;
 
     /**
@@ -41,6 +42,10 @@ public abstract class OnlineGame extends Game {
      */
     public abstract void freeSocket();
 
+    public void generateID(){
+        // TODO: 10.01.2021 Add Method to generate large Number
+        ID=5555;
+    }
     /**
      * Damit wird auf einen Schuss des Gegners gewartet. Dieser wird dann ins eigene Feld registriert und einene
      * entsprechende Antwort an den Gegner zurückgegeben
