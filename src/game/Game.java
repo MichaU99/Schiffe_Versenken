@@ -14,6 +14,7 @@ public abstract class Game implements Serializable {
     protected Field field;
     protected Field enemyField;
     protected boolean myTurn = true;
+    public static boolean kiPlays=false;
 
     /**
      * Gibt das Spielfeld des Spielers zurück. bzw. im KiVKi game das Feld der ersten KI
@@ -22,6 +23,7 @@ public abstract class Game implements Serializable {
     public Field getField() {
         return field;
     }
+
 
     /**
      * Gibt das Spielfeld des Gegners zurück. bzw. im KiVKi game das Feld der zweiten KI
