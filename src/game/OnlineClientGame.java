@@ -4,7 +4,6 @@ import JavaFx.GameOptions;
 import enums.KiStrength;
 import enums.ProtComs;
 import game.cells.Shot;
-import guiLogic.WaitingForConnectionForm;
 import ki.Ki;
 import network.BattleshipProtocol;
 import network.Client;
@@ -16,6 +15,7 @@ import java.io.*;
  */
 public class OnlineClientGame extends OnlineGame {
     private Client client;
+    public static boolean wasSave=false;
     private int[] shipLengths;
     public static boolean kiPlays=false;
     private KiStrength tmpkiStrengh=null; //Da das Feld erst nach dem Verbindungsaufbau verfügbar ist, muss die KiStrengh zwischengespeichert werden
@@ -72,7 +72,7 @@ public class OnlineClientGame extends OnlineGame {
                 e.printStackTrace();
                 return false;
             }
-            WaitingForConnectionForm.wasSave = true;
+            wasSave = true;
             this.field = temp.field;
             if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh);
             this.enemyField = temp.enemyField;

@@ -6,16 +6,16 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="600.0" minWidth="700.0" prefHeight="466.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
+<AnchorPane minHeight="600.0" minWidth="700.0" prefHeight="466.0" prefWidth="600.0" styleClass="hintergrundkarte" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_PutShips">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" styleClass="hintergrundkarte" stylesheets="@hintergrundSchiff.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="More">
                <items>
@@ -23,21 +23,17 @@
                </items></Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="optionbtn" layoutX="515.0" layoutY="43.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="25.0" prefWidth="58.0" text="Options" AnchorPane.rightAnchor="27.0" />
-      <Button layoutX="14.0" layoutY="402.0" mnemonicParsing="false" onAction="#autofill" text="Autofill" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" />
+      <Button fx:id="optionbtn" layoutX="534.0" layoutY="41.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="34.0" prefWidth="131.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Options" AnchorPane.rightAnchor="35.0" />
+      <Button layoutX="14.0" layoutY="515.0" mnemonicParsing="false" onAction="#autofill" styleClass="ButtonBlack" stylesheets="@button.css" text="Autofill" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="14.0" />
       <ListView fx:id="listView" disable="true" layoutX="432.0" layoutY="91.0" prefHeight="237.0" prefWidth="137.0" AnchorPane.bottomAnchor="138.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="91.0" />
-      <VBox layoutX="432.0" layoutY="328.0" prefHeight="107.0" prefWidth="118.0" spacing="10.0" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="50.0">
+      <VBox alignment="TOP_CENTER" layoutX="432.0" layoutY="328.0" prefHeight="133.0" prefWidth="159.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="20.0">
          <children>
-            <HBox prefHeight="27.0" prefWidth="100.0" spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#addShip" prefHeight="25.0" prefWidth="49.0" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#remove" text="Remove" />
-               </children>
-            </HBox>
-            <Button fx:id="Start_bt" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="108.0" text="Start" />
+            <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#addShip" prefHeight="34.0" prefWidth="77.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Add" />
+            <Button mnemonicParsing="false" onAction="#remove" styleClass="ButtonBlack" stylesheets="@button.css" text="Remove" />
+            <Button fx:id="Start_bt" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="108.0" styleClass="Button_StartGame" stylesheets="@button.css" text="Start" />
          </children>
       </VBox>
-      <Label layoutX="432.0" layoutY="75.0" prefHeight="17.0" prefWidth="145.0" text="Noch zu setzende Schiffe:" textAlignment="CENTER" underline="true" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="75.0" />
+      <Label layoutX="432.0" layoutY="75.0" prefHeight="17.0" prefWidth="145.0" styleClass="Textkleiner" stylesheets="@button.css" text="Noch zu setzende Schiffe:" textAlignment="CENTER" underline="true" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="75.0" />
       <AnchorPane layoutX="21.0" layoutY="86.0" prefHeight="265.0" prefWidth="408.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="86.0">
          <children>
             <GridPane fx:id="GridP" alignment="CENTER" layoutX="1.0" onMouseClicked="#klickShipintoExistance" prefHeight="265.0" prefWidth="408.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
@@ -68,5 +64,6 @@
             </GridPane>
          </children>
       </AnchorPane>
+      <ProgressIndicator fx:id="progressIndicator" layoutX="672.0" layoutY="549.0" prefHeight="40.0" prefWidth="25.0" visible="false" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="3.0" />
    </children>
 </AnchorPane>
