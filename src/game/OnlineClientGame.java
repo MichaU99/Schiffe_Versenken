@@ -178,17 +178,21 @@ public class OnlineClientGame extends OnlineGame {
 
     @Override
     public void saveGame(String id) throws IOException {
-        this.client.writeLine(BattleshipProtocol.formatSave(id));
+        generateID();
+        this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         super.saveGame(id);
     }
 
     public void saveGame(File file) throws IOException {
-        this.client.writeLine(BattleshipProtocol.formatSave(file.getName()));
+        this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
+        //this.client.writeLine(BattleshipProtocol.formatSave(file.getName()));
         super.saveGame(file.getAbsolutePath());
     }
 
     public void saveGameAsHostGame(File file) throws IOException {
-        this.client.writeLine(BattleshipProtocol.formatSave(file.getName()));
+        // TODO: 10.01.2021 Prüfen ob richtige Werte initialisiert werden 
+        generateID();
+        this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         OnlineHostGame game = OnlineClientGame.castToHost(this);
         FileOutputStream fout = new FileOutputStream(file.getAbsolutePath());
         ObjectOutputStream out = new ObjectOutputStream(fout);

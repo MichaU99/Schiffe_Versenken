@@ -351,7 +351,6 @@ public class Controller_GameScreen implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
 
-        // TODO: 09.01.2021 Zähle Schiffe die zerstört sind im Online Game hoch if Schiffe zerstört =Schiffe gesetzt gewonnen bzw verloren
         switch (who) {
             case 0:
             if (++schiffeZerstoert >= ((OnlineGame) game).getShipCount()) {
@@ -483,14 +482,9 @@ public class Controller_GameScreen implements Initializable {
         fs.setInitialDirectory(new File("./"));
         if (game instanceof LocalGame) {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
-        } else if (game instanceof OnlineHostGame) {
-            if (!game.isMyTurn())
-                return;
+        } else if (game instanceof OnlineGame) {
+            if (!game.isMyTurn()) return;
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.hsave)", "*.hsave");
-        } else if (game instanceof OnlineClientGame) {
-            if (!game.isMyTurn())
-                return;
-            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
         } else {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
         }
@@ -499,15 +493,47 @@ public class Controller_GameScreen implements Initializable {
         File file = fs.showSaveDialog(primaryStage);
         if (file != null) {
             try {
-                if (game instanceof OnlineHostGame || game instanceof OnlineClientGame) {
+                if (game instanceof OnlineHostGame) {
                     ((OnlineGame) game).saveGame(file);
-                } else {
+                }
+                else if(game instanceof OnlineClientGame){
+                    ((OnlineClientGame)game).saveGameAsHostGame(file);
+                }
+                else {
                     game.saveGame(file.getAbsolutePath());
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void onEnemySaveRequest(int id){
+        Stage primaryStage= (Stage) ap.getScene().getWindow();
+        FileChooser fs = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter;
+        fs.setInitialDirectory(new File("./"));
+        if (game instanceof OnlineGame) {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
+        } else {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
+        }
+
+        fs.getExtensionFilters().add(extensionFilter);
+        File file = fs.showSaveDialog(primaryStage);
+        if(file!=null){
+            OnlineGame.ID=id;
+            if(game instanceof OnlineClientGame){
+                try {
+                    ((OnlineGame) game).saveGame(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(game instanceof OnlineHostGame){
+                ((OnlineHostGame)game).saveGameAsClientGame(file.getAbsolutePath());
+            }
+
         }
     }
 

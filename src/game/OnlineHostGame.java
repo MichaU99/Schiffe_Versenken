@@ -111,16 +111,17 @@ public class OnlineHostGame extends OnlineGame {
 
     @Override
     public void saveGame(String id) throws IOException {
-        this.server.writeLine(BattleshipProtocol.formatSave(id));
+        this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         super.saveGame(id);
     }
 
     public void saveGame(File file) throws IOException {
-        this.server.writeLine(BattleshipProtocol.formatSave(file.getName()));
+        this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         super.saveGame(file.getAbsolutePath());
     }
 
     public void saveGameAsClientGame(String filename) {
+        // TODO: 10.01.2021 Fehlerhafte initialisierung?Warum fehlt hostName und portNumber
         OnlineClientGame clientGame = new OnlineClientGame("", 1);
         clientGame.gameOptions = this.gameOptions;
         clientGame.myTurn = this.myTurn;
