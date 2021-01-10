@@ -130,6 +130,7 @@ public class Controller_LoadingScreen {
             onlineGame.freeSocket();
             root = FXMLLoader.load(getClass().getResource("Layout_HostGame.fxml"));
         } else if (onlineGame instanceof OnlineClientGame) {
+            onlineGame.freeSocket();
             root = FXMLLoader.load(getClass().getResource("NewGame_Muliti_Client.fxml"));
         }
 
