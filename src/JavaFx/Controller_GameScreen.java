@@ -5,7 +5,6 @@ import game.cells.Ship;
 import game.cells.Shot;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -72,7 +71,30 @@ public class Controller_GameScreen implements Initializable {
     private Button auto_btn;
 
     /**
-     * Initialisiert die GUI abhängig vom Spieltyp
+     * TL;DR: Initialisiert die GUI abhängig vom Spieltyp.
+     * Allgemein:
+     * Entfernt die Constraints der GridPane um über die css-Constraints eine richtig scalierende GP zu bekommen,
+     * danach wird das eigene Feld über updateField initialisiert und das MouseClickEvent sicherheitshalber initialisiert.
+     *
+     * Für saveGames:
+     * Die Methode startGame wird nicht aufgerufen um das Spiel nicht zu resetten.
+     *
+     * Für KivsKiGames:
+     * Gegnerisches Feld wird sichtbar initalisiert mit updateFieldUnddisclosed und die richtige Benutzeroberfläche mit setButtons nutzbar gemacht(ki=true)
+     *
+     * Sonst:
+     * Gegenerisches Feld mit updateField initalisiert und richtige Benutzeroberfläche mit setButtons nutzbar gemacht(ki=false)
+     *
+     *      Für OnlineHostGame:
+     *      Setzt Tag auf eigenen Namen
+     *          Falls Ki spielt:
+     *          Benutzeroberfläche wird anders initalisiert
+     *
+     *      Für OnlineClientGame:
+     *      Setzt PlayerTag und beginnt Spielethread
+     *          Falls Ki spielt:
+     *          Benutzeroberfläche anders initalisiert und Shoot_btn ohne MarkedField aktivierbar
+     *
      * @param url
      * @param resourceBundle
      */
@@ -85,21 +107,22 @@ public class Controller_GameScreen implements Initializable {
         GP_Player.getRowConstraints().clear();
         GP_Player.getColumnConstraints().clear();
 
-        GP_Enemy.setOnMouseClicked(new EventHandler<MouseEvent>() { //Test
+        /*
+        GP_Enemy.setOnMouseClicked(new EventHandler<MouseEvent>() { //Wird entfernt falls eine KI für dich schießt
             @Override
             public void handle(MouseEvent mouseEvent) {
                 markField(mouseEvent);
             }
         });
+         */
         updateField(GP_Player);
-        if(!saveGame){
-            game.startGame();
-        }
+        if(!saveGame) game.startGame();
+
 
         //Unterscheidet zwischen Beobachteten Spielen (KivsKiGame), in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
         // und normal gespielten Spielern in denen nur ein Feld bekannt ist
         if (game instanceof KiVsKiGame) {
-            updateFieldDisclosed(GP_Enemy);
+            updateFieldUndisclosed(GP_Enemy);
             setButtons(true);
         }
         else {
@@ -112,7 +135,6 @@ public class Controller_GameScreen implements Initializable {
                     auto_btn.setDisable(false);
                     Shoot_bt.setDisable(false);
                     GP_Enemy.setOnMouseClicked(null);
-                    // TODO: 09.01.2021 Hier fehlt ein Thread der die Ki an deiner Stelle schießen lässt
                 }
                 playerTag.setText(PLAYER1_NAME);
             }
@@ -132,7 +154,6 @@ public class Controller_GameScreen implements Initializable {
                         Shoot_bt.setDisable(false);
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                     }).start();
-                    // TODO: 09.01.2021 Hier fehlt ein Thread der die Ki an deiner Stelle schießen lässt
                 }
                 else {
                     new Thread(() -> {
@@ -145,14 +166,19 @@ public class Controller_GameScreen implements Initializable {
                 }
             }
         }
-
-
-        // Object[] array=GP_Player.getChildren().toArray();
-        // Object[] array=GP_Enemy.getChildren().toArray();
     }
 
     /**
-     * Aktiviert die für den Spieltyp relevanten Buttons
+     * Aktiviert die für den Spieltyp relevanten Buttons.
+     * Unterscheidet nur zwischen KivsKi Modus und sonst.
+     *
+     * Folgende Elemente werden aktiviert bzw. deaktiviert je nach ki:
+     *
+     * startbt + gamespdbox (choiceBox) -> ki=true
+     *
+     * Shoot_bt + GP_Enemy MouseClickEvent ->ki=false
+     *
+     *
      * @param ki true-> game ist kivski game; false-> game is not ki game
      */
     public void setButtons(Boolean ki){
@@ -183,8 +209,8 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Markiert Felder auf die geschossen werden soll mit einem dicken Rand,
-     * entfernt bei einer zweiten Markierung die erste
+     * Markiert Felder auf die geschossen werden soll,
+     * entfernt bei einer zweiten Markierung die Erste.
      * @param event
      */
     public void markField(MouseEvent event) {
@@ -199,30 +225,14 @@ public class Controller_GameScreen implements Initializable {
         HBox cell;
         if (markedPos != null) {
             cell = new HBox();
-            if (game.getEnemyField().getCell(markedPos) instanceof Shot) { //Unsicher ob Vergleich richtig
-                // TODO: 02.01.2021 Prüfen ob es so funktioniert, soll eigentlich praktisch das Kreuz über die Originalcell legen, etwas fragwürdige umsetzung, vielleicht besser wenn man zwei css addieren kann
+            if (game.getEnemyField().getCell(markedPos) instanceof Shot) {
                 Shot s = ((Shot) game.getEnemyField().getCell(markedPos));
                 if (s.getWasShip()) {
                     cell.setStyle(shotShip);
                     cell.getStyleClass().add("cross");
-
-                    /*
-                    cell.setStyle(shipCell);
-                    GridPane.setConstraints(cell, x, y);
-                    gridPane.getChildren().add(cell);
-                    cell= new HBox();
-                    cell.setStyle(shotShip);
-                    */
                 } else {
                     cell.setStyle(shotWater);
                     cell.getStyleClass().add("crossW");
-                    /*
-                    cell.setStyle(waterCell);
-                    GridPane.setConstraints(cell, x, y);
-                    gridPane.getChildren().add(cell);
-                    cell= new HBox();
-                    cell.setStyle(shotWater);
-                    */
                 }
             } else {
                 cell.setStyle(waterCell);
@@ -240,8 +250,13 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Methode des Buttons Shoot, ruft die shoot Methode des Spiel auf die aktuell markierte Position auf
-     * und aktualisert das Spielerlabel und lastShot Label
+     * Methode des Buttons Shoot_bt, ruft die shoot Methode des Spiel mit der aktuell markierten Position auf,
+     * reagiert auf Rückgabewert (rc) mit unterschiedlichern Handlungen.
+     *
+     * (rc=0 Wasser getroffen, rc=1 Schiff getroffen, rc=2 Schiff versenkt).
+     *
+     * Unterscheidet zwischen localem und OnlineSpiel
+     *
      * @param event wird nicht verwendet, ist nur wegen der Button Einbindung notwendig
      */
     public void shootbtn(ActionEvent event) {
@@ -312,10 +327,11 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Eventhandler for both the start and stop Button in KIvsKIGames.
+     * Event for both the start and stop Button in KIvsKIGames.
      * Button changes Text when clicked on it Start->Stop->Start
      * @param event Actionevent on ButtonClick
      */
+    // TODO: 10.01.2021 Methode sinnvoll?
     public void startstopbtnOnClick(ActionEvent event){
         if(startbt.getText().equals("Start")){
             startbt.setText("Stop");
@@ -328,7 +344,7 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Überprüft ob das Spiel vorbeit ist (alle Schiffe eines Spielers zerstört sind)
+     * Überprüft ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
      * und zeigt bei Spielende das Gegnerfeld + passendes alert
      */
     private void checkGameEnded() {
@@ -339,16 +355,16 @@ public class Controller_GameScreen implements Initializable {
         // TODO: 09.01.2021 Zähle Schiffe die zerstört sind im Online Game hoch if Schiffe zerstört =Schiffe gesetzt gewonnen bzw verloren
         if(game instanceof OnlineGame){
             if(++schiffeZerstoert>= ((OnlineGame) game).getShipCount()){
-                updateFieldDisclosed(GP_Player);
-                updateFieldDisclosed(GP_Enemy);
+                updateFieldUndisclosed(GP_Player);
+                updateFieldUndisclosed(GP_Enemy);
                 alert.setContentText("You won!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
                 stage.close();
             }
             else if(game.didYouLose()){
-                updateFieldDisclosed(GP_Player);
-                updateFieldDisclosed(GP_Enemy);
+                updateFieldUndisclosed(GP_Player);
+                updateFieldUndisclosed(GP_Enemy);
                 alert.setContentText("You lost!");
                 alert.showAndWait();
                 stage = (Stage) (ap.getScene().getWindow());
@@ -358,16 +374,16 @@ public class Controller_GameScreen implements Initializable {
         else {
             switch (game.whoWon()) {
                 case 0:
-                    updateFieldDisclosed(GP_Player);
-                    updateFieldDisclosed(GP_Enemy);
+                    updateFieldUndisclosed(GP_Player);
+                    updateFieldUndisclosed(GP_Enemy);
                     alert.setContentText("You won!");
                     alert.showAndWait();
                     stage = (Stage) (ap.getScene().getWindow());
                     stage.close();
                     break;
                 case 1:
-                    updateFieldDisclosed(GP_Player);
-                    updateFieldDisclosed(GP_Enemy);
+                    updateFieldUndisclosed(GP_Player);
+                    updateFieldUndisclosed(GP_Enemy);
                     alert.setContentText("You lost!");
                     alert.showAndWait();
                     stage = (Stage) (ap.getScene().getWindow());
@@ -490,7 +506,7 @@ public class Controller_GameScreen implements Initializable {
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
      * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
      */
-    private void updateFieldDisclosed(GridPane gridPane) {
+    private void updateFieldUndisclosed(GridPane gridPane) {
         gridPane.getChildren().clear();
         for (int x = 0; x < game.getField().getLength(); x++) {
             for (int y = 0; y < game.getField().getHeight(); y++) {
@@ -501,24 +517,9 @@ public class Controller_GameScreen implements Initializable {
                         if (s.getWasShip()) {
                             cell.setStyle(shotShip);
                             cell.getStyleClass().add("cross");
-                                /*
-                                cell.setStyle(shipCell);
-                                //GridPane.setConstraints(cell, x, y);
-                                //gridPane.getChildren().add(cell);
-                                //cell= new HBox();
-                                //cell.setStyle(shotShip);
-                                */
                         } else {
                             cell.setStyle(shotWater);
                             cell.getStyleClass().add("crossW");
-                                /*
-                                cell.setStyle(waterCell);
-                                GridPane.setConstraints(cell, x, y);
-                                gridPane.getChildren().add(cell);
-                                cell= new HBox();
-                                cell.setStyle(shotWater);
-                               */
-
                         }
                     }
                     else if (game.getEnemyField().getCell(new Position(x, y)) instanceof Ship) {
@@ -558,13 +559,32 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+
+    /**
+     * Event für Ki im OnlineSpiel
+     *
+     * Lässt deine Ki in regelmäßigen Abständen automatisch schießen.
+     * @param event
+     */
     public void auto_btnClick(ActionEvent event){
         if(auto_btn.getText().equals("Auto")){
             auto_btn.setText("Stop");
             Shoot_bt.setDisable(true);
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    game.shoot(null);
+                    Platform.runLater(()->{ updateField(GP_Enemy);
+                        updateField(GP_Player);
+                    });
+                    ((OnlineGame) game).enemyShot();
+                }
+            }, 0, timerInterval);
             // TODO: 09.01.2021 Soll eine Endlosschleife beginnen die shooted und Gegnerische Shots abwartet bis entweder das Spiel vorbei ist oder der Button nochmal geklickt wird
         }
         else{
+            timer.cancel();
             auto_btn.setText("Auto");
             Shoot_bt.setDisable(false);
             // TODO: 09.01.2021 Beendet den Thread oben und legt den Schussbefehl wieder auf den Shoot_btn
@@ -573,6 +593,11 @@ public class Controller_GameScreen implements Initializable {
 
 
     //----------------- Ki vs Ki Methods ----------------
+
+    /**
+     * Event für das KivsKiGame
+     * Startet einen timed Thread der im Abstand timerIntervall schießt und die Felder updated
+     */
     private void onKvkStartBtnClick() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -586,10 +611,18 @@ public class Controller_GameScreen implements Initializable {
         }, 0, timerInterval);
     }
 
+    /**
+     * Beendet dem Thread in onKvkStartBtnClick()
+     */
     private void onKvkStopBtnClick() {
         timer.cancel();
     }
 
+    /**
+     * Ändert die den timerIntervall aus onKvkStartBtnClick() und startet den Thread daraus neu
+     * @param event
+     */
+    // TODO: 10.01.2021 Geschwindigkeit ändert sich erst beim Klick auf die Box statt der Bestätigung
     public void onKvkDelayCbxChange(MouseEvent event) {
         if(timer==null) return;
         ChoiceBox source = ((ChoiceBox) event.getSource());
