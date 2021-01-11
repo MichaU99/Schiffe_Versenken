@@ -94,7 +94,7 @@ public class Client implements Serializable {
      * @return die gelesene zeile, null wenn nichts gelesen werden konnte bzw. die Verbindungs von der anderen Seite
      * geschlossen wurde
      */
-    public String readLine() {
+    public synchronized String readLine() {
         try {
             String line = this.in.readLine();
             System.out.println("CLIENT read: " + line);
