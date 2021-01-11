@@ -105,6 +105,7 @@ public class Controller_LoadingScreen {
                         stage.setScene(scene);
                         stage.setMinWidth(1000);
                         stage.setMinHeight(600);
+                        stage.setMaximized(true);
                         stage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
