@@ -44,7 +44,7 @@ public class Controller_GameScreen implements Initializable {
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
     private String PLAYER1_NAME = "YOU";
     private String PLAYER2_NAME = "ENEMY";
-
+    Thread thread;
 
     @FXML
     private GridPane GP_Player;
@@ -114,7 +114,10 @@ public class Controller_GameScreen implements Initializable {
         });
          */
         updateField(GP_Player);
-        if (!saveGame) game.startGame();
+        if (!saveGame){
+            thread= new Thread(()->game.startGame());
+            thread.start();
+        }
 
 
         //Unterscheidet zwischen Beobachteten Spielen (KivsKiGame), in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
@@ -152,6 +155,7 @@ public class Controller_GameScreen implements Initializable {
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                     }).start();
                 } else {
+                    while (thread.isAlive()){}
                     new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();

@@ -59,6 +59,7 @@ public class OnlineHostGame extends OnlineGame {
 
     public boolean startGame() {
         // sende nach Protokoll ready -> spiel kann gestartet werden
+
         this.server.writeLine("ready");
         return this.server.readLine().equals("ready");
     }
