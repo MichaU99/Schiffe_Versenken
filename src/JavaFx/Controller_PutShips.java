@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class Controller_PutShips implements Initializable {
@@ -225,6 +226,7 @@ public class Controller_PutShips implements Initializable {
                 else if(this.game.getField().getPlayfield()[y][x].getClass()!= Cell.class){
                     cell.setStyle(waterCell);
                     cell.getStyleClass().add("crossPut");
+
                 }
                 else {
                     cell.setStyle(waterCell);
@@ -400,7 +402,9 @@ public class Controller_PutShips implements Initializable {
      */
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         if (loeschpos!=null) {
+
             noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
+            //Collection.sort(noch_zu_setzende_schiffe);
             game.getField().removeShip(loeschpos);
             deletedMarked();
             updateGame();
@@ -438,9 +442,10 @@ public class Controller_PutShips implements Initializable {
      */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
-        Scene scene = new Scene(root,800,600);
-
+        Scene scene = new Scene(root,1000,600);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(1000);
+        stage.setMinHeight(600);
         stage.setOnHiding(windowEvent -> updateGameOptions());
         stage.setScene(scene);
         stage.show();

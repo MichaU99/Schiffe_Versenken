@@ -51,6 +51,8 @@ public class Controller_HostGame implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -68,6 +70,8 @@ public class Controller_HostGame implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }

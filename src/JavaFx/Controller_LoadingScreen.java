@@ -56,9 +56,12 @@ public class Controller_LoadingScreen {
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-                        Scene scene = new Scene(root,800,600);
+                        Scene scene = new Scene(root,1000,600);
+                        scene.getStylesheets().add("JavaFx/Shot.css");
                         this.stage=GuiMain.stage;
                         // Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setMinWidth(1000);
+                        stage.setMinHeight(600);
                         stage.setScene(scene);
                         stage.show();
                     } catch (IOException e) {
@@ -70,9 +73,13 @@ public class Controller_LoadingScreen {
                 System.out.println("Versucht Verbindung herzustellen");
                 try {
                     Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                    Scene scene = new Scene(root,800,600);
+                    Scene scene = new Scene(root,1000,600);
                     //Stage stage = (Stage) statusLbl.getScene().getWindow();
+                    scene.getStylesheets().add("JavaFx/Shot.css");
+
                     this.stage=GuiMain.stage;
+                    stage.setMinWidth(1000);
+                    stage.setMinHeight(600);
                     stage.setScene(scene);
                     stage.show();
                 } catch (IOException e) {
@@ -92,9 +99,12 @@ public class Controller_LoadingScreen {
                     Platform.runLater(() ->{
                         try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-                        Scene scene = new Scene(root,800,600);
+                        Scene scene = new Scene(root,1000,600);
+                        scene.getStylesheets().add("JavaFx/Shot.css");
                         Stage stage = (Stage) statusLbl.getScene().getWindow();
                         stage.setScene(scene);
+                        stage.setMinWidth(1000);
+                        stage.setMinHeight(600);
                         stage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -111,8 +121,11 @@ public class Controller_LoadingScreen {
                 Platform.runLater(() -> {
                     try {
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-                        Scene scene = new Scene(root,800,600);
+                        Scene scene = new Scene(root,1000,600);
+                        scene.getStylesheets().add("JavaFx/Shot.css");
                         Stage stage = (Stage) statusLbl.getScene().getWindow();
+                        stage.setMinWidth(1000);
+                        stage.setMinHeight(600);
                         stage.setScene(scene);
                         stage.show();
                     } catch (IOException e) {
@@ -132,12 +145,15 @@ public class Controller_LoadingScreen {
         } else if (onlineGame instanceof OnlineClientGame) {
             onlineGame.freeSocket();
             root = FXMLLoader.load(getClass().getResource("NewGame_Muliti_Client.fxml"));
+
         }
 
         assert root != null: "Unexpected game type!";
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }

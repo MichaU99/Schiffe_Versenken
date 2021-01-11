@@ -28,6 +28,8 @@ public class Controller_StartingScreens implements Initializable {
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
         Scene scene = new Scene(root,800,600);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -35,16 +37,19 @@ public class Controller_StartingScreens implements Initializable {
     public void backToStart(ActionEvent event) throws IOException{ //Wechselt die Szene von NewGame zu Start
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
         Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
     public void changeToSingleGame(ActionEvent event) throws IOException{//Wechselt die Szene von NewGame zu PutShips
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root,800,600);
+        Scene scene = new Scene(root,1000,600);
         scene.getStylesheets().add("JavaFx/Shot.css");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinHeight(600);
+        stage.setMinWidth(1000);
         stage.setScene(scene);
         stage.show();
     }
@@ -53,6 +58,8 @@ public class Controller_StartingScreens implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -61,6 +68,8 @@ public class Controller_StartingScreens implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -69,6 +78,8 @@ public class Controller_StartingScreens implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -77,6 +88,8 @@ public class Controller_StartingScreens implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
 
@@ -86,6 +99,8 @@ public class Controller_StartingScreens implements Initializable {
         Scene scene = new Scene(root,800,600);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }
@@ -107,8 +122,10 @@ public class Controller_StartingScreens implements Initializable {
                 try {
                     Controller_GameScreen.game = LocalGame.loadGame(filepath);
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-                    Scene scene = new Scene(root);
-
+                    Scene scene = new Scene(root,1000,600);
+                    scene.getStylesheets().add("JavaFx/Shot.css");
+                    primaryStage.setMinWidth(1000);
+                    primaryStage.setMinHeight(600);
                     primaryStage.setScene(scene);
                     primaryStage.show();
                 } catch (IOException | ClassNotFoundException e) {
@@ -122,8 +139,9 @@ public class Controller_StartingScreens implements Initializable {
                     //Controller_LoadingScreen.filename = file.getName();
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
-                    Scene scene = new Scene(root);
-
+                    Scene scene = new Scene(root,800,600);
+                    primaryStage.setMinWidth(800);
+                    primaryStage.setMinHeight(600);
                     primaryStage.setScene(scene);
                     primaryStage.show();
                     //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
@@ -138,8 +156,9 @@ public class Controller_StartingScreens implements Initializable {
                     //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
-                    Scene scene = new Scene(root);
-
+                    Scene scene = new Scene(root,800,600);
+                    primaryStage.setMinWidth(800);
+                    primaryStage.setMinHeight(600);
                     primaryStage.setScene(scene);
                     primaryStage.show();
                 } catch (IOException | ClassNotFoundException e) {
