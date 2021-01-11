@@ -93,7 +93,7 @@ public class OnlineClientGame extends OnlineGame {
         }
         this.field = new Field((int) size[2], (int) size[1]);
         this.enemyField = new Field((int) size[2], (int) size[1]);
-        this.client.writeLine("done");
+        this.client.writeLine("next");
 
         Object[] ships = BattleshipProtocol.processInput(this.client.readLine());
         if (ships[0] != ProtComs.SHIPS) {
@@ -135,7 +135,7 @@ public class OnlineClientGame extends OnlineGame {
             position=enemyField.lastShotPos();
         }
         //shoot
-        this.client.writeLine(BattleshipProtocol.formatShot(position.getX(), position.getY()));
+        this.client.writeLine(BattleshipProtocol.formatShot(position.getX()+1, position.getY()+1));
         Object[] answer = BattleshipProtocol.processInput(this.client.readLine());
 
         if (answer[0] != ProtComs.ANSWER) {
@@ -184,6 +184,7 @@ public class OnlineClientGame extends OnlineGame {
     }
 
     public void saveGame(File file) throws IOException {
+        generateID();
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         //this.client.writeLine(BattleshipProtocol.formatSave(file.getName()));
         super.saveGame(file.getAbsolutePath());

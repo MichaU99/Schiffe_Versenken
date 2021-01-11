@@ -31,9 +31,9 @@ public class OnlineHostGame extends OnlineGame {
             return false;
 //        System.out.println("Connected");
 
-        this.server.writeLine(BattleshipProtocol.formatSize(this.getField().getLength(), this.getField().getHeight()));
+        this.server.writeLine(BattleshipProtocol.formatSize(this.getField().getLength()));
 //        System.out.println("SIZE CONFIG SENT");
-        if (!this.server.readLine().equals("done"))
+        if (!this.server.readLine().equals("next"))
             return false;
 //        System.out.println("size config Ok");
 
@@ -73,7 +73,7 @@ public class OnlineHostGame extends OnlineGame {
         }
 
         //shoot
-        this.server.writeLine(BattleshipProtocol.formatShot(position.getX(), position.getY()));
+        this.server.writeLine(BattleshipProtocol.formatShot(position.getX()+1, position.getY()+1));
         Object[] answer = BattleshipProtocol.processInput(this.server.readLine());
 
         if (answer[0] != ProtComs.ANSWER) {
@@ -112,12 +112,16 @@ public class OnlineHostGame extends OnlineGame {
 
     @Override
     public void saveGame(String id) throws IOException {
+        generateID();
         this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
+        //this.server.writeLine(BattleshipProtocol.formatSave(id));
         super.saveGame(id);
     }
 
     public void saveGame(File file) throws IOException {
+        generateID();
         this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
+        //this.server.writeLine(BattleshipProtocol.formatSave(file.getName()));
         super.saveGame(file.getAbsolutePath());
     }
 

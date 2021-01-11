@@ -93,9 +93,6 @@ public class Controller_GameScreen implements Initializable {
      * Setzt PlayerTag und beginnt Spielethread
      * Falls Ki spielt:
      * Benutzeroberfläche anders initalisiert und Shoot_btn ohne MarkedField aktivierbar
-     *
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -113,7 +110,7 @@ public class Controller_GameScreen implements Initializable {
             }
         });
          */
-        updateField(GP_Player);
+        Platform.runLater(()->updateField(GP_Player));
         if (!saveGame){
             thread= new Thread(()->game.startGame());
             thread.start();
@@ -126,7 +123,7 @@ public class Controller_GameScreen implements Initializable {
             updateFieldUndisclosed(GP_Enemy);
             setButtons(true);
         } else {
-            updateField(GP_Enemy);
+            Platform.runLater(()->updateField(GP_Enemy));
             setButtons(false);
             //Unterscheidet zwischen den verschiedenen gespielten Spieltypen
             if (game instanceof OnlineHostGame) {
@@ -155,19 +152,23 @@ public class Controller_GameScreen implements Initializable {
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                     }).start();
                 } else {
-                    while (thread.isAlive()){}
+                    while ( thread!=null && thread.isAlive()){}
                     new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
                             Platform.runLater(()->checkGameEnded(1));
                         }
-                        Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
+                        Platform.runLater(() ->{
+                            playerTag.setText(PLAYER1_NAME);
+                            Shoot_bt.setDisable(false);}
+                            );
                     }).start();
                 }
             }
         }
     }
+
 
     /**
      * Aktiviert die für den Spieltyp relevanten Buttons.
@@ -512,6 +513,8 @@ public class Controller_GameScreen implements Initializable {
             }
         }
     }
+
+    // TODO: 11.01.2021 Vermutlich Quatsch Implementierung im Backend gefunden 
     public void onEnemySaveRequest(int id){
         Stage primaryStage= (Stage) ap.getScene().getWindow();
         FileChooser fs = new FileChooser();
