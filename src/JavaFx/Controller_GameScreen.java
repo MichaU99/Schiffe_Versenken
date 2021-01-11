@@ -142,7 +142,8 @@ public class Controller_GameScreen implements Initializable {
                     auto_btn.setDisable(false);
                     Shoot_bt.setDisable(true);
                     GP_Enemy.setOnMouseClicked(null);
-                    new Thread(() -> {
+                    while ( thread!=null && thread.isAlive()){}
+                    thread=new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
@@ -150,10 +151,11 @@ public class Controller_GameScreen implements Initializable {
                         }
                         Shoot_bt.setDisable(false);
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
-                    }).start();
+                    });
+                    thread.start();
                 } else {
                     while ( thread!=null && thread.isAlive()){}
-                    new Thread(() -> {
+                    thread=new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
@@ -163,7 +165,8 @@ public class Controller_GameScreen implements Initializable {
                             playerTag.setText(PLAYER1_NAME);
                             Shoot_bt.setDisable(false);}
                             );
-                    }).start();
+                    });
+                    thread.start();
                 }
             }
         }
@@ -613,6 +616,7 @@ public class Controller_GameScreen implements Initializable {
             auto_btn.setText("Stop");
             Shoot_bt.setDisable(true);
             timer = new Timer();
+            while (thread!=null && thread.isAlive()){}
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
