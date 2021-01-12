@@ -78,7 +78,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="playerTag" styleClass="Textg" stylesheets="@button.css" text="Player 1">
+                              <Label fx:id="playerTag" styleClass="Textg" stylesheets="@button.css" text="YOU">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
