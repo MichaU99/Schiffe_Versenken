@@ -384,6 +384,7 @@ public class Controller_PutShips implements Initializable {
                 stage.setMinHeight(600);
                 stage.setMinWidth(1000);
                 stage.setMaximized(true);
+                //stage.setFullScreen(true);
                 stage.show();});
 
         }
@@ -428,8 +429,9 @@ public class Controller_PutShips implements Initializable {
         Stage stage = (Stage) GridP.getScene().getWindow();
         stage.setMinHeight(600);
         stage.setMinWidth(800);
-
         stage.setScene(scene);
+        stage.setWidth(800);
+        stage.setHeight(600);
         stage.show();
     }
 
@@ -444,6 +446,8 @@ public class Controller_PutShips implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setMinWidth(1000);
         stage.setMinHeight(600);
+        stage.setWidth(1000);
+        stage.setHeight(600);
         stage.setOnHiding(windowEvent -> updateGameOptions());
         stage.setScene(scene);
         stage.show();

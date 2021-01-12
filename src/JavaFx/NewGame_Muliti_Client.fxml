@@ -95,7 +95,6 @@
                                                     <KiStrength fx:value="BEGINNER" />
                                                     <KiStrength fx:value="INTERMEDIATE" />
                                                     <KiStrength fx:value="STRONG" />
-                                                    <KiStrength fx:value="HELL" />
                                                 </FXCollections>
                                             </items>
                                         </ChoiceBox>
