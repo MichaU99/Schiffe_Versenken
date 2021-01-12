@@ -23,14 +23,6 @@ public class Controller_LoadingScreen {
     private Label statusLbl;
 
     public void initialize() {
-        if(wasSave) {
-            if (onlineGame.youInitatedSave && onlineGame instanceof OnlineClientGame) {
-                // TODO: 10.01.2021 Method to turn ClientGame into HostGame
-            }
-            else if(!onlineGame.youInitatedSave && onlineGame instanceof OnlineHostGame){
-                // TODO: 10.01.2021 Method to turn HostGame into ClientGame
-            }
-        }
         if (onlineGame instanceof OnlineHostGame) {
             waitForConnection((OnlineHostGame) onlineGame);
         }

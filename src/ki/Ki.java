@@ -24,8 +24,7 @@ public class Ki implements Serializable {
     }
 
     public int shoot() {
-        // TODO: 09.01.2021 Überlegen ob man das anders löst, im KiNetwork Game löst es fehler aus
-        //assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da"; 
+        //assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da";
 
         switch (this.kiStrength) {
             case BEGINNER -> {

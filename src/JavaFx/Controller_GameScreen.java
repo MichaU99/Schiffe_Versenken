@@ -44,7 +44,7 @@ public class Controller_GameScreen implements Initializable {
     Position markedPos = null; //Speichert welche Felder bereits aufgedeckt wurden und welche nicht
     private String PLAYER1_NAME = "YOU";
     private String PLAYER2_NAME = "ENEMY";
-
+    Thread thread;
 
     @FXML
     private GridPane GP_Player;
@@ -93,9 +93,6 @@ public class Controller_GameScreen implements Initializable {
      * Setzt PlayerTag und beginnt Spielethread
      * Falls Ki spielt:
      * Benutzeroberfläche anders initalisiert und Shoot_btn ohne MarkedField aktivierbar
-     *
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -113,8 +110,11 @@ public class Controller_GameScreen implements Initializable {
             }
         });
          */
-        updateField(GP_Player);
-        if (!saveGame) game.startGame();
+        Platform.runLater(()->updateField(GP_Player));
+        if (!saveGame){
+            thread= new Thread(()->game.startGame());
+            thread.start();
+        }
 
 
         //Unterscheidet zwischen Beobachteten Spielen (KivsKiGame), in denen beide Felder von anfang an komplett für den Beobachter bekannt sind
@@ -123,7 +123,7 @@ public class Controller_GameScreen implements Initializable {
             updateFieldUndisclosed(GP_Enemy);
             setButtons(true);
         } else {
-            updateField(GP_Enemy);
+            Platform.runLater(()->updateField(GP_Enemy));
             setButtons(false);
             //Unterscheidet zwischen den verschiedenen gespielten Spieltypen
             if (game instanceof OnlineHostGame) {
@@ -142,7 +142,8 @@ public class Controller_GameScreen implements Initializable {
                     auto_btn.setDisable(false);
                     Shoot_bt.setDisable(true);
                     GP_Enemy.setOnMouseClicked(null);
-                    new Thread(() -> {
+                    while ( thread!=null && thread.isAlive()){}
+                    thread=new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
@@ -150,20 +151,27 @@ public class Controller_GameScreen implements Initializable {
                         }
                         Shoot_bt.setDisable(false);
                         Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
-                    }).start();
+                    });
+                    thread.start();
                 } else {
-                    new Thread(() -> {
+                    while ( thread!=null && thread.isAlive()){}
+                    thread=new Thread(() -> {
                         while (!clientGame.isMyTurn()) { //Boolean als objekt
                             clientGame.enemyShot();
                             Platform.runLater(() -> updateField(GP_Player));
                             Platform.runLater(()->checkGameEnded(1));
                         }
-                        Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
-                    }).start();
+                        Platform.runLater(() ->{
+                            playerTag.setText(PLAYER1_NAME);
+                            Shoot_bt.setDisable(false);}
+                            );
+                    });
+                    thread.start();
                 }
             }
         }
     }
+
 
     /**
      * Aktiviert die für den Spieltyp relevanten Buttons.
@@ -351,7 +359,6 @@ public class Controller_GameScreen implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Game Ended!");
 
-        // TODO: 09.01.2021 Zähle Schiffe die zerstört sind im Online Game hoch if Schiffe zerstört =Schiffe gesetzt gewonnen bzw verloren
         switch (who) {
             case 0:
             if (++schiffeZerstoert >= ((OnlineGame) game).getShipCount()) {
@@ -484,14 +491,9 @@ public class Controller_GameScreen implements Initializable {
         fs.setInitialDirectory(new File("./"));
         if (game instanceof LocalGame) {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
-        } else if (game instanceof OnlineHostGame) {
-            if (!game.isMyTurn())
-                return;
+        } else if (game instanceof OnlineGame) {
+            if (!game.isMyTurn()) return;
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.hsave)", "*.hsave");
-        } else if (game instanceof OnlineClientGame) {
-            if (!game.isMyTurn())
-                return;
-            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
         } else {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
         }
@@ -500,15 +502,49 @@ public class Controller_GameScreen implements Initializable {
         File file = fs.showSaveDialog(primaryStage);
         if (file != null) {
             try {
-                if (game instanceof OnlineHostGame || game instanceof OnlineClientGame) {
+                if (game instanceof OnlineHostGame) {
                     ((OnlineGame) game).saveGame(file);
-                } else {
+                }
+                else if(game instanceof OnlineClientGame){
+                    ((OnlineClientGame)game).saveGameAsHostGame(file);
+                }
+                else {
                     game.saveGame(file.getAbsolutePath());
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // TODO: 11.01.2021 Vermutlich Quatsch Implementierung im Backend gefunden 
+    public void onEnemySaveRequest(int id){
+        Stage primaryStage= (Stage) ap.getScene().getWindow();
+        FileChooser fs = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter;
+        fs.setInitialDirectory(new File("./"));
+        if (game instanceof OnlineGame) {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
+        } else {
+            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
+        }
+
+        fs.getExtensionFilters().add(extensionFilter);
+        File file = fs.showSaveDialog(primaryStage);
+        if(file!=null){
+            OnlineGame.ID=id;
+            if(game instanceof OnlineClientGame){
+                try {
+                    ((OnlineGame) game).saveGame(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(game instanceof OnlineHostGame){
+                ((OnlineHostGame)game).saveGameAsClientGame(file.getAbsolutePath());
+            }
+
         }
     }
 
@@ -581,6 +617,7 @@ public class Controller_GameScreen implements Initializable {
             auto_btn.setText("Stop");
             Shoot_bt.setDisable(true);
             timer = new Timer();
+            while (thread!=null && thread.isAlive()){}
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {

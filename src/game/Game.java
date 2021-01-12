@@ -11,6 +11,7 @@ import java.io.*;
  * Game ist {@link Serializable} um es speichern zu können (Spielstand speichern)
  */
 public abstract class Game implements Serializable {
+    public static int ID=0;
     protected Field field;
     protected Field enemyField;
     protected boolean myTurn = true;
@@ -25,6 +26,10 @@ public abstract class Game implements Serializable {
     }
 
 
+    public void generateID(){
+        // TODO: 10.01.2021 Generate Random Long ID 
+        this.ID=555;
+    }
     /**
      * Gibt das Spielfeld des Gegners zurück. bzw. im KiVKi game das Feld der zweiten KI
      * @return {@link Field} des Gegners

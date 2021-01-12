@@ -1,8 +1,8 @@
 package network;
 
+import JavaFx.GuiMain;
 import enums.ProtComs;
 import game.Position;
-import javafx.scene.control.ProgressIndicator;
 
 public class BattleshipProtocol {
 
@@ -10,8 +10,8 @@ public class BattleshipProtocol {
 
     }
 
-    public static String formatSize(int rows, int cols) {
-        return "size " + rows + " " + cols;
+    public static String formatSize(int rows) {
+        return "size " + rows;
     }
 
     public static String formatShips(int[] lengths) {
@@ -47,9 +47,15 @@ public class BattleshipProtocol {
     }
 
     public static Object[] processInput(String input){
+        if(input==null){
+            GuiMain.stage.close();
+            return null;
+        }
+
         String[] inputSplit = input.split(" ");
         switch (inputSplit[0]) {
             case "size":
+                if(inputSplit.length==2) return new Object[]{ProtComs.SIZE, Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[1])};
                 return new Object[]{ProtComs.SIZE, Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[2])};
 
             case "ships":
@@ -60,7 +66,7 @@ public class BattleshipProtocol {
                 return new Object[]{ProtComs.SHIPS, shipLengths};
 
             case "shot":
-                return new Object[]{ProtComs.SHOT, new Position(Integer.parseInt(inputSplit[1]), Integer.parseInt(inputSplit[2]))};
+                return new Object[]{ProtComs.SHOT, new Position(Integer.parseInt(inputSplit[1])-1, Integer.parseInt(inputSplit[2])-1)};
 
             case "answer":
                 return new Object[]{ProtComs.ANSWER, Integer.parseInt(inputSplit[1])};
