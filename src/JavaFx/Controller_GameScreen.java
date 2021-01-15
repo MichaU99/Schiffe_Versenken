@@ -268,6 +268,7 @@ public class Controller_GameScreen implements Initializable {
         markedPos = null;
         LastShotTag.setVisible(true);
         Shoot_bt.setDisable(true);
+        if(tmpPos==null) return;
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (tmpPos == null) return;
             int rc = game.shoot(tmpPos);
@@ -618,15 +619,39 @@ public class Controller_GameScreen implements Initializable {
             auto_btn.setText("Stop");
             Shoot_bt.setDisable(true);
             timer = new Timer();
-            while (thread!=null && thread.isAlive()){}
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    game.shoot(null);
-                    Platform.runLater(()->{ updateField(GP_Enemy);
-                        updateField(GP_Player);
-                    });
-                    ((OnlineGame) game).enemyShot();
+                    OnlineGame onlineGame = ((OnlineGame) game);
+                    int rc = onlineGame.shoot(null);
+                    Platform.runLater(()->updateField(GP_Enemy));
+
+                    if (rc == 0) {
+                        Platform.runLater(()->{
+                            playerTag.setText(PLAYER2_NAME);
+                            LastShotTag.setText("Last Shot: Miss");
+                        });
+                            while (!onlineGame.isMyTurn()) {
+                                onlineGame.enemyShot();
+                                Platform.runLater(() -> updateField(GP_Player));
+                                Platform.runLater(()->checkGameEnded(1));
+                            }
+
+                            Platform.runLater(() ->{
+                                playerTag.setText(PLAYER1_NAME);
+                            });
+                    } else if (rc == 1) {
+                        Platform.runLater(()->{
+                            LastShotTag.setText("Last Shot: Hit");
+                        });
+
+                    } else if (rc == 2) {
+                        Platform.runLater(()->{
+                            LastShotTag.setText("Destroyed");
+                            checkGameEnded(0);
+                        });
+
+                    }
                 }
             }, 0, timerInterval);
             // TODO: 09.01.2021 Soll eine Endlosschleife beginnen die shooted und Gegnerische Shots abwartet bis entweder das Spiel vorbei ist oder der Button nochmal geklickt wird
@@ -635,6 +660,7 @@ public class Controller_GameScreen implements Initializable {
             timer.cancel();
             auto_btn.setText("Auto");
             Shoot_bt.setDisable(false);
+            timer.cancel();
             // TODO: 09.01.2021 Beendet den Thread oben und legt den Schussbefehl wieder auf den Shoot_btn
         }
     }
