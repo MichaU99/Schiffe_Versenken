@@ -203,6 +203,7 @@ public class Ki implements Serializable {
     Character strongDir = 'e';
     int strongCounter = 1;
     ArrayList<Position> strongHits = new ArrayList<>();
+    public static int[] kiShipLengths;
     private int shootRows() {
         if (strongLastHit != null) {
             if (strongDir == 'e') {
@@ -361,6 +362,13 @@ public class Ki implements Serializable {
         }
     }
 
+    public void updateField(Boolean versenkt,Position shot){
+        // TODO: 15.01.2021  
+    }
+    public static void makeShiplist4Ki(int[] shipLengths){
+        kiShipLengths=shipLengths;
+
+    }
     private void addShotsToKiEnemyField(ArrayList<Position> positions) {
         for (Position pos: positions)
             this.kiEnemyField.registerShot(pos);

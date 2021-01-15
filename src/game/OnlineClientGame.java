@@ -101,7 +101,7 @@ public class OnlineClientGame extends OnlineGame {
             return false;
         }
         this.shipLengths = (int[]) ships[1];
-
+        if(kiPlays)Ki.makeShiplist4Ki(shipLengths);// für die strongKI
         int five = 0, four = 0, three = 0, two = 0;
         for (int i: shipLengths) {
             if (i == 5)
@@ -114,11 +114,13 @@ public class OnlineClientGame extends OnlineGame {
                 two++;
         }
         gameOptions = new GameOptions(this.field.getHeight(), KiStrength.INTERMEDIATE, five, four, three, two);
-
+// TODO: 15.01.2021 muss ich hier liste bekommen dann für client
         this.client.writeLine("done");
 
         return true;
     }
+
+
 
     public boolean startGame() {
         if (!this.client.readLine().equals("ready"))

@@ -21,6 +21,7 @@ public class OnlineHostGame extends OnlineGame {
         this.shipLengths = shipLengths;
         this.gameOptions = gameOptions;
         ki=new Ki(this.enemyField,this.gameOptions.getKiStrength());
+        if(kiPlays)Ki.makeShiplist4Ki(shipLengths); // für die strong ki
     }
     public int getShipCount(){
         return shipLengths.length;
