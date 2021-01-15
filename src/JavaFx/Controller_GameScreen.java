@@ -225,6 +225,7 @@ public class Controller_GameScreen implements Initializable {
         } catch (NullPointerException doNothing) {
             return;
         }
+        if(this.game.getEnemyField().getPlayfield()[y][x].getClass()== Shot.class) return;
         HBox cell;
         if (markedPos != null) {
             cell = new HBox();
