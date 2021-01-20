@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class Controller_PutShips implements Initializable {
@@ -403,7 +404,7 @@ public class Controller_PutShips implements Initializable {
         if (loeschpos!=null) {
 
             noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
-            //Collection.sort(noch_zu_setzende_schiffe);
+            Collections.sort(noch_zu_setzende_schiffe,Collections.reverseOrder());
             game.getField().removeShip(loeschpos);
             deletedMarked();
             updateGame();
@@ -416,7 +417,11 @@ public class Controller_PutShips implements Initializable {
             alert.showAndWait();
         }
     }
-
+    /*
+    Controller_Putships: Es würde reichen das längste Schiff immer
+    als erstes in der Liste zu haben, sprich einen
+        if(entferntes Schiff.länge>liste[0].schifflänge->liste[0]=entferntesSchiff & anderes schiff inserten
+*/
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
      * @param event
