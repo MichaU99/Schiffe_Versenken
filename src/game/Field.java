@@ -146,7 +146,7 @@ public class Field implements Serializable {
      * Blockierte Felder sind durch {@link Block} dargestellt.
      * @param ship Das Schiff, um das die Felder blockiert werden sollen
      */
-    private void blockFields(Ship ship) {
+    public void blockFields(Ship ship) {
         for(Position position: ship.getPositions()) {
             if (position.getX() > 0 && this.playfield[position.getY()][position.getX() - 1].getClass() == Cell.class)
                 this.playfield[position.getY()][position.getX() - 1] = new Block();

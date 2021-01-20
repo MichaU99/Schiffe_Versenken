@@ -52,6 +52,20 @@ public class Ship extends Cell {
 
     /**
      * Konstruktur fuer ein Ship.
+     * Wird benutzt damit die KiStrong Blockfelder setzen kann
+     * @param Ki
+     * @param positions
+     */
+    public Ship(boolean Ki,ArrayList<Position> positions){
+        super();
+        this.positions = new Position[positions.size()];
+        for (int i = 0; i < positions.size(); i++) {
+            this.positions[i] = positions.get(i);
+        }
+        this.length = positions.size();
+    }
+    /**
+     * Konstruktur fuer ein Ship.
      * Laenge des Schiffes wird berechnet durch die Laenge des Positionen Arrays
      * @param positions Positionen ArrayList, die in dem Schiff eingetragen werden, also wo das Schiff steht.
      */
