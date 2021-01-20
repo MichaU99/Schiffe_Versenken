@@ -474,8 +474,9 @@ public class Controller_GameScreen implements Initializable {
      */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root,800,600);
         Stage stage = (Stage) ap.getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinHeight(600);
         stage.setMinWidth(800);
         stage.setScene(scene);

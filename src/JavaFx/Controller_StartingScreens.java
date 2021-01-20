@@ -24,8 +24,10 @@ public class Controller_StartingScreens{
      */
     public void changeToNewGame(ActionEvent event) throws IOException {
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root,800,600);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -37,8 +39,9 @@ public class Controller_StartingScreens{
      */
     public void backToStart(ActionEvent event) throws IOException{
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
-        Scene scene = new Scene(root,800,600);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -50,13 +53,23 @@ public class Controller_StartingScreens{
      */
     public void changeToSingleGame(ActionEvent event) throws IOException{
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root,1000,600);
-        scene.getStylesheets().add("JavaFx/Shot.css");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMinHeight(600);
-        stage.setMinWidth(1000);
-        stage.setScene(scene);
-        stage.show();
+        Scene oldScene = stage.getScene();
+        if(oldScene.getWidth()>1000&&oldScene.getHeight()>600){
+            Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+            scene.getStylesheets().add("JavaFx/Shot.css");
+            stage.setMinHeight(600);
+            stage.setMinWidth(1000);
+            stage.setScene(scene);
+            stage.show();
+        }else{
+            Scene scene = new Scene(root,1000,600);
+            scene.getStylesheets().add("JavaFx/Shot.css");
+            stage.setMinHeight(600);
+            stage.setMinWidth(1000);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     /**
@@ -64,9 +77,9 @@ public class Controller_StartingScreens{
      */
     public void changeToHostGame(ActionEvent event) throws IOException{
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Hostgame.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -78,9 +91,9 @@ public class Controller_StartingScreens{
      */
     public void changeToJoinServer(ActionEvent event) throws IOException{
         Parent  root= FXMLLoader.load(getClass().getResource("NewGame_Muliti_Client.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -92,9 +105,9 @@ public class Controller_StartingScreens{
      */
     public void changeToMultGameChooseRole(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_Mult_ChooseRole.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -106,9 +119,9 @@ public class Controller_StartingScreens{
      */
     public void changeToKiVKi(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_KiVKi.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -121,9 +134,9 @@ public class Controller_StartingScreens{
      */
     public void changeToStartOptions(ActionEvent event) throws IOException{
         Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start_Options.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -148,6 +161,7 @@ public class Controller_StartingScreens{
      */
     public void loadGame(ActionEvent event){
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = primaryStage.getScene();
         FileChooser fs = new FileChooser();
         fs.setTitle("Choose a savefile");
         fs.setInitialDirectory(new File("./"));
@@ -160,12 +174,23 @@ public class Controller_StartingScreens{
                 try {
                     Controller_GameScreen.game = LocalGame.loadGame(filepath);
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-                    Scene scene = new Scene(root,1000,600);
-                    scene.getStylesheets().add("JavaFx/Shot.css");
-                    primaryStage.setMinWidth(1000);
-                    primaryStage.setMinHeight(600);
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
+
+                    if(oldScene.getWidth()>1000&&oldScene.getHeight()>600){
+                        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+                        scene.getStylesheets().add("JavaFx/Shot.css");
+                        primaryStage.setMinWidth(1000);
+                        primaryStage.setMinHeight(600);
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }else{
+                        Scene scene = new Scene(root,1000,600);
+                        scene.getStylesheets().add("JavaFx/Shot.css");
+                        primaryStage.setMinWidth(1000);
+                        primaryStage.setMinHeight(600);
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }
+
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -177,11 +202,21 @@ public class Controller_StartingScreens{
                     //Controller_LoadingScreen.filename = file.getName();
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
-                    Scene scene = new Scene(root,800,600);
-                    primaryStage.setMinWidth(800);
-                    primaryStage.setMinHeight(600);
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
+                    if(oldScene.getWidth()>1000&&oldScene.getHeight()>600){
+                        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+                        scene.getStylesheets().add("JavaFx/Shot.css");
+                        primaryStage.setMinWidth(1000);
+                        primaryStage.setMinHeight(600);
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }else{
+                        Scene scene = new Scene(root,1000,600);
+                        scene.getStylesheets().add("JavaFx/Shot.css");
+                        primaryStage.setMinWidth(1000);
+                        primaryStage.setMinHeight(600);
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }
                     //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -194,7 +229,7 @@ public class Controller_StartingScreens{
                     //primaryStage.setScene(WaitingForConnectionForm.create(primaryStage, game, true));
                     Controller_LoadingScreen.wasSave=true;
                     Parent  root= FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
-                    Scene scene = new Scene(root,800,600);
+                    Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
                     primaryStage.setMinWidth(800);
                     primaryStage.setMinHeight(600);
                     primaryStage.setScene(scene);

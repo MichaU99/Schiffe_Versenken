@@ -378,12 +378,14 @@ public class Controller_PutShips implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Scene scene = new Scene(root,1000,600);
-                scene.getStylesheets().add("JavaFx/Shot.css");
+
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
+                Scene oldScene = stage.getScene();
+                Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+                scene.getStylesheets().add("JavaFx/Shot.css");
                 stage.setMinHeight(600);
                 stage.setMinWidth(1000);
+                stage.setScene(scene);
                 stage.setMaximized(true);
                 //stage.setFullScreen(true);
                 stage.show();});
@@ -417,11 +419,6 @@ public class Controller_PutShips implements Initializable {
             alert.showAndWait();
         }
     }
-    /*
-    Controller_Putships: Es würde reichen das längste Schiff immer
-    als erstes in der Liste zu haben, sprich einen
-        if(entferntes Schiff.länge>liste[0].schifflänge->liste[0]=entferntesSchiff & anderes schiff inserten
-*/
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
      * @param event
@@ -429,14 +426,13 @@ public class Controller_PutShips implements Initializable {
      */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         Stage stage = (Stage) GridP.getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinHeight(600);
         stage.setMinWidth(800);
         stage.setScene(scene);
-        stage.setWidth(800);
-        stage.setHeight(600);
+
         stage.show();
     }
 
@@ -447,12 +443,11 @@ public class Controller_PutShips implements Initializable {
      */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));
-        Scene scene = new Scene(root,1000,600);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(1000);
         stage.setMinHeight(600);
-        stage.setWidth(1000);
-        stage.setHeight(600);
         stage.setOnHiding(windowEvent -> updateGameOptions());
         stage.setScene(scene);
         stage.show();

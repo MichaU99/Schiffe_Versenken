@@ -119,10 +119,11 @@ public class Controller_GameOptions implements Initializable {
 
 
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips.fxml"));
-        Scene scene = new Scene(root,1000,600);
-        scene.getStylesheets().add("JavaFx/Shot.css");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMinWidth(1000); // hier ist extra min fenster gesetzt, so richtig ?
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+        scene.getStylesheets().add("JavaFx/Shot.css");
+        stage.setMinWidth(1000);
         stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();

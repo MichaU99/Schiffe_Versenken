@@ -39,9 +39,9 @@ public class Controller_ClientGame implements Initializable {
 
     public void changeToMultGameChooseRole(ActionEvent event) throws IOException {//Wechselt die Szene von NewGame zu PutShips
         Parent root= FXMLLoader.load(getClass().getResource("Layout_Mult_ChooseRole.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -58,9 +58,9 @@ public class Controller_ClientGame implements Initializable {
         }
 
         Parent root = FXMLLoader.load(getClass().getResource("Layout_LoadingScreen.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setScene(scene);
         stage.show();
     }

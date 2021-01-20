@@ -52,9 +52,9 @@ public class Controller_KiVKi implements Initializable {
 
     public void changeToNewGameChooseRole(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
-        Scene scene = new Scene(root,800,600);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
@@ -68,14 +68,18 @@ public class Controller_KiVKi implements Initializable {
         }
 
         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
-        Scene scene = new Scene(root,1000,600);
-        scene.getStylesheets().add("JavaFx/Shot.css");
+
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene oldScene = stage.getScene();
+        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+        scene.getStylesheets().add("JavaFx/Shot.css");
         stage.setMinHeight(600);
         stage.setMinWidth(1000);
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+
     }
 
 
