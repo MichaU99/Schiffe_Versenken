@@ -135,6 +135,7 @@ public class OnlineClientGame extends OnlineGame {
         if(kiPlays){
             ki.shoot();
             position=enemyField.lastShotPos();
+            //ki.updateField3(position);
         }
         //shoot
         this.client.writeLine(BattleshipProtocol.formatShot(position.getX()+1, position.getY()+1));

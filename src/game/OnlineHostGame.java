@@ -70,6 +70,7 @@ public class OnlineHostGame extends OnlineGame {
         if(kiPlays){
             this.ki.shoot();
             position=this.enemyField.lastShotPos();
+            //ki.updateField3(position);
             System.out.println(position);
         }
 

@@ -268,7 +268,7 @@ public class Controller_GameScreen implements Initializable {
         markedPos = null;
         LastShotTag.setVisible(true);
         Shoot_bt.setDisable(true);
-        if(tmpPos==null) return;
+        if(tmpPos==null && ((game instanceof OnlineHostGame && !OnlineHostGame.kiPlays)||(game instanceof OnlineClientGame && !OnlineClientGame.kiPlays))) return;
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (tmpPos == null) return;
             int rc = game.shoot(tmpPos);
