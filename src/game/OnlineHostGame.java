@@ -89,6 +89,7 @@ public class OnlineHostGame extends OnlineGame {
                 this.myTurn = false;
                 this.server.writeLine("next");
             } else {
+                if(kiPlays && code==2) ki.updateField3(position);
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot(true);
             }
             return code;

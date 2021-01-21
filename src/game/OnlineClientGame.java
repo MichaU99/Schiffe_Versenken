@@ -135,7 +135,7 @@ public class OnlineClientGame extends OnlineGame {
         if(kiPlays){
             ki.shoot();
             position=enemyField.lastShotPos();
-            //ki.updateField3(position);
+            //
         }
         //shoot
         this.client.writeLine(BattleshipProtocol.formatShot(position.getX()+1, position.getY()+1));
@@ -152,6 +152,7 @@ public class OnlineClientGame extends OnlineGame {
                 this.myTurn = false;
                 this.client.writeLine("next");
             } else {
+                if(kiPlays && code==2) ki.updateField3(position);
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot(true);
             }
             return code;
