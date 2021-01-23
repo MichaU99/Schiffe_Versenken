@@ -78,6 +78,7 @@ public class Controller_KiVKi implements Initializable {
         stage.setMinWidth(1000);
         stage.setScene(scene);
         stage.setMaximized(true);
+        stage.centerOnScreen();
         stage.show();
 
     }

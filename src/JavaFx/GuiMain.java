@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -22,7 +23,7 @@ public class GuiMain extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("Layout_Start.fxml"));
             Scene scene = new Scene(root,800,600);
             //scene.getStylesheets().add(this.getClass().getResource("./gameStyle.css").toExternalForm());
-
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("Ship.png")));
             this.stage.setTitle("SchiffeVersenken");
             this.stage.centerOnScreen();
             this.stage.setScene(scene);

@@ -61,6 +61,7 @@ public class Controller_StartingScreens{
             stage.setMinHeight(600);
             stage.setMinWidth(1000);
             stage.setScene(scene);
+            stage.centerOnScreen();
             stage.show();
         }else{
             Scene scene = new Scene(root,1000,600);
@@ -68,6 +69,7 @@ public class Controller_StartingScreens{
             stage.setMinHeight(600);
             stage.setMinWidth(1000);
             stage.setScene(scene);
+            stage.centerOnScreen();
             stage.show();
         }
     }
