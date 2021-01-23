@@ -90,11 +90,11 @@ public class Controller_ClientGame implements Initializable {
 
         if (status) {
             if(checkBox.isSelected()){
-                OnlineClientGame.kiPlays=true;
-                return new OnlineClientGame(serverName,pn,kiStrength);
+                OnlineClientGame onlineClientGame=new OnlineClientGame(serverName,pn,kiStrength);
+                onlineClientGame.kiPlays=true;
+                return onlineClientGame;
             }
             else{
-                OnlineClientGame.kiPlays=false;
                 return new OnlineClientGame(serverName, pn);
             }
 

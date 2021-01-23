@@ -44,9 +44,11 @@ public class Controller_LoadingScreen {
             Controller_PutShips.online = true;
             Controller_GameScreen.game = clientGame;
             if(wasSave){
+                Controller_GameScreen.saveGame=true;
                 System.out.println("Versucht Verbindung mit Savedatei herzustellen");
                 Platform.runLater(() -> {
                     try {
+
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
                         this.stage=GuiMain.stage;
                         // Stage stage = (Stage) statusLbl.getScene().getWindow();
@@ -108,6 +110,7 @@ public class Controller_LoadingScreen {
                 if(status){
                     Platform.runLater(() ->{
                         try {
+                        Controller_GameScreen.game=onlineGame;
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
                         Stage stage = (Stage) statusLbl.getScene().getWindow();
                         Scene oldScene = stage.getScene();
@@ -128,6 +131,7 @@ public class Controller_LoadingScreen {
             }
             else {
                 boolean status = hostGame.waitForConnection();
+                System.out.println("Has waited");
 
             if (status) {
                 Controller_PutShips.online = true;

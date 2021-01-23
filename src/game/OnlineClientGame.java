@@ -1,5 +1,6 @@
 package game;
 
+import JavaFx.Controller_LoadingScreen;
 import JavaFx.GameOptions;
 import enums.KiStrength;
 import enums.ProtComs;
@@ -15,7 +16,6 @@ import java.io.*;
  */
 public class OnlineClientGame extends OnlineGame {
     private Client client;
-    public static boolean wasSave=false;
     private int[] shipLengths;
     private KiStrength tmpkiStrengh=null; //Da das Feld erst nach dem Verbindungsaufbau verfügbar ist, muss die KiStrengh zwischengespeichert werden
     private Ki ki=null;
@@ -71,7 +71,7 @@ public class OnlineClientGame extends OnlineGame {
                 e.printStackTrace();
                 return false;
             }
-            wasSave = true;
+            Controller_LoadingScreen.wasSave=true;
             this.field = temp.field;
             if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh,true);
             this.enemyField = temp.enemyField;
@@ -198,7 +198,7 @@ public class OnlineClientGame extends OnlineGame {
         // TODO: 10.01.2021 Prüfen ob richtige Werte initialisiert werden 
         generateID();
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
-        OnlineHostGame game = OnlineClientGame.castToHost(this);
+        OnlineHostGame game = OnlineClientGame.castToHost(this,ID);
         FileOutputStream fout = new FileOutputStream(file.getAbsolutePath());
         ObjectOutputStream out = new ObjectOutputStream(fout);
         out.writeObject(game);
@@ -217,12 +217,13 @@ public class OnlineClientGame extends OnlineGame {
         this.client.closeConnection();
     }
 
-    public static OnlineHostGame castToHost(OnlineClientGame clientGame) {
+    public static OnlineHostGame castToHost(OnlineClientGame clientGame,long ID) {
         OnlineHostGame hostGame = new OnlineHostGame(5, 5, clientGame.client.getPortnumber(), null, null);
         hostGame.field = clientGame.field;
         hostGame.enemyField = clientGame.enemyField;
         hostGame.myTurn = clientGame.myTurn;
         hostGame.gameOptions = clientGame.gameOptions;
+        hostGame.ID=ID;
         return hostGame;
     }
 }

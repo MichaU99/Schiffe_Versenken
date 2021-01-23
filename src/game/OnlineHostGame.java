@@ -20,8 +20,6 @@ public class OnlineHostGame extends OnlineGame {
         this.server.setPortNumber(portNumber);
         this.shipLengths = shipLengths;
         this.gameOptions = gameOptions;
-        ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
-        if(kiPlays)Ki.makeShiplist4Ki(shipLengths); // für die strong ki
     }
     public int getShipCount(){
         return shipLengths.length;
@@ -30,13 +28,13 @@ public class OnlineHostGame extends OnlineGame {
         // wait for connection, when connection is established exchange game Configuration
         if (!this.server.waitForConnection())
             return false;
-//        System.out.println("Connected");
+        System.out.println("Connected");
 
         this.server.writeLine(BattleshipProtocol.formatSize(this.getField().getLength()));
-//        System.out.println("SIZE CONFIG SENT");
+        System.out.println("SIZE CONFIG SENT");
         if (!this.server.readLine().equals("next"))
             return false;
-//        System.out.println("size config Ok");
+        System.out.println("size config Ok");
 
         this.server.writeLine(BattleshipProtocol.formatShips(this.shipLengths));
         if (!this.server.readLine().equals("done"))
@@ -66,8 +64,12 @@ public class OnlineHostGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
-        System.out.println(kiPlays);
+
         if(kiPlays){
+            if(ki==null){
+            Ki.makeShiplist4Ki(shipLengths); // für die strong ki
+            ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
+            }
             this.ki.shoot();
             position=this.enemyField.lastShotPos();
             //ki.updateField3(position);
@@ -130,7 +132,7 @@ public class OnlineHostGame extends OnlineGame {
 
     public void saveGameAsClientGame(String filename) {
         // TODO: 10.01.2021 Fehlerhafte initialisierung?Warum fehlt hostName und portNumber
-        OnlineClientGame clientGame = new OnlineClientGame("", 1);
+        OnlineClientGame clientGame = new OnlineClientGame(filename, server.getPortNumber());
         clientGame.gameOptions = this.gameOptions;
         clientGame.myTurn = this.myTurn;
         clientGame.field = this.field;

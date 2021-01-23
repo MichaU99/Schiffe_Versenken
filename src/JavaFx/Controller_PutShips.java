@@ -15,7 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +27,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -367,6 +369,7 @@ public class Controller_PutShips implements Initializable {
     public void startGame(ActionEvent event) throws IOException {
 
         if(noch_zu_setzende_schiffe.isEmpty()){
+            game.getEnemyField().setshipAmount(game.getField().getShipCount());
             progressIndicator.setVisible(true);
 
             Platform.runLater(()->{

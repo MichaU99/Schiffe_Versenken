@@ -28,7 +28,17 @@ public class Field implements Serializable {
     private int length;
     private Position lastShotPos =null;
     private Cell lastShotHit= null;
+    private int shipAmount;
 
+    public void setshipAmount(int shipAmount){
+        this.shipAmount=shipAmount;
+    }
+    public void decreaseshipAmount(){
+        shipAmount--;
+    }
+    public int getShipAmount(){
+        return shipAmount;
+    }
     /**
      * Die Methode sollte nicht oft benoeigt werden. Wird nur benoetigt um Positionen neu zu setzen, wenn die Schiffe
      * auf dem Feld nicht bekannt sind. Dies ist nur der Fall im {@link OnlineGame}.
