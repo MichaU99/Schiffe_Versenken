@@ -73,7 +73,7 @@ public class OnlineClientGame extends OnlineGame {
             }
             wasSave = true;
             this.field = temp.field;
-            if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh);
+            if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh,true);
             this.enemyField = temp.enemyField;
             //this.client = temp.client;
             this.myTurn = temp.myTurn;
@@ -114,7 +114,7 @@ public class OnlineClientGame extends OnlineGame {
                 two++;
         }
         gameOptions = new GameOptions(this.field.getHeight(), KiStrength.INTERMEDIATE, five, four, three, two);
-// TODO: 15.01.2021 muss ich hier liste bekommen dann für client
+
         this.client.writeLine("done");
 
         return true;
@@ -131,7 +131,7 @@ public class OnlineClientGame extends OnlineGame {
     }
 
     public int shoot(Position position) {
-        if(kiPlays && ki==null) this.ki=new Ki(enemyField,tmpkiStrengh);
+        if(kiPlays && ki==null) this.ki=new Ki(enemyField,tmpkiStrengh,true);
         if(kiPlays){
             ki.shoot();
             position=enemyField.lastShotPos();

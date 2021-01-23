@@ -20,7 +20,7 @@ public class OnlineHostGame extends OnlineGame {
         this.server.setPortNumber(portNumber);
         this.shipLengths = shipLengths;
         this.gameOptions = gameOptions;
-        ki=new Ki(this.enemyField,this.gameOptions.getKiStrength());
+        ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
         if(kiPlays)Ki.makeShiplist4Ki(shipLengths); // für die strong ki
     }
     public int getShipCount(){
