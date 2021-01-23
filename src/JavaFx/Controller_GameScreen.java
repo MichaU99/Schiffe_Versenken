@@ -596,37 +596,39 @@ public class Controller_GameScreen implements Initializable {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    OnlineGame onlineGame = ((OnlineGame) game);
-                    int rc = onlineGame.shoot(null);
-                    Platform.runLater(()->updateField(GP_Enemy));
+                    if (game.isMyTurn()) {
+                        OnlineGame onlineGame = ((OnlineGame) game);
+                        int rc = onlineGame.shoot(null);
+                        Platform.runLater(() -> updateField(GP_Enemy));
 
-                    if (rc == 0) {
-                        Platform.runLater(()->{
-                            playerTag.setText(PLAYER2_NAME);
-                            LastShotTag.setText("Last Shot: Miss");
-                        });
+                        if (rc == 0) {
+                            Platform.runLater(() -> {
+                                playerTag.setText(PLAYER2_NAME);
+                                LastShotTag.setText("Last Shot: Miss");
+                            });
                             while (!onlineGame.isMyTurn()) {
                                 onlineGame.enemyShot(); // TODO: 15.01.2021  Kann Fehler verursachen
-                                Platform.runLater(()-> {
+                                Platform.runLater(() -> {
                                     checkGameEnded(1);
                                     updateField(GP_Player);
                                 });
                             }
 
-                            Platform.runLater(() ->{
+                            Platform.runLater(() -> {
                                 playerTag.setText(PLAYER1_NAME);
                             });
-                    } else if (rc == 1) {
-                        Platform.runLater(()->{
-                            LastShotTag.setText("Last Shot: Hit");
-                        });
+                        } else if (rc == 1) {
+                            Platform.runLater(() -> {
+                                LastShotTag.setText("Last Shot: Hit");
+                            });
 
-                    } else if (rc == 2) {
-                        Platform.runLater(()->{
-                            LastShotTag.setText("Destroyed");
-                            checkGameEnded(0);
-                        });
+                        } else if (rc == 2) {
+                            Platform.runLater(() -> {
+                                LastShotTag.setText("Destroyed");
+                                checkGameEnded(0);
+                            });
 
+                        }
                     }
                 }
             }, 0, timerInterval);
