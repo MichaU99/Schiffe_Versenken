@@ -703,7 +703,10 @@ public class Controller_GameScreen implements Initializable {
     public void onKvkDelayCbxChange(MouseEvent event) {
         if(timer==null) return;
         ChoiceBox source = ((ChoiceBox) event.getSource());
-        switch (source.getSelectionModel().getSelectedIndex()) {
+
+        gamespdbox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
+
+            switch (t1.intValue()){
             case 0:
                 timerInterval = 4000;
                 break;
@@ -724,6 +727,9 @@ public class Controller_GameScreen implements Initializable {
         }
         timer.cancel();
         onKvkStartBtnClick();
+
+        });
+
     }
     //----------------- Ki vs Ki End --------------------
 }
