@@ -56,6 +56,8 @@ public class Controller_LoadingScreen {
                         stage.setMinHeight(600);
                         stage.setMinWidth(1000);
                         stage.setScene(scene);
+                        stage.setTitle("ClientGame");
+                        stage.centerOnScreen();
                         stage.setMaximized(true);
                         stage.show();
 
@@ -77,6 +79,8 @@ public class Controller_LoadingScreen {
                         stage.setMinHeight(600);
                         stage.setMinWidth(1000);
                         stage.setScene(scene);
+                        stage.setTitle("ClientGame");
+                        stage.centerOnScreen();
                         stage.show();
                     }else{
                         Scene scene = new Scene(root,1000,600);
@@ -84,6 +88,8 @@ public class Controller_LoadingScreen {
                         stage.setMinHeight(600);
                         stage.setMinWidth(1000);
                         stage.setScene(scene);
+                        stage.setTitle("ClientGame");
+                        stage.centerOnScreen();
                         stage.show();
                     }
                 } catch (IOException e) {
@@ -111,6 +117,8 @@ public class Controller_LoadingScreen {
                         stage.setMinWidth(1000);
                         stage.setScene(scene);
                         stage.setMaximized(true);
+                        stage.setTitle("HostGame");
+                        stage.centerOnScreen();
                         stage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -135,6 +143,8 @@ public class Controller_LoadingScreen {
                             stage.setMinHeight(600);
                             stage.setMinWidth(1000);
                             stage.setScene(scene);
+                            stage.setTitle("HostGame");
+                            stage.centerOnScreen();
                             stage.show();
                         }else{
                             Scene scene = new Scene(root,1000,600);
@@ -142,6 +152,8 @@ public class Controller_LoadingScreen {
                             stage.setMinHeight(600);
                             stage.setMinWidth(1000);
                             stage.setScene(scene);
+                            stage.setTitle("HostGame");
+                            stage.centerOnScreen();
                             stage.show();
                         }
                     } catch (IOException e) {
@@ -170,7 +182,10 @@ public class Controller_LoadingScreen {
         Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
         stage.setMinWidth(800);
         stage.setMinHeight(600);
+
+        stage.setTitle("SchiffeVersenken");
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 

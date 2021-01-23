@@ -432,7 +432,8 @@ public class Controller_PutShips implements Initializable {
         stage.setMinHeight(600);
         stage.setMinWidth(800);
         stage.setScene(scene);
-
+        stage.setTitle("SchiffeVersenken");
+        stage.centerOnScreen();
         stage.show();
     }
 

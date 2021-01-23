@@ -480,6 +480,8 @@ public class Controller_GameScreen implements Initializable {
         stage.setMinHeight(600);
         stage.setMinWidth(800);
         stage.setScene(scene);
+        stage.setTitle("SchiffeVersenken");
+        stage.centerOnScreen();
         stage.show();
     }
 
