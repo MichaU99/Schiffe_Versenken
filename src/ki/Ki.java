@@ -333,7 +333,7 @@ public class Ki implements Serializable {
                 }
             }
         }
-        if(kiPlays && (Controller_GameScreen.game instanceof OnlineHostGame||Controller_GameScreen.game instanceof OnlineHostGame)){
+        if(kiPlays){
             while (true) {
                 Cell cell = this.kiEnemyField.getCell(strongNextShot);
                 if (!(cell instanceof Shot) && (!(cell instanceof Block))) {
@@ -738,8 +738,11 @@ public class Ki implements Serializable {
     }
     //////// ENDE: Weitere Methode mit
     ///////benutzung der anderen bereitsts geschriebenen Sachen
+
+
     public static void makeShiplist4Ki(int[] shipLengths){
         kiShipLengths=shipLengths;
+
 
     }
     private void addShotsToKiEnemyField(ArrayList<Position> positions) {
