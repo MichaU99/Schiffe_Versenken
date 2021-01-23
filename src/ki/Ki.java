@@ -21,11 +21,18 @@ public class Ki implements Serializable {
     private Field enemyField; // this is the players playfield
     public Field kiEnemyField; // this is the vision of the ki of the enemy Field;
     private final KiStrength kiStrength;
+    private boolean online=false;
 
     public Ki(Field enemyField, KiStrength kiStrength){
         this.enemyField = enemyField;
         this.kiStrength = kiStrength;
         this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
+    }
+    public Ki(Field enemyField, KiStrength kiStrength,boolean online){
+        this.enemyField = enemyField;
+        this.kiStrength = kiStrength;
+        this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
+        this.online=online;
     }
 
     public int shoot() {
