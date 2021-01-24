@@ -151,6 +151,7 @@ public class OnlineClientGame extends OnlineGame {
             this.client.closeConnection();
         } else {
             int code = (int)answer[1];
+            if(ki!=null) ki.giveAnswer(code);
             if (code == 0) {
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot();
                 this.myTurn = false;

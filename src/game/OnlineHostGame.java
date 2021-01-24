@@ -79,8 +79,8 @@ public class OnlineHostGame extends OnlineGame {
     public int shoot(Position position) {
         if(kiPlays){
             if(ki==null){
-            Ki.makeShiplist4Ki(shipLengths); // für die strong ki
-            ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
+                Ki.makeShiplist4Ki(shipLengths); // für die strong ki
+                ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
             }
             this.ki.shoot();
             position=this.enemyField.lastShotPos();
@@ -98,6 +98,7 @@ public class OnlineHostGame extends OnlineGame {
             this.server.closeConnection();
         } else {
             int code = (int)answer[1];
+            if(ki!=null) ki.giveAnswer(code);
             if (code == 0) {
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot();
                 this.myTurn = false;
