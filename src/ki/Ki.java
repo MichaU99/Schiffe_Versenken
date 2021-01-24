@@ -97,7 +97,6 @@ public class Ki implements Serializable {
 
     /**
      * Schießt vollkommen zufällig aufs Feld
-     * @return
      */
     private int shootRandom() {
         Random r = new Random();

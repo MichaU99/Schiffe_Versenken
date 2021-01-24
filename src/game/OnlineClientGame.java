@@ -130,6 +130,10 @@ public class OnlineClientGame extends OnlineGame {
         return true;
     }
 
+    /**
+     * Shoot Methode für Onlinespiele als Client, kommuniziert über das Netzwerkprotokoll mit dem Gegner
+     * @param position auf die zu schießende {@link Position}
+     */
     public int shoot(Position position) {
         if(kiPlays && ki==null) this.ki=new Ki(enemyField,tmpkiStrengh,true);
         if(kiPlays){
@@ -160,8 +164,10 @@ public class OnlineClientGame extends OnlineGame {
         return -1;
     }
 
+    /**
+     * Verarbeitet Gegnerische Schüsse im Netzwerk
+     */
     public void enemyShot() {
-
         Object[] answer = BattleshipProtocol.processInput(this.client.readLine());
         if (answer[0] == ProtComs.NEXT) {
             this.myTurn = true;
@@ -194,8 +200,12 @@ public class OnlineClientGame extends OnlineGame {
         super.saveGame(file.getAbsolutePath());
     }
 
+    /**
+     * Speichert falls man als Client das speichern initiiert den save als Hostgame ab um das Spiel später laden zu können.
+     * Generiert über {@link #generateID()} eine zufällige long ID die dem Gegenspieler zum laden Mittgeteilt wird
+     * @param file Speicherort der Datei
+     */
     public void saveGameAsHostGame(File file) throws IOException {
-        // TODO: 10.01.2021 Prüfen ob richtige Werte initialisiert werden 
         generateID();
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         OnlineHostGame game = OnlineClientGame.castToHost(this,ID);
@@ -217,6 +227,11 @@ public class OnlineClientGame extends OnlineGame {
         this.client.closeConnection();
     }
 
+    /**
+     * Methode für {@link #saveGameAsHostGame(File)}, macht aus einem Clientgame ein Hostgame
+     * @param clientGame clientGame das in ein Hostgame umgewandelt werden soll
+     * @param ID Lange Ganzzahl die der identifizierung eines Saves dient
+     */
     public static OnlineHostGame castToHost(OnlineClientGame clientGame,long ID) {
         OnlineHostGame hostGame = new OnlineHostGame(5, 5, clientGame.client.getPortnumber(), null, null);
         hostGame.field = clientGame.field;
