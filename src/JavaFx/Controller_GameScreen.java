@@ -366,6 +366,7 @@ public class Controller_GameScreen implements Initializable {
             case 0:
                 game.getEnemyField().decreaseshipAmount();
             if (game.getEnemyField().getShipAmount()<=0) {
+                if(game.kiPlays) timer.cancel();
                 updateFieldUndisclosed(GP_Player);
                 updateFieldUndisclosed(GP_Enemy);
                 alert.setContentText("You won!");
@@ -376,12 +377,13 @@ public class Controller_GameScreen implements Initializable {
             break;
             case 1:
                 if (game.didYouLose()) {
-                updateFieldUndisclosed(GP_Player);
-                updateFieldUndisclosed(GP_Enemy);
-                alert.setContentText("You lost!");
-                alert.showAndWait();
-                stage = (Stage) (ap.getScene().getWindow());
-                stage.close();
+                    if(game.kiPlays) timer.cancel();
+                    updateFieldUndisclosed(GP_Player);
+                    updateFieldUndisclosed(GP_Enemy);
+                    alert.setContentText("You lost!");
+                    alert.showAndWait();
+                    stage = (Stage) (ap.getScene().getWindow());
+                    stage.close();
             }
                 break;
             default: assert (false):"FEHLER IM AUFRUF DER whoWon(who)";

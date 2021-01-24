@@ -345,6 +345,7 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Gibt die interne Datenstruktur generated_ships als array von Positions zurück
+
      */
     private Position[] ClickedShipsToArray(){
         ArrayList<Position> pos=new ArrayList<>();
