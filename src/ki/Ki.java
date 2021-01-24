@@ -262,10 +262,10 @@ public class Ki implements Serializable {
         if (interLastHitOnline != null) {
             if (interDirOnline == 'e') {
                 int nextX = interLastHitOnline.getX() + interCounterOnline;
-                if (nextX >= this.enemyField.getLength() || this.enemyField.getCell(new Position(nextX, interLastHit.getY())) instanceof Shot) {
+                if (nextX >= this.enemyField.getLength() || this.enemyField.getCell(new Position(nextX, interLastHitOnline.getY())) instanceof Shot) {
                     interDirOnline = 'w';
                     interCounterOnline = 1;
-                    return shootRandomThenHitOnline();
+                    shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
@@ -278,7 +278,7 @@ public class Ki implements Serializable {
                 if (nextX < 0 || this.enemyField.getCell(new Position(nextX, interLastHitOnline.getY())) instanceof Shot) {
                     interDir = 'n';
                     interCounter = 1;
-                    return shootRandomThenHitOnline();
+                    shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
@@ -290,7 +290,7 @@ public class Ki implements Serializable {
                 if (nextY < 0 || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
                     interDirOnline = 's';
                     interCounterOnline = 1;
-                    return shootRandomThenHitOnline();
+                     shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
@@ -302,7 +302,7 @@ public class Ki implements Serializable {
                 if (nextY >= this.enemyField.getHeight() || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
                     interDirOnline = 'e';
                     interCounterOnline = 1;
-                    return shootRandomThenHitOnline();
+                    shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
@@ -980,13 +980,13 @@ public class Ki implements Serializable {
         // richtung des Schiffes Abchecken:
         enemyPlayfield = enemyField.getPlayfield();
         //wenn nach links
-        if ((enemyPlayfield[pos.getY()][pos.getX() - 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() - 1, pos.getY())))) {
+        if ((pos.getX() - 1)>=0&&(enemyPlayfield[pos.getY()][pos.getX() - 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() - 1, pos.getY())))) {
             shipdir = "left";
-        } else if ((enemyPlayfield[pos.getY()][pos.getX() + 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() + 1, pos.getY()))))
+        } else if ((pos.getX() + 1)<this.enemyField.getLength()&&(enemyPlayfield[pos.getY()][pos.getX() + 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() + 1, pos.getY()))))
             shipdir = "right";
-        else if ((enemyPlayfield[pos.getY() - 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() - 1))))
+        else if ((pos.getY() - 1)>=0&&(enemyPlayfield[pos.getY() - 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() - 1))))
             shipdir = "up";
-        else if ((enemyPlayfield[pos.getY() + 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() + 1))))
+        else if ((pos.getY() + 1)<this.enemyField.getLength()&&(enemyPlayfield[pos.getY() + 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() + 1))))
             shipdir = "down";
 
         switch (shipdir) {
