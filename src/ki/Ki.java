@@ -1,15 +1,12 @@
 package ki;
 
-import JavaFx.Controller_GameScreen;
 import enums.KiStrength;
 import game.Field;
-import game.OnlineHostGame;
 import game.Position;
 import game.cells.Block;
 import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
-import javafx.geometry.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,11 +20,21 @@ public class Ki implements Serializable {
     private final KiStrength kiStrength;
     private boolean online=false;
 
+    /**
+     * Konstruktor der Ki für Lokale Spiele
+     * @param enemyField Feld das beschossen werden soll
+     * @param kiStrength Stärke der Ki
+     */
     public Ki(Field enemyField, KiStrength kiStrength){
         this.enemyField = enemyField;
         this.kiStrength = kiStrength;
         this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
     }
+    /**
+     * Konstruktor der Ki für Online Spiele
+     * @param enemyField Feld das beschossen werden soll
+     * @param kiStrength Stärke der Ki
+     */
     public Ki(Field enemyField, KiStrength kiStrength,boolean online){
         this.enemyField = enemyField;
         this.kiStrength = kiStrength;
@@ -35,9 +42,11 @@ public class Ki implements Serializable {
         this.online=online;
     }
 
+    /**
+     * Allgemeine shoot Methode, spricht mittels switch case die zur Ki Stärke passende Methode an
+     */
     public int shoot() {
         //assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da";
-
         if(online){
             switch (this.kiStrength) {
                 case BEGINNER -> {
@@ -86,7 +95,10 @@ public class Ki implements Serializable {
         }
     }
 
-
+    /**
+     * Schießt vollkommen zufällig aufs Feld
+     * @return
+     */
     private int shootRandom() {
         Random r = new Random();
 

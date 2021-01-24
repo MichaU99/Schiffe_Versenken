@@ -8,17 +8,27 @@ import java.io.*;
 public class LocalGame extends Game {
     private Ki ki;
 
+    /**
+     * Standartkonstruktor der Klasse LocalGame
+     */
     public LocalGame(int playFieldHeight, int playFieldLength, KiStrength kiStrength) {
         // ki hasn't placed ships yet because they are not known at this point in the game
         super(playFieldHeight, playFieldLength);
         this.ki = new Ki(this.field, kiStrength);
     }
 
+    /**
+     * Fügt dem Gegnerfeld, anghand der auf dem eigenen Feld gesetzten Schiffe, zufällig seine hinzu
+     */
     public boolean startGame() {
         this.enemyField.addShipRandom(this.field.getShipLengths());
         return true;
     }
 
+    /**
+     * Gleich {@link LocalGame#startGame()}, lässt allerdings eine Ki gewählter Stärke deine Züge machen
+     * @param kiStrength Gewählte Kistärke
+     */
     public boolean startGame(KiStrength kiStrength) {
         this.enemyField = new Field(this.field.getHeight(), this.field.getLength());
         this.ki = new Ki(this.field, kiStrength);
