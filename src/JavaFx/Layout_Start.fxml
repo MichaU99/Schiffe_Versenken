@@ -11,7 +11,6 @@
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToNewGame" prefHeight="34.0" prefWidth="110.0" styleClass="ButtonBlack" stylesheets="@button.css" text="New Game" />
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#loadGame" prefHeight="34.0" prefWidth="108.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Old Game" />
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#changeToStartOptions" prefHeight="34.0" prefWidth="109.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Options" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="34.0" prefWidth="108.0" styleClass="ButtonBlack" stylesheets="@button.css" text="Close" />
          </children>
       </VBox>
