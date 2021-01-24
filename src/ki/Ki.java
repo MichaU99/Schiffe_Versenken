@@ -49,31 +49,24 @@ public class Ki implements Serializable {
         //assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da";
         if(online){
             switch (this.kiStrength) {
-                case BEGINNER -> {
+                case BEGINNER:
                     return this.shootRandom();
-                }
-                case INTERMEDIATE -> {
+                case INTERMEDIATE:
                     return this.shootRandomThenHitOnline();
-                }
-                case STRONG -> {
+                case STRONG:
                     return this.shootRowsOnline();
-                }
 
             }
         }
         switch (this.kiStrength) {
-            case BEGINNER -> {
+            case BEGINNER:
                 return this.shootRandom();
-            }
-            case INTERMEDIATE -> {
+            case INTERMEDIATE:
                 return this.shootRandomThenHit();
-            }
-            case STRONG -> {
+            case STRONG:
                 return this.shootRows();
-            }
-            case HELL -> {
+            case HELL:
                 return this.perfectSpin();
-            }
         }
         return -1;
     }
@@ -81,15 +74,15 @@ public class Ki implements Serializable {
     public void giveAnswer (int answer){
         if(online){
             switch (this.kiStrength) {
-                case BEGINNER -> {
+                case BEGINNER:
 
-                }
-                case INTERMEDIATE -> {
+                break;
+                case INTERMEDIATE:
                     setDirShootRandomThenHitOnline(answer);
-                }
-                case STRONG -> {
+                break;
+                case STRONG:
                     setDirhootRowsOnline(answer);
-                }
+                break;
 
             }
         }

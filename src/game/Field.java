@@ -247,7 +247,7 @@ public class Field implements Serializable {
             char direction = directions[r.nextInt(4)];
 
             switch (direction) {
-                case 'n' -> {
+                case 'n':
                     if (startPos.getY() - length < 0) {
                         continue;
                     }
@@ -256,8 +256,8 @@ public class Field implements Serializable {
                         positions[i] = new Position(startPos.getX(), startPos.getY() - i);
                     }
                     placed = this.addShip(new Ship(positions));
-                }
-                case 's' -> {
+                break;
+            case 's' :
                     if (startPos.getY() + length > this.height) {
                         continue;
                     }
@@ -266,8 +266,8 @@ public class Field implements Serializable {
                         positions[i] = new Position(startPos.getX(), startPos.getY() + i);
                     }
                     placed = this.addShip(new Ship(positions));
-                }
-                case 'w' -> {
+                break;
+                case 'w':
                     if (startPos.getX() - length < 0) {
                         continue;
                     }
@@ -276,8 +276,8 @@ public class Field implements Serializable {
                         positions[i] = new Position(startPos.getX() - i, startPos.getY());
                     }
                     placed = this.addShip(new Ship(positions));
-                }
-                case 'e' -> {
+                break;
+                case 'e':
                     if (startPos.getX() + length > this.length) {
                         continue;
                     }
@@ -286,8 +286,8 @@ public class Field implements Serializable {
                         positions[i] = new Position(startPos.getX() + i, startPos.getY());
                     }
                     placed = this.addShip(new Ship(positions));
+                    break;
                 }
-            }
             loopcount++;
         }
         return true;

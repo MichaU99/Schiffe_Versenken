@@ -354,7 +354,8 @@ public class Controller_PutShips implements Initializable {
             pos.add(lauf.getPosition());
             lauf=lauf.next;
         }
-        return pos.toArray(Position[]::new);
+        Position[] posArr=new Position[pos.size()];
+        return pos.toArray(posArr);
     }
 
     /**
