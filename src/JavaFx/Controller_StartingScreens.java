@@ -131,20 +131,6 @@ public class Controller_StartingScreens{
     }
 
     /**
-     *Wechselt in die Szene von Startoptions
-     */
-    public void changeToStartOptions(ActionEvent event) throws IOException{
-        Parent  root= FXMLLoader.load(getClass().getResource("Layout_Start_Options.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene oldScene = stage.getScene();
-        Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    /**
      * Schließt Fenster bei Buttonclick
      * @param event Bezieht hieraus welches Fenster geschlossen werden soll
      */

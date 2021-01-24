@@ -265,7 +265,7 @@ public class Ki implements Serializable {
                 if (nextX >= this.enemyField.getLength() || this.enemyField.getCell(new Position(nextX, interLastHitOnline.getY())) instanceof Shot) {
                     interDirOnline = 'w';
                     interCounterOnline = 1;
-                    shootRandomThenHitOnline();
+                    return shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
@@ -276,9 +276,9 @@ public class Ki implements Serializable {
             else if (interDirOnline == 'w') {
                 int nextX = interLastHitOnline.getX() - interCounterOnline;
                 if (nextX < 0 || this.enemyField.getCell(new Position(nextX, interLastHitOnline.getY())) instanceof Shot) {
-                    interDir = 'n';
-                    interCounter = 1;
-                    shootRandomThenHitOnline();
+                    interDirOnline = 'n';
+                    interCounterOnline = 1;
+                    return shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
@@ -290,7 +290,7 @@ public class Ki implements Serializable {
                 if (nextY < 0 || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
                     interDirOnline = 's';
                     interCounterOnline = 1;
-                     shootRandomThenHitOnline();
+                     return shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
@@ -302,7 +302,7 @@ public class Ki implements Serializable {
                 if (nextY >= this.enemyField.getHeight() || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
                     interDirOnline = 'e';
                     interCounterOnline = 1;
-                    shootRandomThenHitOnline();
+                    return shootRandomThenHitOnline();
                 }
                 else {
                     int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
