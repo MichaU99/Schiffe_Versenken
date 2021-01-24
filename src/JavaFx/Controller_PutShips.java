@@ -363,8 +363,6 @@ public class Controller_PutShips implements Initializable {
     /**
      * Schaut ob alle Schiffe gesetzt wurden, setzt game in Controller_GameScreen und wechselt die Szene dorthin.
      * TL;DR: Wechselt zum Gamescreen
-     * @param event
-     * @throws IOException
      */
     public void startGame(ActionEvent event) throws IOException {
 
@@ -407,7 +405,7 @@ public class Controller_PutShips implements Initializable {
      */
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         if (loeschpos!=null) {
-
+            Start_bt.setDisable(true);
             noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
             Collections.sort(noch_zu_setzende_schiffe,Collections.reverseOrder());
             game.getField().removeShip(loeschpos);
