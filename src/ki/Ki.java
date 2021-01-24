@@ -547,6 +547,7 @@ public class Ki implements Serializable {
     private int shootRowsOnline(){
         if (strongLastHitOnline != null) {
             if (strongDirOnline == 'e') {
+                nextX = 0;
                 nextX = strongLastHitOnline.getX() + strongCounterOnline;
                 Position nextS = new Position(nextX, strongLastHitOnline.getY());
                 if ((nextX >= this.enemyField.getLength()) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
@@ -561,6 +562,7 @@ public class Ki implements Serializable {
                 }
             }
             else if (strongDirOnline == 'w') {
+                nextX = 0;
                 nextX = strongLastHitOnline.getX() - strongCounterOnline;
                 Position nextS = new Position(nextX, strongLastHitOnline.getY());
                 if ((nextX < 0) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
@@ -575,6 +577,7 @@ public class Ki implements Serializable {
                 }
             }
             else if (strongDirOnline == 'n') {
+                nextY = 0;
                 nextY = strongLastHitOnline.getY() - strongCounterOnline;
                 Position nextS = new Position(strongLastHitOnline.getX(), nextY);
                 if ((nextY < 0) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
@@ -589,6 +592,7 @@ public class Ki implements Serializable {
                 }
             }
             else if (strongDirOnline == 's') {
+                nextY = 0;
                 nextY = strongLastHitOnline.getY() + strongCounterOnline;
                 Position nextS = new Position(strongLastHitOnline.getX(), nextY);
                 if ((nextY >= this.enemyField.getHeight()) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
@@ -641,14 +645,19 @@ public class Ki implements Serializable {
                     strongCounterOnline = 1;
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    Position aktuellePos= new Position(nextX, strongLastHitOnline.getY());
                     strongCounterOnline++;
-                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
                     s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    Position aktuellePos= new Position(nextX, strongLastHitOnline.getY());
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
                     addShotsToKiEnemyField(strongHitsOnline);
                     strongHitsOnline.clear();
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
+                    s.setWasShip(true);
+                    updateField3(aktuellePos);
 
                     strongDirOnline = 'e';
                     strongCounterOnline = 1;
@@ -661,14 +670,19 @@ public class Ki implements Serializable {
                     strongCounterOnline = 1;
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    Position aktuellePos= new Position(nextX, strongLastHitOnline.getY());
                     strongCounterOnline++;
-                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
                     s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    Position aktuellePos= new Position(nextX, strongLastHitOnline.getY());
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
                     addShotsToKiEnemyField(strongHitsOnline);
                     strongHitsOnline.clear();
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
+                    s.setWasShip(true);
+                    updateField3(aktuellePos);
 
                     strongDirOnline = 'e';
                     strongCounterOnline = 1;
@@ -681,14 +695,19 @@ public class Ki implements Serializable {
                     strongCounterOnline = 1;
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    Position aktuellePos= new Position(strongLastHitOnline.getX(), nextY);
                     strongCounterOnline++;
-                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
                     s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    Position aktuellePos= new Position(strongLastHitOnline.getX(), nextY);
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
                     addShotsToKiEnemyField(strongHitsOnline);
                     strongHitsOnline.clear();
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
+                    s.setWasShip(true);
+                    updateField3(aktuellePos);
 
                     strongDirOnline = 'e';
                     strongCounterOnline = 1;
@@ -701,14 +720,19 @@ public class Ki implements Serializable {
                     strongCounterOnline = 1;
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    Position aktuellePos= new Position(strongLastHitOnline.getX(), nextY);
                     strongCounterOnline++;
-                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
                     s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    Position aktuellePos= new Position(strongLastHitOnline.getX(), nextY);
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
                     addShotsToKiEnemyField(strongHitsOnline);
                     strongHitsOnline.clear();
+                    Shot s = (Shot) enemyPlayfield[aktuellePos.getY()][aktuellePos.getX()];
+                    s.setWasShip(true);
+                    updateField3(aktuellePos);
 
                     strongDirOnline = 'e';
                     strongCounterOnline = 1;
@@ -721,249 +745,11 @@ public class Ki implements Serializable {
             strongHitsOnline.add(strongNextShotOnline);
             Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()]; // TODO: 24.01.2021 Frage 
             s.setWasShip(true);
+
         }
     }
 
-    /**
-     * Wird im Multiplayerspiel nach Schüssen aufgerufen um die interne Datenstruktur des Gegnerischen Felds
-     * aktuell zu halten
-     * @param versenkt true falls der Schuss ein Schiff versenkt hat
-     * @param shot Position an die geschossen wurde
-     */
-    /*
-    public void updateField(Position shot) {
-        //int count=1;
-        count=1;
-        shipfinish=false;
-        int x= shot.getX();
-        int y=shot.getY();
-           checkLRUD(shot);
-           if (updateDir=='w'){
-               int i=1;
-               do{
-                 Position neuePosition= new Position(x-i,y);
-                 checkLRUD(neuePosition);
-                 i++;
-               }while(shipfinish==false);
-           }
-            if (updateDir=='e'){
-                int i=1;
-                do{
-                    Position neuePosition= new Position(x+i,y);
-                    checkLRUD(neuePosition);
-                    i++;
-                }while(shipfinish==false);
-            }
-            if (updateDir=='n'){
-                int i=1;
-                do{
-                    Position neuePosition= new Position(x,y-i);
-                    checkLRUD(neuePosition);
-                    i++;
-                }while(shipfinish==false);
-            }
-            if (updateDir=='s'){
-                int i=1;
-                do{
-                    Position neuePosition= new Position(x,y+i);
-                    checkLRUD(neuePosition);
-                    i++;
-                }while(shipfinish==false);
-            }
-        if(shipfinish==true) {
-            for (int i = 0; i < kiShipLengths.length; i++) {
-                if (kiShipLengths[i] == count) {
-                    for (int j = i; j < kiShipLengths.length - 1; j++) {
-                        kiShipLengths[i] = kiShipLengths[i + 1];
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    private void checkLRUD(Position shot) {
-        int x = shot.getX();
-        int y = shot.getY();
-        //links
-        Position poLinks = new Position(x - 1, y);
-        Cell cell = this.enemyField.getCell(poLinks);
-        if (cell instanceof Shot && ((Shot) cell).getWasShip()) {
-            updateDir = 'w';
-            count++;
-        } else {
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY()][shot.getX() - 1] = new Block();
-        }
-        //rechts
-        Position poRechts = new Position(x + 1, y);
-        Cell cell1 = this.enemyField.getCell(poRechts);
-        if (cell1 instanceof Shot && ((Shot) cell1).getWasShip()) {
-            updateDir = 'e';
-            count++;
-        } else {
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY()][shot.getX() + 1] = new Block();
-        }
-        //oben
-        Position poOben = new Position(x, y - 1);
-        Cell cell2 = this.enemyField.getCell(poOben);
-        if (cell2 instanceof Shot && ((Shot) cell2).getWasShip()) {
-            updateDir = 'n';
-            count++;
-        } else {
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() - 1][shot.getX()] = new Block();
-        }
-        //unten
-        Position poUnten = new Position(x, y + 1);
-        Cell cell3 = this.enemyField.getCell(poUnten);
-        if (cell3 instanceof Shot && ((Shot) cell3).getWasShip()) {
-            updateDir = 's';
-            count++;
-        } else {
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() + 1][shot.getX()] = new Block();
-        }
 
-        if (updateDir == 'w') {
-            //diagonal oben rechts
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() - 1][shot.getX() + 1] = new Block();
-            //diagonal unten rechts
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() + 1][shot.getX() + 1] = new Block();
-            //prüfe ob nächstes Feld Wasser
-            Position pruefPos = new Position(x - 1, y);
-            Cell pruefCell = this.enemyField.getCell(pruefPos);
-            if (!pruefCell.toString().equals('l')) {
-                shipfinish = true;
-                //diagonal unten links
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() + 1][shot.getX() - 1] = new Block();
-                //diagonal oben links
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() - 1][shot.getX() - 1] = new Block();
-            }
-        }
-
-        if (updateDir == 'e') {
-            //diagonal oben links
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() - 1][shot.getX() - 1] = new Block();
-            //diagonal unten links
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() + 1][shot.getX() - 1] = new Block();
-            //prüfe ob nächstes Feld Wasser
-            Position pruefPos1 = new Position(x + 1, y);
-            Cell pruefCell1 = this.enemyField.getCell(pruefPos1);
-            if (!pruefCell1.toString().equals('l')) {
-                shipfinish = true;
-                //diagonal unten rechts
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() + 1][shot.getX() + 1] = new Block();
-                //diagonal oben rechts
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() - 1][shot.getX() + 1] = new Block();
-            }
-        }
-        if (updateDir == 'n') {
-            //diagonal unten rechts
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() + 1][shot.getX() + 1] = new Block();
-            //diagonal unten links
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() + 1][shot.getX() - 1] = new Block();
-            //prüfe ob nächstes Feld Wasser
-            Position pruefPos2 = new Position(x, y - 1);
-            Cell pruefCell2 = this.enemyField.getCell(pruefPos2);
-            if (!pruefCell2.toString().equals('l')) {
-                shipfinish = true;
-                //diagonal oben links
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() - 1][shot.getX() - 1] = new Block();
-                //diagonal oben rechts
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() - 1][shot.getX() + 1] = new Block();
-            }
-        }
-        if (updateDir == 's') {
-            //diagonal oben links
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() - 1][shot.getX() - 1] = new Block();
-            //diagonal oben rechts
-            enemyPlayfield = enemyField.getPlayfield();
-            this.enemyPlayfield[shot.getY() - 1][shot.getX() + 1] = new Block();
-            //prüfe ob nächstes Feld Wasser
-            Position pruefPos3 = new Position(x, y + 1);
-            Cell pruefCell3 = this.enemyField.getCell(pruefPos3);
-            if (!pruefCell3.toString().equals('l')) {
-                shipfinish = true;
-                //diagonal unten rechts
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() + 1][shot.getX() + 1] = new Block();
-                //diagonal unten links
-                enemyPlayfield = enemyField.getPlayfield();
-                this.enemyPlayfield[shot.getY() + 1][shot.getX() - 1] = new Block();
-            }
-        }
-    }
-     */
-    /*
-    ///////////////
-    //Michaels Methoden
-    ///////////////
-
-    public void updateField2(Position pos){
-        String shipdir="";
-        int shiplen=0;
-        Position nextShip;
-
-        //Findet die Richtung heraus in die das Schiff läuft
-        if(pos.getX()+1<enemyField.getLength() && (isShotShipDirection(new Position(pos.getX()+1,pos.getY())))) shipdir="right";
-        else if( && ) shipdir="left";
-        else if( && ) shipdir="up";
-        else if( &&) shipdir="down";
-
-        switch (shipdir){
-            case "right":
-                if(pos.getX()-1>=0) enemyField.getPlayfield()[pos.getX()-1][pos.getY()]= new Block();
-                nextShip=pos;
-                while (nextShip!=null && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()){
-                    shiplen++;
-                    blockCellsWaagerecht(nextShip);
-                    nextShip=new Position(pos.getX()+1, pos.getY());
-                }
-                enemyField.getPlayfield()[nextShip.getX()][nextShip.getY()]=new Block();
-                break;
-
-            case "left":
-                break;
-            case "up":
-                break;
-            case "down":
-                break;
-            default:
-                System.out.println("Fehler bei der Schiffsrichtungsbestimmung in Ki");
-        }
-        //Benutze shiplen hier sonst verschwindet der Wert hier
-    }
-
-    private void blockCellsWaagerecht(Position pos){
-        Position upCell=null,downCell=null;
-        if(checkvalidPos)upCell=new Position(pos.getX(), pos.getY()+1);
-        if(checkValidPos)downCell=new Position(pos.getX(),pos.getY()-1);
-        if(upCell!=null){
-            enemyField.getPlayfield()[upCell.getX()][upCell.getY()]=new Block();
-        }
-        if(downCell!=null){
-
-        }
-        this.enemyPlayfield[shot.getY() + 1][shot.getX()] = new Block();
-    }
-    private void blockCellSenkrecht(Position pos){
-
-    }
-    */
     /**
      * Gibt zurück ob das übergebene Feld ein beschossenes Schiff ist
      * @param pos Position die zu überprüfen ist
@@ -972,13 +758,11 @@ public class Ki implements Serializable {
     private boolean isShotShipDirection(Position pos) {
         if (enemyField.getCell(pos) instanceof Shot) {
             Shot s = ((Shot) enemyField.getCell(pos));
-            return s.getWasShip();
+            return true;
         }
         return false;
     }
-    //////////////
-    //Ende Michaels Methoden
-    /////////////
+
 
     //////// Weitere Methode mit
     ///////benutzung der anderen bereitsts geschriebenen Sachen
@@ -990,21 +774,27 @@ public class Ki implements Serializable {
         int verschiebung = 1;
         // richtung des Schiffes Abchecken:
         enemyPlayfield = enemyField.getPlayfield();
-        enemyField.printField();
+        enemyField.printField(); // TODO: 24.01.2021  
         //wenn nach links
-        if ((pos.getX() - 1)>=0&&(enemyPlayfield[pos.getY()][pos.getX() - 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() - 1, pos.getY())))) {
+        if ((pos.getX() - 1)>=0 && (isShotShipDirection(new Position(pos.getX() - 1, pos.getY())))) {
             shipdir = "left";
-        } else if ((pos.getX() + 1)<this.enemyField.getLength()&&(enemyPlayfield[pos.getY()][pos.getX() + 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() + 1, pos.getY()))))
+        }
+        else if ((pos.getX() + 1)<this.enemyField.getLength() && (isShotShipDirection(new Position(pos.getX() + 1, pos.getY())))){
             shipdir = "right";
-        else if ((pos.getY() - 1)>=0&&(enemyPlayfield[pos.getY() - 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() - 1))))
+        }
+        else if ((pos.getY() - 1)>=0  && (isShotShipDirection(new Position(pos.getX(), pos.getY() - 1)))){
             shipdir = "up";
-        else if ((pos.getY() + 1)<this.enemyField.getLength()&&(enemyPlayfield[pos.getY() + 1][pos.getX()].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX(), pos.getY() + 1))))
+        }
+
+        else if ((pos.getY() + 1)<this.enemyField.getLength() && (isShotShipDirection(new Position(pos.getX(), pos.getY() + 1)))){
             shipdir = "down";
+        }
+
 
         switch (shipdir) {
             case "right":
                 nextShip = pos;
-                while (nextShip != null && (enemyPlayfield[nextShip.getY()][nextShip.getX()].getClass() == Cell.class) && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
+                while (nextShip != null  && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
                     shiplen++;
                     Shippositions.add(nextShip);
                     nextShip = new Position(pos.getX() + verschiebung, pos.getY());
@@ -1014,7 +804,7 @@ public class Ki implements Serializable {
 
             case "left":
                 nextShip = pos;
-                while (nextShip != null && (enemyPlayfield[nextShip.getY()][nextShip.getX()].getClass() == Cell.class) && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
+                while (nextShip != null  && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
                     shiplen++;
                     Shippositions.add(nextShip);
                     nextShip = new Position(pos.getX() - verschiebung, pos.getY());
@@ -1023,7 +813,7 @@ public class Ki implements Serializable {
                 break;
             case "up":
                 nextShip = pos;
-                while (nextShip != null && (enemyPlayfield[nextShip.getY()][nextShip.getX()].getClass() == Cell.class) && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
+                while (nextShip != null  && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
                     shiplen++;
                     Shippositions.add(nextShip);
                     nextShip = new Position(pos.getX(), pos.getY() - verschiebung);
@@ -1032,7 +822,7 @@ public class Ki implements Serializable {
                 break;
             case "down":
                 nextShip = pos;
-                while (nextShip != null && (enemyPlayfield[nextShip.getY()][nextShip.getX()].getClass() == Cell.class) && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
+                while (nextShip != null  && enemyField.getCell(nextShip) instanceof Shot && ((Shot) enemyField.getCell(nextShip)).getWasShip()) {
                     shiplen++;
                     Shippositions.add(nextShip);
                     nextShip = new Position(pos.getX(), pos.getY() + verschiebung);
@@ -1044,6 +834,7 @@ public class Ki implements Serializable {
         }
         Ship versenktesShip= new Ship(true,Shippositions);
         enemyField.blockFields(versenktesShip);
+        
          // entfernt versunkendes ship aus der Liste
             for (int i = 0; i < kiShipLengths.length; i++) {
                 if (kiShipLengths[i] == shiplen) {
