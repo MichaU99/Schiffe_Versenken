@@ -31,6 +31,9 @@ public class Controller_LoadingScreen {
         }
     }
 
+    /**
+     * Sucht als ClientGame nach passenden Netzwerkverbindungen und wechselt bei Erfolg in die PutShips + setzt das passende Game in den GameScreen
+     */
     private void connect(OnlineClientGame clientGame) {
         final int[] counter = {0};
         updateStatusLabel("Trying to connect!");
@@ -101,6 +104,9 @@ public class Controller_LoadingScreen {
         }).start();
     }
 
+    /**
+     *Wartet als HostGame auf eingehende Verbindungsanfragen und wechselt bei erfolgreichem Connect in die PutShips+ setzt ein OnlineHostGame nach GameScreen
+     */
     private void waitForConnection(OnlineHostGame hostGame) {
         updateStatusLabel("Waiting for Connection!");
         new Thread(() -> {

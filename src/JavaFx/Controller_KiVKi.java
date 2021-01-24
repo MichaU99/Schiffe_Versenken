@@ -40,7 +40,6 @@ public class Controller_KiVKi implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Können wir später rausnehmen nur für leichteres Debugging
         fsize.setText("10");
         ships5.setText("1");
         ships4.setText("2");

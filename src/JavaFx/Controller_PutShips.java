@@ -58,8 +58,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Initialisiert das PutShips Layout, unterscheidet dabei zwischen Online und Local Play.
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -118,7 +116,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Generiert ein einfaches Wasserfeld
+     * Generiert ein einfaches Wasserfeld auf der GridPane
      */
     private void makeField(){
         for(int x = 0; x< game.getField().getLength(); x++){
@@ -132,7 +130,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Markiert geklickte Felder fürs Schiffeplatzieren, erkennt ob geklicktes Feld valide ist
+     * Markiert geklickte Felder fürs Schiffeplatzieren in der internen Liste ClickedShips, erkennt ob geklicktes Feld valide ist
      */
 
     public void klickShipintoExistance(MouseEvent event){
@@ -192,7 +190,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Methode des autofill Buttons, setzt alle noch ungesetzten Schiffe nach Möglichkeit zufällig ins Feld
-     * @param event
      */
     public void autofill(ActionEvent event){
         if(noch_zu_setzende_schiffe.isEmpty()){
@@ -213,7 +210,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Updated visuell die GridPane nach den bereits addierten Schiffen
+     * Updated visuell die GridPane um die bereits addierten Schiffe
      */
     private void updateGame(){
         GridP.getChildren().clear();
@@ -240,7 +237,6 @@ public class Controller_PutShips implements Initializable {
     /**
      * Überprüft ob eine Position eine valide Platzierung für ein Schiffselement wäre
      * @param pos Position die zu überprüfen ist
-     * @return
      */
     public boolean check_valid_pos(Position pos){
         System.out.println(generated_Ships.getLengh());
@@ -276,7 +272,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Entfernt die Löschmarkierung
+     * Entfernt die Löschmarkierung intern und visuell
      */
     private void deleteLoeschpos(){
         if(loeschpos==null) return;
@@ -290,7 +286,6 @@ public class Controller_PutShips implements Initializable {
     /**
      * Fügt alle markierten Felder als ein Schiff zum Spiel hinzu falls es valide ist.
      * valide: Entspricht in der Länge einem Schiff der Liste
-     * @param event
      */
     public void addShip(ActionEvent event){
         if(generated_Ships!=null && noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
@@ -314,7 +309,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Interne Methode die prüft ob Markierungen ein zusammenhängendes Schiff bilden
-     * @return
      */
     private boolean working_ship(){//Interne Methode die prüft ob ein Schiff zusammenhängend ist
         int min=1000;
@@ -401,7 +395,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Falls ein Schiff markiert wurde wird es aus dem Spiel entfernt und wieder der Liste zum neuplatzieren hinzugefügt
-     * @param event
      */
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         if (loeschpos!=null) {
@@ -422,8 +415,6 @@ public class Controller_PutShips implements Initializable {
     }
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
-     * @param event
-     * @throws IOException
      */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
@@ -440,8 +431,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
-     * @param event
-     * @throws IOException
      */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));

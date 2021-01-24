@@ -76,6 +76,9 @@ public class Controller_HostGame implements Initializable {
         stage.show();
     }
 
+    /**
+     * Validiert die Eingaben und gibt falls alles ok ist ein daraus generiertes OnlineHostGame zurück
+     */
     private OnlineHostGame validateInput() {
         boolean status = true;
         int fs = 0;
@@ -192,6 +195,9 @@ public class Controller_HostGame implements Initializable {
         return onlineHostGame;
     }
 
+    /**
+     * Lässt dich bei aktivierung eine Ki, zum für dich spielen, wählen
+     */
     public void KIvsKIbtn(ActionEvent event){
         if(checkBox.isSelected()){
             choiceBox.setDisable(false);
