@@ -53,7 +53,6 @@ public class Controller_PutShips implements Initializable {
     String loeschMarkCell="-fx-background-color: #7700ff; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
     String markCell="-fx-background-color: #A52A2A; -fx-margin: 5 5 5 5;-fx-border-color: #000000;-fx-pref-height: 5em;-fx-pref-width: 5em;-fx-min-height: 1em;-fx-min-width: 1em";
 
-    // TODO: 30.12.2020 Minimalgröße der Stage festsetzen
 
 
     /**
@@ -192,9 +191,13 @@ public class Controller_PutShips implements Initializable {
      * Methode des autofill Buttons, setzt alle noch ungesetzten Schiffe nach Möglichkeit zufällig ins Feld
      */
     public void autofill(ActionEvent event){
-        if(noch_zu_setzende_schiffe.isEmpty()){
+        if(noch_zu_setzende_schiffe.isEmpty() && !online){
             game.getField().resetField();
             noch_zu_setzende_schiffe=options.getShipList();
+        }
+        if(noch_zu_setzende_schiffe.isEmpty()){
+            game.getField().resetField();
+            noch_zu_setzende_schiffe=((OnlineGame) game).gameOptions.getShipList();
         }
         if(game.getField().addShipRandomKeepShips(noch_zu_setzende_schiffe)) {
             noch_zu_setzende_schiffe.clear();

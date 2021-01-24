@@ -339,7 +339,6 @@ public class Controller_GameScreen implements Initializable {
      *
      * @param event Actionevent on ButtonClick
      */
-    // TODO: 10.01.2021 Methode sinnvoll?
     public void startstopbtnOnClick(ActionEvent event) {
         if (startbt.getText().equals("Start")) {
             startbt.setText("Stop");
@@ -618,7 +617,7 @@ public class Controller_GameScreen implements Initializable {
                                 LastShotTag.setText("Last Shot: Miss");
                             });
                             while (!onlineGame.isMyTurn()) {
-                                onlineGame.enemyShot(); // TODO: 15.01.2021  Kann Fehler verursachen
+                                onlineGame.enemyShot();
                                 Platform.runLater(() -> {
                                     checkGameEnded(1);
                                     updateField(GP_Player);
@@ -643,14 +642,12 @@ public class Controller_GameScreen implements Initializable {
                     }
                 }
             }, 0, timerInterval);
-            // TODO: 09.01.2021 Soll eine Endlosschleife beginnen die shooted und Gegnerische Shots abwartet bis entweder das Spiel vorbei ist oder der Button nochmal geklickt wird
         }
         else{
             timer.cancel();
             auto_btn.setText("Auto");
             Shoot_bt.setDisable(false);
             timer.cancel();
-            // TODO: 09.01.2021 Beendet den Thread oben und legt den Schussbefehl wieder auf den Shoot_btn
         }
     }
 
@@ -685,10 +682,8 @@ public class Controller_GameScreen implements Initializable {
      * Ändert die den timerIntervall aus onKvkStartBtnClick() und startet den Thread daraus neu
      * @param event
      */
-    // TODO: 10.01.2021 Geschwindigkeit ändert sich erst beim Klick auf die Box statt der Bestätigung
     public void onKvkDelayCbxChange(MouseEvent event) {
         if(timer==null) return;
-        ChoiceBox source = ((ChoiceBox) event.getSource());
 
         gamespdbox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
 

@@ -150,7 +150,6 @@ public class OnlineHostGame extends OnlineGame {
      * @param filename Speicherort
      */
     public void saveGameAsClientGame(String filename) {
-        // TODO: 10.01.2021 Fehlerhafte initialisierung?Warum fehlt hostName und portNumber
         OnlineClientGame clientGame = new OnlineClientGame(filename, server.getPortNumber());
         clientGame.gameOptions = this.gameOptions;
         clientGame.myTurn = this.myTurn;

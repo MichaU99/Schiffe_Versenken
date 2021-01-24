@@ -44,7 +44,6 @@ public abstract class OnlineGame extends Game {
 
     public void generateID(){
         ID=System.currentTimeMillis();
-        // TODO: 10.01.2021 Add Method to generate large Number
         System.out.println(ID);
     }
     /**
