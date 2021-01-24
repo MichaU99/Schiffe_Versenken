@@ -119,7 +119,6 @@ public class Controller_ClientGame implements Initializable {
 
     /**
      * Lässt dich falls aktiv eine Ki zum spielen wählen
-     * @param actionEvent
      */
     public void KIvsKIbtn(ActionEvent actionEvent) {
         if(checkBox.isSelected()){

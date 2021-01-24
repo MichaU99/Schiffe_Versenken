@@ -214,8 +214,6 @@ public class Controller_GameScreen implements Initializable {
     /**
      * Markiert Felder auf die geschossen werden soll,
      * entfernt bei einer zweiten Markierung die Erste.
-     *
-     * @param event
      */
     public void markField(MouseEvent event) {
         int x, y;
@@ -479,8 +477,6 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Ändert die aktuelle Scene von Layout_GameScreen auf Layout_NewGame
-     * @param event
-     * @throws IOException
      */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
@@ -497,7 +493,6 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Speichert das aktuelle GFame in eine Save Datei mit passender Dateiendung
-     * @param event
      */
     public void onSaveClick(ActionEvent event) {
         Stage primaryStage= (Stage) ap.getScene().getWindow();
@@ -596,7 +591,6 @@ public class Controller_GameScreen implements Initializable {
      * Event für Ki im OnlineSpiel arbeitet nach dem selben Prinzip wie shootbtn
      *
      * Lässt deine Ki in regelmäßigen Abständen automatisch schießen.
-     * @param event
      */
     public void auto_btnClick(ActionEvent event){
         if(auto_btn.getText().equals("Auto")){
@@ -680,7 +674,6 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Ändert die den timerIntervall aus onKvkStartBtnClick() und startet den Thread daraus neu
-     * @param event
      */
     public void onKvkDelayCbxChange(MouseEvent event) {
         if(timer==null) return;

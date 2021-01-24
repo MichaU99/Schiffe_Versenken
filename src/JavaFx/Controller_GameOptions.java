@@ -77,8 +77,6 @@ public class Controller_GameOptions implements Initializable {
 
     /**
      * Speichert alle eingegebenen Werte und wechselt zurück zum Schiffe setzen
-     * @param event
-     * @throws IOException
      */
     public void goBackToPutShips(ActionEvent event) throws IOException {
         int fs=0;
