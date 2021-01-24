@@ -549,7 +549,7 @@ public class Ki implements Serializable {
             if (strongDirOnline == 'e') {
                 nextX = strongLastHitOnline.getX() + strongCounterOnline;
                 Position nextS = new Position(nextX, strongLastHitOnline.getY());
-                if ((nextX >= this.enemyField.getLength()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                if ((nextX >= this.enemyField.getLength()) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
                     strongDirOnline = 'w';
                     strongCounterOnline = 1;
                     return shootRowsOnline();
@@ -562,8 +562,8 @@ public class Ki implements Serializable {
             }
             else if (strongDirOnline == 'w') {
                 nextX = strongLastHitOnline.getX() - strongCounterOnline;
-                Position nextS = new Position(nextX, strongLastHit.getY());
-                if ((nextX < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                Position nextS = new Position(nextX, strongLastHitOnline.getY());
+                if ((nextX < 0) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
                     strongDirOnline = 'n';
                     strongCounterOnline = 1;
                     return shootRowsOnline();
@@ -577,7 +577,7 @@ public class Ki implements Serializable {
             else if (strongDirOnline == 'n') {
                 nextY = strongLastHitOnline.getY() - strongCounterOnline;
                 Position nextS = new Position(strongLastHitOnline.getX(), nextY);
-                if ((nextY < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                if ((nextY < 0) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
                     strongDirOnline = 's';
                     strongCounterOnline = 1;
                     return shootRowsOnline();
@@ -591,7 +591,7 @@ public class Ki implements Serializable {
             else if (strongDirOnline == 's') {
                 nextY = strongLastHitOnline.getY() + strongCounterOnline;
                 Position nextS = new Position(strongLastHitOnline.getX(), nextY);
-                if ((nextY >= this.enemyField.getHeight()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                if ((nextY >= this.enemyField.getHeight()) || this.enemyField.getCell(nextS) instanceof Shot || this.enemyField.getCell(nextS) instanceof Block) {
                     strongDirOnline = 'e';
                     strongCounterOnline = 1;
                     return shootRowsOnline();
@@ -610,10 +610,10 @@ public class Ki implements Serializable {
                     this.kiEnemyField.registerShot(strongNextShotOnline);
                     return rc;
                 } else {
-                    int shortestRemainingShip = kiShipLengths[kiShipLengths.length - 1]; // TODO: 20.01.2021 prüfen ob richtig das sammelz
+                    int shortestRemainingShip = kiShipLengths[kiShipLengths.length - 1];
 
-                    int nextX = strongNextShot.getX() + shortestRemainingShip;
-                    int nextY = strongNextShot.getY();
+                    int nextX = strongNextShotOnline.getX() + shortestRemainingShip;
+                    int nextY = strongNextShotOnline.getY();
                     if (nextX >= this.enemyField.getLength()) {
                         nextY += 1;
                         if (nextY % shortestRemainingShip == 0)
@@ -633,6 +633,7 @@ public class Ki implements Serializable {
     }
 
     private void setDirhootRowsOnline(int answer){
+        enemyPlayfield = enemyField.getPlayfield();
         if (strongLastHitOnline != null) {
             if (strongDirOnline == 'e') {
                 if (answer == 0) {
@@ -641,9 +642,11 @@ public class Ki implements Serializable {
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
                     strongCounterOnline++;
+                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
-                    this.kiEnemyField.addShip(new Ship(strongHits));
+                    this.kiEnemyField.addShip(new Ship(strongHitsOnline));
                     addShotsToKiEnemyField(strongHitsOnline);
                     strongHitsOnline.clear();
 
@@ -659,6 +662,8 @@ public class Ki implements Serializable {
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
                     strongCounterOnline++;
+                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
@@ -677,6 +682,8 @@ public class Ki implements Serializable {
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
                     strongCounterOnline++;
+                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
@@ -695,6 +702,8 @@ public class Ki implements Serializable {
                 } else if (answer == 1) {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
                     strongCounterOnline++;
+                    Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()];
+                    s.setWasShip(true);
                 } else {
                     strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
                     this.kiEnemyField.addShip(new Ship(strongHitsOnline));
@@ -710,6 +719,8 @@ public class Ki implements Serializable {
         if(answer ==1){
             strongLastHitOnline = strongNextShotOnline;
             strongHitsOnline.add(strongNextShotOnline);
+            Shot s = (Shot) enemyPlayfield[strongLastHitOnline.getY()][strongLastHitOnline.getX()]; // TODO: 24.01.2021 Frage 
+            s.setWasShip(true);
         }
     }
 
@@ -979,6 +990,7 @@ public class Ki implements Serializable {
         int verschiebung = 1;
         // richtung des Schiffes Abchecken:
         enemyPlayfield = enemyField.getPlayfield();
+        enemyField.printField();
         //wenn nach links
         if ((pos.getX() - 1)>=0&&(enemyPlayfield[pos.getY()][pos.getX() - 1].getClass() == Cell.class) && (isShotShipDirection(new Position(pos.getX() - 1, pos.getY())))) {
             shipdir = "left";
