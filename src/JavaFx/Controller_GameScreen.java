@@ -163,7 +163,7 @@ public class Controller_GameScreen implements Initializable {
                         }
                         Platform.runLater(() ->{
                             playerTag.setText(PLAYER1_NAME);
-                            Shoot_bt.setDisable(false);}
+                            if(markedPos!=null)Shoot_bt.setDisable(false);}
                             );
                     });
                     thread.start();
@@ -351,10 +351,14 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Überprüft ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
+     * Überprüft in OnlineGames ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
      * und zeigt bei Spielende das Gegnerfeld + passendes alert
-     * who=0-> Checkt ob Spiel gewonnen
-     * who=1 -> Checkt ob Spiel verloren
+     * who=0-> Checkt ob Spiel gewonnen:
+     *      Läuft über eine interne Variable des EnemyField, zählt bei jedem zerstörten Schiff runter bis bei 0 das Spiel gewonnen ist
+     *
+     * who=1 -> Checkt ob Spiel verloren:
+     *      Läuft über die interne Methode didYouLose welche zählt wieviele Schiffe auf dem Feld noch nicht zerstört sind
+     *
      */
     private void checkGameEnded(int who) {
         Stage stage;
@@ -387,7 +391,13 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
-        private void checkGameEnded() {
+    /**
+     * Überprüft ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
+     * und zeigt bei Spielende das Gegnerfeld + passendes alert
+     * who=0-> Checkt ob Spiel gewonnen
+     * who=1 -> Checkt ob Spiel verloren
+     */
+    private void checkGameEnded() {
             Stage stage;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Game Ended!");
@@ -526,6 +536,7 @@ public class Controller_GameScreen implements Initializable {
 
     /**
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
+     * Funktioniert genauso wie updateField
      * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
      */
     private void updateFieldUndisclosed(GridPane gridPane) {
@@ -583,7 +594,7 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Event für Ki im OnlineSpiel
+     * Event für Ki im OnlineSpiel arbeitet nach dem selben Prinzip wie shootbtn
      *
      * Lässt deine Ki in regelmäßigen Abständen automatisch schießen.
      * @param event
