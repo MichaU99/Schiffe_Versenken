@@ -74,7 +74,6 @@ public class OnlineHostGame extends OnlineGame {
     /**
      * Teilt dem Gegner die Position eigener Schüsse im OnlineHostgame mit
      * @param position auf die zu schießende {@link Position}
-     * @return
      */
     public int shoot(Position position) {
         if(kiPlays){

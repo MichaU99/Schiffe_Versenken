@@ -39,7 +39,6 @@ public class LocalGame extends Game {
     /**
      * Shoot Methode für Lokale Spiele
      * @param position auf die zu schießende {@link Position}
-     * @return
      */
     public int shoot(Position position) {
         int rc;

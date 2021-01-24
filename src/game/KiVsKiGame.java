@@ -23,7 +23,6 @@ public class KiVsKiGame extends Game{
 
     /**
      * Fügt beiden Felden ihre Schiffe zufällig hinzu, besitzt feste Schiffsanzahl und Länge
-     * @return
      */
     @Override
     public boolean startGame() {
@@ -35,7 +34,6 @@ public class KiVsKiGame extends Game{
     /**
      * Fügt beiden Felden ihre Schiffe zufällig hinzu, Schiffe werden per Liste übergeben
      * @param shipLengths Liste der Form 2 3 4 ,für Schiffe der Längen 2,3 und 4
-     * @return
      */
     public boolean startGame(ArrayList<Integer> shipLengths) {
         this.field.addShipRandom(shipLengths);
@@ -46,7 +44,6 @@ public class KiVsKiGame extends Game{
     /**
      * Shoot Methode der KivsKiGame Klasse
      * @param position auf die zu schießende {@link Position}
-     * @return
      */
     @Override
     public int shoot(Position position) {

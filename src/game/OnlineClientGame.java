@@ -49,7 +49,6 @@ public class OnlineClientGame extends OnlineGame {
 
     /**
      * Aufbauen der Verbindung zum
-     * @return
      */
     public boolean establishConnection() {
         //open Connection and get game configuration

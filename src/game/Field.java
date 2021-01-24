@@ -438,7 +438,6 @@ public class Field implements Serializable {
     /**
      * Gibt zurueck, wie viele 5er, 4er, 3er, 2er Schiffe sich auf dem Feld befinden
      * Bsp: 1x5er Schiff, 2x4er Schiff, 3x3er Schiff, 2x2er Schiff = [1, 2, 3, 2]
-     * @return
      */
     public Integer[] getShipCountByClass() {
         Integer[] classCount = new Integer[] {0, 0, 0, 0};
