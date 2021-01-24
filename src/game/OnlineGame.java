@@ -5,8 +5,6 @@ import JavaFx.GameOptions;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.Random;
 
 /**
  * {@link Game} ist eine abstrakte Implementierung eines OnlineSpiels, weil für das konkrete Spiel hier noch nicht alle
@@ -18,7 +16,7 @@ import java.util.Random;
  */
 public abstract class OnlineGame extends Game {
     public static boolean youInitatedSave=false;
-    public static int ID=0;
+    public long ID;
     public GameOptions gameOptions;
 
     /**
@@ -45,9 +43,7 @@ public abstract class OnlineGame extends Game {
     public abstract void freeSocket();
 
     public void generateID(){
-        Random rand=new Random();
-        BigInteger bigInteger=new BigInteger(256,rand);
-        ID=bigInteger.intValue();
+        ID=System.currentTimeMillis();
         // TODO: 10.01.2021 Add Method to generate large Number
         System.out.println(ID);
     }

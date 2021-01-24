@@ -127,7 +127,7 @@ public class Controller_GameScreen implements Initializable {
             setButtons(false);
             //Unterscheidet zwischen den verschiedenen gespielten Spieltypen
             if (game instanceof OnlineHostGame) {
-                if (OnlineHostGame.kiPlays) {
+                if (game.kiPlays) {
                     auto_btn.setVisible(true);
                     auto_btn.setDisable(false);
                     Shoot_bt.setDisable(false);
@@ -137,7 +137,7 @@ public class Controller_GameScreen implements Initializable {
             } else if (game instanceof OnlineClientGame) {
                 playerTag.setText(PLAYER2_NAME);
                 OnlineClientGame clientGame = ((OnlineClientGame) game);
-                if (OnlineClientGame.kiPlays) {
+                if (clientGame.kiPlays) {
                     auto_btn.setVisible(true);
                     auto_btn.setDisable(false);
                     Shoot_bt.setDisable(true);
@@ -163,7 +163,7 @@ public class Controller_GameScreen implements Initializable {
                         }
                         Platform.runLater(() ->{
                             playerTag.setText(PLAYER1_NAME);
-                            Shoot_bt.setDisable(false);}
+                            if(markedPos!=null)Shoot_bt.setDisable(false);}
                             );
                     });
                     thread.start();
@@ -268,7 +268,7 @@ public class Controller_GameScreen implements Initializable {
         markedPos = null;
         LastShotTag.setVisible(true);
         Shoot_bt.setDisable(true);
-        if(tmpPos==null && ((game instanceof OnlineHostGame && !OnlineHostGame.kiPlays)||(game instanceof OnlineClientGame && !OnlineClientGame.kiPlays))) return;
+        if(tmpPos==null && ((game instanceof OnlineHostGame && !game.kiPlays)||(game instanceof OnlineClientGame && !game.kiPlays))) return;
         if (game instanceof LocalGame && game.isMyTurn()) {
             if (tmpPos == null) return;
             int rc = game.shoot(tmpPos);
@@ -318,13 +318,13 @@ public class Controller_GameScreen implements Initializable {
                         Platform.runLater(() -> updateField(GP_Player));
                         Platform.runLater(()->checkGameEnded(1));
                     }
-                    if (markedPos != null || (game instanceof OnlineHostGame && OnlineHostGame.kiPlays) || (game instanceof OnlineClientGame && OnlineClientGame.kiPlays))
+                    if (markedPos != null || (game instanceof OnlineHostGame && game.kiPlays) || (game instanceof OnlineClientGame && game.kiPlays))
                         Shoot_bt.setDisable(false);
                     Platform.runLater(() -> playerTag.setText(PLAYER1_NAME));
                 }).start();
             } else if (rc == 1) {
                 LastShotTag.setText("Last Shot: Hit");
-                if ((game instanceof OnlineHostGame && OnlineHostGame.kiPlays) || (game instanceof OnlineClientGame && OnlineClientGame.kiPlays))
+                if ((game instanceof OnlineHostGame && game.kiPlays) || (game instanceof OnlineClientGame && game.kiPlays))
                     Shoot_bt.setDisable(false);
             } else if (rc == 2) {
                 LastShotTag.setText("Destroyed");
@@ -351,10 +351,14 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Überprüft ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
+     * Überprüft in OnlineGames ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
      * und zeigt bei Spielende das Gegnerfeld + passendes alert
-     * who=0-> Checkt ob Spiel gewonnen
-     * who=1 -> Checkt ob Spiel verloren
+     * who=0-> Checkt ob Spiel gewonnen:
+     *      Läuft über eine interne Variable des EnemyField, zählt bei jedem zerstörten Schiff runter bis bei 0 das Spiel gewonnen ist
+     *
+     * who=1 -> Checkt ob Spiel verloren:
+     *      Läuft über die interne Methode didYouLose welche zählt wieviele Schiffe auf dem Feld noch nicht zerstört sind
+     *
      */
     private void checkGameEnded(int who) {
         Stage stage;
@@ -363,7 +367,8 @@ public class Controller_GameScreen implements Initializable {
 
         switch (who) {
             case 0:
-            if (++schiffeZerstoert >= ((OnlineGame) game).getShipCount()) {
+                game.getEnemyField().decreaseshipAmount();
+            if (game.getEnemyField().getShipAmount()<=0) {
                 updateFieldUndisclosed(GP_Player);
                 updateFieldUndisclosed(GP_Enemy);
                 alert.setContentText("You won!");
@@ -386,7 +391,13 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
-        private void checkGameEnded() {
+    /**
+     * Überprüft ob das Spiel vorbei ist (alle Schiffe eines Spielers zerstört sind)
+     * und zeigt bei Spielende das Gegnerfeld + passendes alert
+     * who=0-> Checkt ob Spiel gewonnen
+     * who=1 -> Checkt ob Spiel verloren
+     */
+    private void checkGameEnded() {
             Stage stage;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Game Ended!");
@@ -523,38 +534,9 @@ public class Controller_GameScreen implements Initializable {
         }
     }
 
-    // TODO: 11.01.2021 Vermutlich Quatsch Implementierung im Backend gefunden 
-    public void onEnemySaveRequest(int id){
-        Stage primaryStage= (Stage) ap.getScene().getWindow();
-        FileChooser fs = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilter;
-        fs.setInitialDirectory(new File("./"));
-        if (game instanceof OnlineGame) {
-            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.csave)", "*.csave");
-        } else {
-            extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");
-        }
-
-        fs.getExtensionFilters().add(extensionFilter);
-        File file = fs.showSaveDialog(primaryStage);
-        if(file!=null){
-            OnlineGame.ID=id;
-            if(game instanceof OnlineClientGame){
-                try {
-                    ((OnlineGame) game).saveGame(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else if(game instanceof OnlineHostGame){
-                ((OnlineHostGame)game).saveGameAsClientGame(file.getAbsolutePath());
-            }
-
-        }
-    }
-
     /**
      * Aktualisiert das Feld nach Veränderungen, z.b nach Schuss auf ein Feld
+     * Funktioniert genauso wie updateField
      * Spieler und Gegnerfeld sind von anfang an komplett bekannt sichtbar
      */
     private void updateFieldUndisclosed(GridPane gridPane) {
@@ -612,7 +594,7 @@ public class Controller_GameScreen implements Initializable {
     }
 
     /**
-     * Event für Ki im OnlineSpiel
+     * Event für Ki im OnlineSpiel arbeitet nach dem selben Prinzip wie shootbtn
      *
      * Lässt deine Ki in regelmäßigen Abständen automatisch schießen.
      * @param event
@@ -625,35 +607,39 @@ public class Controller_GameScreen implements Initializable {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    OnlineGame onlineGame = ((OnlineGame) game);
-                    int rc = onlineGame.shoot(null);
-                    Platform.runLater(()->updateField(GP_Enemy));
+                    if (game.isMyTurn()) {
+                        OnlineGame onlineGame = ((OnlineGame) game);
+                        int rc = onlineGame.shoot(null);
+                        Platform.runLater(() -> updateField(GP_Enemy));
 
-                    if (rc == 0) {
-                        Platform.runLater(()->{
-                            playerTag.setText(PLAYER2_NAME);
-                            LastShotTag.setText("Last Shot: Miss");
-                        });
+                        if (rc == 0) {
+                            Platform.runLater(() -> {
+                                playerTag.setText(PLAYER2_NAME);
+                                LastShotTag.setText("Last Shot: Miss");
+                            });
                             while (!onlineGame.isMyTurn()) {
-                                onlineGame.enemyShot();
-                                Platform.runLater(() -> updateField(GP_Player));
-                                Platform.runLater(()->checkGameEnded(1));
+                                onlineGame.enemyShot(); // TODO: 15.01.2021  Kann Fehler verursachen
+                                Platform.runLater(() -> {
+                                    checkGameEnded(1);
+                                    updateField(GP_Player);
+                                });
                             }
 
-                            Platform.runLater(() ->{
+                            Platform.runLater(() -> {
                                 playerTag.setText(PLAYER1_NAME);
                             });
-                    } else if (rc == 1) {
-                        Platform.runLater(()->{
-                            LastShotTag.setText("Last Shot: Hit");
-                        });
+                        } else if (rc == 1) {
+                            Platform.runLater(() -> {
+                                LastShotTag.setText("Last Shot: Hit");
+                            });
 
-                    } else if (rc == 2) {
-                        Platform.runLater(()->{
-                            LastShotTag.setText("Destroyed");
-                            checkGameEnded(0);
-                        });
+                        } else if (rc == 2) {
+                            Platform.runLater(() -> {
+                                LastShotTag.setText("Destroyed");
+                                checkGameEnded(0);
+                            });
 
+                        }
                     }
                 }
             }, 0, timerInterval);

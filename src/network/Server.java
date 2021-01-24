@@ -51,13 +51,16 @@ public class Server implements Serializable {
         // THIS METHOD WILL BLOCK
         try {
             this.serverSocket = new ServerSocket(this.portNumber);
+            serverSocket.setSoTimeout(120000);
             this.clientSocket = this.serverSocket.accept();
+            clientSocket.setSoTimeout(120000);
             this.out = new PrintWriter(this.clientSocket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         if (this.clientSocket == null) {
+            System.out.println("Meldung");
             return false;
         } else {
             return this.clientSocket.isConnected();
@@ -110,5 +113,8 @@ public class Server implements Serializable {
                 e.printStackTrace();
             }
         }
+    }
+    public int getPortNumber(){
+        return portNumber;
     }
 }

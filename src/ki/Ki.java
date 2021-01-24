@@ -1,21 +1,18 @@
 package ki;
 
-import JavaFx.Controller_GameScreen;
 import enums.KiStrength;
 import game.Field;
-import game.OnlineHostGame;
 import game.Position;
 import game.cells.Block;
 import game.cells.Cell;
 import game.cells.Ship;
 import game.cells.Shot;
-import javafx.geometry.Pos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static game.Game.kiPlays;
+
 
 public class Ki implements Serializable {
     private Field enemyField; // this is the players playfield
@@ -23,11 +20,21 @@ public class Ki implements Serializable {
     private final KiStrength kiStrength;
     private boolean online=false;
 
+    /**
+     * Konstruktor der Ki für Lokale Spiele
+     * @param enemyField Feld das beschossen werden soll
+     * @param kiStrength Stärke der Ki
+     */
     public Ki(Field enemyField, KiStrength kiStrength){
         this.enemyField = enemyField;
         this.kiStrength = kiStrength;
         this.kiEnemyField = new Field(enemyField.getHeight(), enemyField.getLength());
     }
+    /**
+     * Konstruktor der Ki für Online Spiele
+     * @param enemyField Feld das beschossen werden soll
+     * @param kiStrength Stärke der Ki
+     */
     public Ki(Field enemyField, KiStrength kiStrength,boolean online){
         this.enemyField = enemyField;
         this.kiStrength = kiStrength;
@@ -35,9 +42,25 @@ public class Ki implements Serializable {
         this.online=online;
     }
 
+    /**
+     * Allgemeine shoot Methode, spricht mittels switch case die zur Ki Stärke passende Methode an
+     */
     public int shoot() {
         //assert this.enemyField.getShipCount() > 0: "Keine Schiffe mehr da";
+        if(online){
+            switch (this.kiStrength) {
+                case BEGINNER -> {
+                    return this.shootRandom();
+                }
+                case INTERMEDIATE -> {
+                    return this.shootRandomThenHitOnline();
+                }
+                case STRONG -> {
+                    return this.shootRowsOnline();
+                }
 
+            }
+        }
         switch (this.kiStrength) {
             case BEGINNER -> {
                 return this.shootRandom();
@@ -55,7 +78,26 @@ public class Ki implements Serializable {
         return -1;
     }
 
+    public void giveAnswer (int answer){
+        if(online){
+            switch (this.kiStrength) {
+                case BEGINNER -> {
 
+                }
+                case INTERMEDIATE -> {
+                    setDirShootRandomThenHitOnline(answer);
+                }
+                case STRONG -> {
+                    setDirhootRowsOnline(answer);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * Schießt vollkommen zufällig aufs Feld
+     */
     private int shootRandom() {
         Random r = new Random();
 
@@ -210,6 +252,134 @@ public class Ki implements Serializable {
         }
     }
 
+    Position interLastHitOnline;
+    Character interDirOnline = 'e';
+    int interCounterOnline = 1;
+    Position interShootPos;
+    private int shootRandomThenHitOnline(){
+        Random r = new Random();
+
+        if (interLastHitOnline != null) {
+            if (interDirOnline == 'e') {
+                int nextX = interLastHitOnline.getX() + interCounterOnline;
+                if (nextX >= this.enemyField.getLength() || this.enemyField.getCell(new Position(nextX, interLastHit.getY())) instanceof Shot) {
+                    interDirOnline = 'w';
+                    interCounterOnline = 1;
+                    return shootRandomThenHitOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
+
+                    return rc;
+                }
+            }
+            else if (interDirOnline == 'w') {
+                int nextX = interLastHitOnline.getX() - interCounterOnline;
+                if (nextX < 0 || this.enemyField.getCell(new Position(nextX, interLastHitOnline.getY())) instanceof Shot) {
+                    interDir = 'n';
+                    interCounter = 1;
+                    return shootRandomThenHitOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, interLastHitOnline.getY()));
+                    return rc;
+                }
+            }
+            else if (interDirOnline == 'n') {
+                int nextY = interLastHitOnline.getY() - interCounterOnline;
+                if (nextY < 0 || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
+                    interDirOnline = 's';
+                    interCounterOnline = 1;
+                    return shootRandomThenHitOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
+                    return rc;
+                }
+            }
+            else if (interDirOnline == 's') {
+                int nextY = interLastHitOnline.getY() + interCounterOnline;
+                if (nextY >= this.enemyField.getHeight() || this.enemyField.getCell(new Position(interLastHitOnline.getX(), nextY)) instanceof Shot) {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                    return shootRandomThenHitOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(interLastHitOnline.getX(), nextY));
+                    return rc;
+                }
+            }
+        }
+
+        while (true) {
+            int y = r.nextInt(this.enemyField.getHeight());
+            int x = r.nextInt(this.enemyField.getLength());
+            Position nextShot = new Position(x, y);
+
+
+            if (!(this.enemyField.getCell(nextShot) instanceof Shot)) {
+                int rc = this.enemyField.registerShot(nextShot);
+                interShootPos = nextShot;
+                return rc;
+            }
+        }
+    }
+    private void setDirShootRandomThenHitOnline(int answer){
+        if (interLastHitOnline != null) {
+            if (interDirOnline == 'e') {
+                if (answer == 0) {
+                    interDirOnline = 'w';
+                    interCounterOnline = 1;
+                } else if (answer == 1) {
+                    interCounterOnline++;
+                } else {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                    interLastHitOnline = null;
+                }
+            } else if (interDirOnline == 'w') {
+                if (answer == 0) {
+                    interDirOnline = 'n';
+                    interCounterOnline = 1;
+                } else if (answer == 1) {
+                    interCounterOnline++;
+                } else {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                    interLastHitOnline = null;
+                }
+            } else if (interDirOnline == 'n') {
+                if (answer == 0) {
+                    interDirOnline = 's';
+                    interCounterOnline = 1;
+                } else if (answer == 1) {
+                    interCounterOnline++;
+                } else {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                    interLastHitOnline = null;
+                }
+            } else if (interDirOnline == 's') {
+                if (answer == 0) {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                } else if (answer == 1) {
+                    interCounterOnline++;
+                } else {
+                    interDirOnline = 'e';
+                    interCounterOnline = 1;
+                    interLastHitOnline = null;
+                }
+            }
+        }
+
+        if (answer == 1){
+            interLastHitOnline = interShootPos;
+        }
+    }
+
+
+
     Position strongNextShot = new Position(0, 0);
     Position strongLastHit;
     Character strongDir = 'e';
@@ -226,8 +396,7 @@ public class Ki implements Serializable {
                     strongDir = 'w';
                     strongCounter = 1;
                     return shootRows();
-                }
-                else {
+                } else {
                     int rc = this.enemyField.registerShot(new Position(nextX, strongLastHit.getY()));
                     this.kiEnemyField.registerShot(new Position(nextX, strongLastHit.getY()));
                     if (rc == 0) {
@@ -248,16 +417,14 @@ public class Ki implements Serializable {
                     }
                     return rc;
                 }
-            }
-            else if (strongDir == 'w') {
+            } else if (strongDir == 'w') {
                 int nextX = strongLastHit.getX() - strongCounter;
                 Position nextS = new Position(nextX, strongLastHit.getY());
                 if ((nextX < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
                     strongDir = 'n';
                     strongCounter = 1;
                     return shootRows();
-                }
-                else {
+                } else {
                     int rc = this.enemyField.registerShot(new Position(nextX, strongLastHit.getY()));
                     this.kiEnemyField.registerShot(new Position(nextX, strongLastHit.getY()));
                     if (rc == 0) {
@@ -278,16 +445,14 @@ public class Ki implements Serializable {
                     }
                     return rc;
                 }
-            }
-            else if (strongDir == 'n') {
+            } else if (strongDir == 'n') {
                 int nextY = strongLastHit.getY() - strongCounter;
                 Position nextS = new Position(strongLastHit.getX(), nextY);
                 if ((nextY < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
                     strongDir = 's';
                     strongCounter = 1;
                     return shootRows();
-                }
-                else {
+                } else {
                     int rc = this.enemyField.registerShot(new Position(strongLastHit.getX(), nextY));
                     this.kiEnemyField.registerShot(new Position(strongLastHit.getX(), nextY));
                     if (rc == 0) {
@@ -308,16 +473,14 @@ public class Ki implements Serializable {
                     }
                     return rc;
                 }
-            }
-            else if (strongDir == 's') {
+            } else if (strongDir == 's') {
                 int nextY = strongLastHit.getY() + strongCounter;
                 Position nextS = new Position(strongLastHit.getX(), nextY);
                 if ((nextY >= this.enemyField.getHeight()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
                     strongDir = 'e';
                     strongCounter = 1;
                     return shootRows();
-                }
-                else {
+                } else {
                     int rc = this.enemyField.registerShot(new Position(strongLastHit.getX(), nextY));
                     this.kiEnemyField.registerShot(new Position(strongLastHit.getX(), nextY));
                     if (rc == 0) {
@@ -339,41 +502,8 @@ public class Ki implements Serializable {
                     return rc;
                 }
             }
-        }
-        if(kiPlays){
-            while (true) {
-                Cell cell = this.kiEnemyField.getCell(strongNextShot);
-                if (!(cell instanceof Shot) && (!(cell instanceof Block))) {
-                    int rc = this.enemyField.registerShot(strongNextShot);
-                    this.kiEnemyField.registerShot(strongNextShot);
-                    if (rc == 1) {
-                        strongLastHit = strongNextShot;
-                        strongHits.add(strongNextShot);
-                    }
-                    return rc;
-                } else {
-                    int shortestRemainingShip = kiShipLengths[kiShipLengths.length - 1]; // TODO: 20.01.2021 prüfen ob richtig das sammelz
 
-                    int nextX = strongNextShot.getX() + shortestRemainingShip;
-                    int nextY = strongNextShot.getY();
-                    if (nextX >= this.enemyField.getLength()) {
-                        nextY += 1;
-                        if (nextY % shortestRemainingShip == 0)
-                            nextX = 0;
-                        else if (nextY % shortestRemainingShip == 1)
-                            nextX = 1;
-                        else if (nextY % shortestRemainingShip == 2)
-                            nextX = 2;
-                        else if (nextY % shortestRemainingShip == 3)
-                            nextX = 3;
-                        else if (nextY % shortestRemainingShip == 4)
-                            nextX = 4;
-                    }
-                    strongNextShot = new Position(nextX, nextY);
-                }
-            }  
         }
-        else{
             while (true) {
                 Cell cell = this.kiEnemyField.getCell(strongNextShot);
                 if (!(cell instanceof Shot) && (!(cell instanceof Block))) {
@@ -405,13 +535,183 @@ public class Ki implements Serializable {
                     strongNextShot = new Position(nextX, nextY);
                 }
             }
-        }
+
     }
 
+    Position strongNextShotOnline = new Position(0, 0);
+    Position strongLastHitOnline;
+    Character strongDirOnline = 'e';
+    int strongCounterOnline = 1;
+    ArrayList<Position> strongHitsOnline = new ArrayList<>();
+    int nextX,nextY;
+    private int shootRowsOnline(){
+        if (strongLastHitOnline != null) {
+            if (strongDirOnline == 'e') {
+                nextX = strongLastHitOnline.getX() + strongCounterOnline;
+                Position nextS = new Position(nextX, strongLastHitOnline.getY());
+                if ((nextX >= this.enemyField.getLength()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDirOnline = 'w';
+                    strongCounterOnline = 1;
+                    return shootRowsOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, strongLastHitOnline.getY()));
+                    this.kiEnemyField.registerShot(new Position(nextX, strongLastHitOnline.getY()));
+                    return rc;
+                }
+            }
+            else if (strongDirOnline == 'w') {
+                nextX = strongLastHitOnline.getX() - strongCounterOnline;
+                Position nextS = new Position(nextX, strongLastHit.getY());
+                if ((nextX < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDirOnline = 'n';
+                    strongCounterOnline = 1;
+                    return shootRowsOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(nextX, strongLastHitOnline.getY()));
+                    this.kiEnemyField.registerShot(new Position(nextX, strongLastHitOnline.getY()));
+                    return rc;
+                }
+            }
+            else if (strongDirOnline == 'n') {
+                nextY = strongLastHitOnline.getY() - strongCounterOnline;
+                Position nextS = new Position(strongLastHitOnline.getX(), nextY);
+                if ((nextY < 0) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDirOnline = 's';
+                    strongCounterOnline = 1;
+                    return shootRowsOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(strongLastHitOnline.getX(), nextY));
+                    this.kiEnemyField.registerShot(new Position(strongLastHitOnline.getX(), nextY));
+                    return rc;
+                }
+            }
+            else if (strongDirOnline == 's') {
+                nextY = strongLastHitOnline.getY() + strongCounterOnline;
+                Position nextS = new Position(strongLastHitOnline.getX(), nextY);
+                if ((nextY >= this.enemyField.getHeight()) || this.kiEnemyField.getCell(nextS) instanceof Shot || this.kiEnemyField.getCell(nextS) instanceof Block) {
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                    return shootRowsOnline();
+                }
+                else {
+                    int rc = this.enemyField.registerShot(new Position(strongLastHitOnline.getX(), nextY));
+                    this.kiEnemyField.registerShot(new Position(strongLastHitOnline.getX(), nextY));
+                    return rc;
+                }
+            }
+        }
+            while (true) {
+                Cell cell = this.enemyField.getCell(strongNextShotOnline);
+                if (!(cell instanceof Shot) && (!(cell instanceof Block))) {
+                    int rc = this.enemyField.registerShot(strongNextShotOnline);
+                    this.kiEnemyField.registerShot(strongNextShotOnline);
+                    return rc;
+                } else {
+                    int shortestRemainingShip = kiShipLengths[kiShipLengths.length - 1]; // TODO: 20.01.2021 prüfen ob richtig das sammelz
 
-    static int count;
-    Character updateDir;
-    boolean shipfinish;
+                    int nextX = strongNextShot.getX() + shortestRemainingShip;
+                    int nextY = strongNextShot.getY();
+                    if (nextX >= this.enemyField.getLength()) {
+                        nextY += 1;
+                        if (nextY % shortestRemainingShip == 0)
+                            nextX = 0;
+                        else if (nextY % shortestRemainingShip == 1)
+                            nextX = 1;
+                        else if (nextY % shortestRemainingShip == 2)
+                            nextX = 2;
+                        else if (nextY % shortestRemainingShip == 3)
+                            nextX = 3;
+                        else if (nextY % shortestRemainingShip == 4)
+                            nextX = 4;
+                    }
+                    strongNextShotOnline = new Position(nextX, nextY);
+                }
+            }
+    }
+
+    private void setDirhootRowsOnline(int answer){
+        if (strongLastHitOnline != null) {
+            if (strongDirOnline == 'e') {
+                if (answer == 0) {
+                    strongDirOnline = 'w';
+                    strongCounterOnline = 1;
+                } else if (answer == 1) {
+                    strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    strongCounterOnline++;
+                } else {
+                    strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    this.kiEnemyField.addShip(new Ship(strongHits));
+                    addShotsToKiEnemyField(strongHitsOnline);
+                    strongHitsOnline.clear();
+
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                    strongLastHitOnline = null;
+                }
+            }
+            else if (strongDirOnline == 'w') {
+                if (answer == 0) {
+                    strongDirOnline = 'n';
+                    strongCounterOnline = 1;
+                } else if (answer == 1) {
+                    strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    strongCounterOnline++;
+                } else {
+                    strongHitsOnline.add(new Position(nextX, strongLastHitOnline.getY()));
+                    this.kiEnemyField.addShip(new Ship(strongHitsOnline));
+                    addShotsToKiEnemyField(strongHitsOnline);
+                    strongHitsOnline.clear();
+
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                    strongLastHitOnline = null;
+                }
+            }
+            else if (strongDirOnline == 'n') {
+                if (answer == 0) {
+                    strongDirOnline = 's';
+                    strongCounterOnline = 1;
+                } else if (answer == 1) {
+                    strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    strongCounterOnline++;
+                } else {
+                    strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    this.kiEnemyField.addShip(new Ship(strongHitsOnline));
+                    addShotsToKiEnemyField(strongHitsOnline);
+                    strongHitsOnline.clear();
+
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                    strongLastHitOnline = null;
+                }
+            }
+            else if (strongDirOnline == 's') {
+                if (answer == 0) {
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                } else if (answer == 1) {
+                    strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    strongCounterOnline++;
+                } else {
+                    strongHitsOnline.add(new Position(strongLastHitOnline.getX(), nextY));
+                    this.kiEnemyField.addShip(new Ship(strongHitsOnline));
+                    addShotsToKiEnemyField(strongHitsOnline);
+                    strongHitsOnline.clear();
+
+                    strongDirOnline = 'e';
+                    strongCounterOnline = 1;
+                    strongLastHitOnline = null;
+                }
+            }
+        }
+        if(answer ==1){
+            strongLastHitOnline = strongNextShotOnline;
+            strongHitsOnline.add(strongNextShotOnline);
+        }
+    }
 
     /**
      * Wird im Multiplayerspiel nach Schüssen aufgerufen um die interne Datenstruktur des Gegnerischen Felds

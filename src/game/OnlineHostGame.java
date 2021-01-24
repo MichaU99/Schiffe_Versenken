@@ -20,23 +20,25 @@ public class OnlineHostGame extends OnlineGame {
         this.server.setPortNumber(portNumber);
         this.shipLengths = shipLengths;
         this.gameOptions = gameOptions;
-        ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
-        if(kiPlays)Ki.makeShiplist4Ki(shipLengths); // für die strong ki
     }
     public int getShipCount(){
         return shipLengths.length;
     }
+
+    /**
+     * Wartet auf eine Verbindung für ein normales Spiel
+     */
     public boolean waitForConnection() {
         // wait for connection, when connection is established exchange game Configuration
         if (!this.server.waitForConnection())
             return false;
-//        System.out.println("Connected");
+        System.out.println("Connected");
 
         this.server.writeLine(BattleshipProtocol.formatSize(this.getField().getLength()));
-//        System.out.println("SIZE CONFIG SENT");
+        System.out.println("SIZE CONFIG SENT");
         if (!this.server.readLine().equals("next"))
             return false;
-//        System.out.println("size config Ok");
+        System.out.println("size config Ok");
 
         this.server.writeLine(BattleshipProtocol.formatShips(this.shipLengths));
         if (!this.server.readLine().equals("done"))
@@ -45,6 +47,10 @@ public class OnlineHostGame extends OnlineGame {
         return true;
     }
 
+    /**
+     * Wartet für eine Verbindung um ein Spiel zu laden
+     * @param saveName ID der gespeicherten Datei
+     */
     public boolean waitForConnectionLoadSave(String saveName) {
         if (!this.server.waitForConnection())
             return false;
@@ -65,9 +71,17 @@ public class OnlineHostGame extends OnlineGame {
         return this.server.readLine().equals("ready");
     }
 
+    /**
+     * Teilt dem Gegner die Position eigener Schüsse im OnlineHostgame mit
+     * @param position auf die zu schießende {@link Position}
+     * @return
+     */
     public int shoot(Position position) {
-        System.out.println(kiPlays);
         if(kiPlays){
+            if(ki==null){
+                Ki.makeShiplist4Ki(shipLengths); // für die strong ki
+                ki=new Ki(this.enemyField,this.gameOptions.getKiStrength(),true);
+            }
             this.ki.shoot();
             position=this.enemyField.lastShotPos();
             //ki.updateField3(position);
@@ -84,6 +98,7 @@ public class OnlineHostGame extends OnlineGame {
             this.server.closeConnection();
         } else {
             int code = (int)answer[1];
+            if(ki!=null) ki.giveAnswer(code);
             if (code == 0) {
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot();
                 this.myTurn = false;
@@ -97,8 +112,10 @@ public class OnlineHostGame extends OnlineGame {
         return -1;
     }
 
+    /**
+     * Verarbeitet Gegnerische Schüsse im OnlineHostgame
+     */
     public void enemyShot() {
-
         Object[] answer = BattleshipProtocol.processInput(this.server.readLine());
         if (answer[0] == ProtComs.NEXT) {
             this.myTurn = true;
@@ -128,9 +145,13 @@ public class OnlineHostGame extends OnlineGame {
         super.saveGame(file.getAbsolutePath());
     }
 
+    /**
+     * Dient dazu eine Speicheranfrage des Gegners als Host zu verarbeiten, wandelt ein Hostgame in ein Clientgame um, um es später laden zu können
+     * @param filename Speicherort
+     */
     public void saveGameAsClientGame(String filename) {
         // TODO: 10.01.2021 Fehlerhafte initialisierung?Warum fehlt hostName und portNumber
-        OnlineClientGame clientGame = new OnlineClientGame("", 1);
+        OnlineClientGame clientGame = new OnlineClientGame(filename, server.getPortNumber());
         clientGame.gameOptions = this.gameOptions;
         clientGame.myTurn = this.myTurn;
         clientGame.field = this.field;

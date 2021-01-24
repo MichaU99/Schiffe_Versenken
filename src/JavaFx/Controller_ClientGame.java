@@ -65,6 +65,9 @@ public class Controller_ClientGame implements Initializable {
         stage.show();
     }
 
+    /**
+     * Checkt die Eingegebenen Werte und gibt falls alles ok ist ein daraus generiertes OnlineClientGame zurück
+     */
     private OnlineClientGame validateInput() {
         boolean status = true;
         int pn = 0;
@@ -90,11 +93,11 @@ public class Controller_ClientGame implements Initializable {
 
         if (status) {
             if(checkBox.isSelected()){
-                OnlineClientGame.kiPlays=true;
-                return new OnlineClientGame(serverName,pn,kiStrength);
+                OnlineClientGame onlineClientGame=new OnlineClientGame(serverName,pn,kiStrength);
+                onlineClientGame.kiPlays=true;
+                return onlineClientGame;
             }
             else{
-                OnlineClientGame.kiPlays=false;
                 return new OnlineClientGame(serverName, pn);
             }
 
@@ -114,6 +117,10 @@ public class Controller_ClientGame implements Initializable {
         }, duration);
     }
 
+    /**
+     * Lässt dich falls aktiv eine Ki zum spielen wählen
+     * @param actionEvent
+     */
     public void KIvsKIbtn(ActionEvent actionEvent) {
         if(checkBox.isSelected()){
             choiceBox.setDisable(false);

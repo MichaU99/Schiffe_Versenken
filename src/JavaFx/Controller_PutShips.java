@@ -15,7 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +27,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -56,8 +58,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Initialisiert das PutShips Layout, unterscheidet dabei zwischen Online und Local Play.
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +116,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Generiert ein einfaches Wasserfeld
+     * Generiert ein einfaches Wasserfeld auf der GridPane
      */
     private void makeField(){
         for(int x = 0; x< game.getField().getLength(); x++){
@@ -130,7 +130,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Markiert geklickte Felder fürs Schiffeplatzieren, erkennt ob geklicktes Feld valide ist
+     * Markiert geklickte Felder fürs Schiffeplatzieren in der internen Liste ClickedShips, erkennt ob geklicktes Feld valide ist
      */
 
     public void klickShipintoExistance(MouseEvent event){
@@ -190,7 +190,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Methode des autofill Buttons, setzt alle noch ungesetzten Schiffe nach Möglichkeit zufällig ins Feld
-     * @param event
      */
     public void autofill(ActionEvent event){
         if(noch_zu_setzende_schiffe.isEmpty()){
@@ -211,7 +210,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Updated visuell die GridPane nach den bereits addierten Schiffen
+     * Updated visuell die GridPane um die bereits addierten Schiffe
      */
     private void updateGame(){
         GridP.getChildren().clear();
@@ -238,7 +237,6 @@ public class Controller_PutShips implements Initializable {
     /**
      * Überprüft ob eine Position eine valide Platzierung für ein Schiffselement wäre
      * @param pos Position die zu überprüfen ist
-     * @return
      */
     public boolean check_valid_pos(Position pos){
         System.out.println(generated_Ships.getLengh());
@@ -274,7 +272,7 @@ public class Controller_PutShips implements Initializable {
     }
 
     /**
-     * Entfernt die Löschmarkierung
+     * Entfernt die Löschmarkierung intern und visuell
      */
     private void deleteLoeschpos(){
         if(loeschpos==null) return;
@@ -288,7 +286,6 @@ public class Controller_PutShips implements Initializable {
     /**
      * Fügt alle markierten Felder als ein Schiff zum Spiel hinzu falls es valide ist.
      * valide: Entspricht in der Länge einem Schiff der Liste
-     * @param event
      */
     public void addShip(ActionEvent event){
         if(generated_Ships!=null && noch_zu_setzende_schiffe.contains(generated_Ships.getLengh())) {
@@ -312,7 +309,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Interne Methode die prüft ob Markierungen ein zusammenhängendes Schiff bilden
-     * @return
      */
     private boolean working_ship(){//Interne Methode die prüft ob ein Schiff zusammenhängend ist
         int min=1000;
@@ -361,12 +357,11 @@ public class Controller_PutShips implements Initializable {
     /**
      * Schaut ob alle Schiffe gesetzt wurden, setzt game in Controller_GameScreen und wechselt die Szene dorthin.
      * TL;DR: Wechselt zum Gamescreen
-     * @param event
-     * @throws IOException
      */
     public void startGame(ActionEvent event) throws IOException {
 
         if(noch_zu_setzende_schiffe.isEmpty()){
+            game.getEnemyField().setshipAmount(game.getField().getShipCount());
             progressIndicator.setVisible(true);
 
             Platform.runLater(()->{
@@ -400,11 +395,10 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Falls ein Schiff markiert wurde wird es aus dem Spiel entfernt und wieder der Liste zum neuplatzieren hinzugefügt
-     * @param event
      */
     public void remove(ActionEvent event){ //Tastendruck auf Schiff, entfernt Schiff
         if (loeschpos!=null) {
-
+            Start_bt.setDisable(true);
             noch_zu_setzende_schiffe.add(((Ship)(game.getField().getCell(loeschpos))).getPositions().length);
             Collections.sort(noch_zu_setzende_schiffe,Collections.reverseOrder());
             game.getField().removeShip(loeschpos);
@@ -421,8 +415,6 @@ public class Controller_PutShips implements Initializable {
     }
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
-     * @param event
-     * @throws IOException
      */
     public void backToStart(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_NewGame.fxml"));
@@ -439,8 +431,6 @@ public class Controller_PutShips implements Initializable {
 
     /**
      * Ändert die Szene von Layout_PutShips to Layout_PutShipOptions
-     * @param event
-     * @throws IOException
      */
     public void goToOptions(ActionEvent event) throws IOException {
         Parent root= FXMLLoader.load(getClass().getResource("Layout_PutShips_Options.fxml"));

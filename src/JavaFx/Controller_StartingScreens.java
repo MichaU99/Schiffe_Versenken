@@ -1,7 +1,6 @@
 package JavaFx;
 
 import game.LocalGame;
-import game.OnlineClientGame;
 import game.OnlineHostGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -224,7 +223,12 @@ public class Controller_StartingScreens{
                     e.printStackTrace();
                 }
             }
+
             else if (ext.equals(".csave")) {
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Um eine csave Datei zu laden, müssen Sie auf \nNewGame->Multiplayer->JoinGame gehen und sich mit dem Host verbinden der das Spiel läd.\nIhr zu seinem passender Spielstand, \nwird dann automatisch ausgewählt.");
+                alert.showAndWait();
+                /*
                 try {
                     Controller_LoadingScreen.onlineGame = OnlineClientGame.loadGame(filepath);
                     //Controller_LoadingScreen.filename = file.getName();
@@ -239,6 +243,8 @@ public class Controller_StartingScreens{
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
+                 */
+
             }
             else{
                 Alert alert=new Alert(Alert.AlertType.ERROR);

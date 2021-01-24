@@ -31,6 +31,9 @@ public class Controller_LoadingScreen {
         }
     }
 
+    /**
+     * Sucht als ClientGame nach passenden Netzwerkverbindungen und wechselt bei Erfolg in die PutShips + setzt das passende Game in den GameScreen
+     */
     private void connect(OnlineClientGame clientGame) {
         final int[] counter = {0};
         updateStatusLabel("Trying to connect!");
@@ -44,9 +47,11 @@ public class Controller_LoadingScreen {
             Controller_PutShips.online = true;
             Controller_GameScreen.game = clientGame;
             if(wasSave){
+                Controller_GameScreen.saveGame=true;
                 System.out.println("Versucht Verbindung mit Savedatei herzustellen");
                 Platform.runLater(() -> {
                     try {
+
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
                         this.stage=GuiMain.stage;
                         // Stage stage = (Stage) statusLbl.getScene().getWindow();
@@ -99,6 +104,9 @@ public class Controller_LoadingScreen {
         }).start();
     }
 
+    /**
+     *Wartet als HostGame auf eingehende Verbindungsanfragen und wechselt bei erfolgreichem Connect in die PutShips+ setzt ein OnlineHostGame nach GameScreen
+     */
     private void waitForConnection(OnlineHostGame hostGame) {
         updateStatusLabel("Waiting for Connection!");
         new Thread(() -> {
@@ -108,6 +116,7 @@ public class Controller_LoadingScreen {
                 if(status){
                     Platform.runLater(() ->{
                         try {
+                        Controller_GameScreen.game=onlineGame;
                         Parent root= FXMLLoader.load(getClass().getResource("Layout_GameScreen.fxml"));
                         Stage stage = (Stage) statusLbl.getScene().getWindow();
                         Scene oldScene = stage.getScene();
@@ -128,6 +137,7 @@ public class Controller_LoadingScreen {
             }
             else {
                 boolean status = hostGame.waitForConnection();
+                System.out.println("Has waited");
 
             if (status) {
                 Controller_PutShips.online = true;

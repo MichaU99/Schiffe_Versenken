@@ -76,6 +76,9 @@ public class Controller_HostGame implements Initializable {
         stage.show();
     }
 
+    /**
+     * Validiert die Eingaben und gibt falls alles ok ist ein daraus generiertes OnlineHostGame zurück
+     */
     private OnlineHostGame validateInput() {
         boolean status = true;
         int fs = 0;
@@ -187,11 +190,14 @@ public class Controller_HostGame implements Initializable {
         }
         KiStrength kiStrength=choiceBox.getSelectionModel().getSelectedItem();
         GameOptions go = new GameOptions(fs, kiStrength, five, four, three, two);
-        if(checkBox.isSelected()) OnlineHostGame.kiPlays=true;
-        else OnlineHostGame.kiPlays=false;
-        return new OnlineHostGame(fs, fs, pn, shipLengths, go);
+        OnlineHostGame onlineHostGame=new OnlineHostGame(fs, fs, pn, shipLengths, go);
+        if(checkBox.isSelected()) onlineHostGame.kiPlays=true;
+        return onlineHostGame;
     }
 
+    /**
+     * Lässt dich bei aktivierung eine Ki, zum für dich spielen, wählen
+     */
     public void KIvsKIbtn(ActionEvent event){
         if(checkBox.isSelected()){
             choiceBox.setDisable(false);

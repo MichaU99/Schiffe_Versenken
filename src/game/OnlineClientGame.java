@@ -1,5 +1,6 @@
 package game;
 
+import JavaFx.Controller_LoadingScreen;
 import JavaFx.GameOptions;
 import enums.KiStrength;
 import enums.ProtComs;
@@ -15,7 +16,6 @@ import java.io.*;
  */
 public class OnlineClientGame extends OnlineGame {
     private Client client;
-    public static boolean wasSave=false;
     private int[] shipLengths;
     private KiStrength tmpkiStrengh=null; //Da das Feld erst nach dem Verbindungsaufbau verfügbar ist, muss die KiStrengh zwischengespeichert werden
     private Ki ki=null;
@@ -71,7 +71,7 @@ public class OnlineClientGame extends OnlineGame {
                 e.printStackTrace();
                 return false;
             }
-            wasSave = true;
+            Controller_LoadingScreen.wasSave=true;
             this.field = temp.field;
             if(kiPlays)this.ki=new Ki(this.enemyField,tmpkiStrengh,true);
             this.enemyField = temp.enemyField;
@@ -130,6 +130,10 @@ public class OnlineClientGame extends OnlineGame {
         return true;
     }
 
+    /**
+     * Shoot Methode für Onlinespiele als Client, kommuniziert über das Netzwerkprotokoll mit dem Gegner
+     * @param position auf die zu schießende {@link Position}
+     */
     public int shoot(Position position) {
         if(kiPlays && ki==null) this.ki=new Ki(enemyField,tmpkiStrengh,true);
         if(kiPlays){
@@ -147,6 +151,7 @@ public class OnlineClientGame extends OnlineGame {
             this.client.closeConnection();
         } else {
             int code = (int)answer[1];
+            if(ki!=null) ki.giveAnswer(code);
             if (code == 0) {
                 this.enemyField.getPlayfield()[position.getY()][position.getX()] = new Shot();
                 this.myTurn = false;
@@ -160,8 +165,10 @@ public class OnlineClientGame extends OnlineGame {
         return -1;
     }
 
+    /**
+     * Verarbeitet Gegnerische Schüsse im Netzwerk
+     */
     public void enemyShot() {
-
         Object[] answer = BattleshipProtocol.processInput(this.client.readLine());
         if (answer[0] == ProtComs.NEXT) {
             this.myTurn = true;
@@ -194,11 +201,15 @@ public class OnlineClientGame extends OnlineGame {
         super.saveGame(file.getAbsolutePath());
     }
 
+    /**
+     * Speichert falls man als Client das speichern initiiert den save als Hostgame ab um das Spiel später laden zu können.
+     * Generiert über {@link #generateID()} eine zufällige long ID die dem Gegenspieler zum laden Mittgeteilt wird
+     * @param file Speicherort der Datei
+     */
     public void saveGameAsHostGame(File file) throws IOException {
-        // TODO: 10.01.2021 Prüfen ob richtige Werte initialisiert werden 
         generateID();
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
-        OnlineHostGame game = OnlineClientGame.castToHost(this);
+        OnlineHostGame game = OnlineClientGame.castToHost(this,ID);
         FileOutputStream fout = new FileOutputStream(file.getAbsolutePath());
         ObjectOutputStream out = new ObjectOutputStream(fout);
         out.writeObject(game);
@@ -217,12 +228,18 @@ public class OnlineClientGame extends OnlineGame {
         this.client.closeConnection();
     }
 
-    public static OnlineHostGame castToHost(OnlineClientGame clientGame) {
+    /**
+     * Methode für {@link #saveGameAsHostGame(File)}, macht aus einem Clientgame ein Hostgame
+     * @param clientGame clientGame das in ein Hostgame umgewandelt werden soll
+     * @param ID Lange Ganzzahl die der identifizierung eines Saves dient
+     */
+    public static OnlineHostGame castToHost(OnlineClientGame clientGame,long ID) {
         OnlineHostGame hostGame = new OnlineHostGame(5, 5, clientGame.client.getPortnumber(), null, null);
         hostGame.field = clientGame.field;
         hostGame.enemyField = clientGame.enemyField;
         hostGame.myTurn = clientGame.myTurn;
         hostGame.gameOptions = clientGame.gameOptions;
+        hostGame.ID=ID;
         return hostGame;
     }
 }

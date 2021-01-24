@@ -42,6 +42,10 @@ public class Controller_GameOptions implements Initializable {
     public void restorebtn(ActionEvent event) throws IOException {
         loadCurSettings();
     }
+
+    /**
+     * Läd falls es eine Optionsdatei gibt die Optionen aus dieser Datei
+     */
     private void loadCurSettings() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("game.options"))) {
             GameOptions options = ((GameOptions) inputStream.readObject());
@@ -57,6 +61,10 @@ public class Controller_GameOptions implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Läd die Standartwerte für ein einfaches Spiel aus den GameOptions
+     */
     private void loaddefault(){
         GameOptions options = new GameOptions();
         fsize.setText(String.valueOf(options.getFieldSize()));
@@ -67,6 +75,11 @@ public class Controller_GameOptions implements Initializable {
         gDifficulty.getSelectionModel().select(KiStrength.INTERMEDIATE);
     }
 
+    /**
+     * Speichert alle eingegebenen Werte und wechselt zurück zum Schiffe setzen
+     * @param event
+     * @throws IOException
+     */
     public void goBackToPutShips(ActionEvent event) throws IOException {
         int fs=0;
         int five=0;
