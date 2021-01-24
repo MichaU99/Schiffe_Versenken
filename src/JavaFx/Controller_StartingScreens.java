@@ -198,7 +198,6 @@ public class Controller_StartingScreens{
             }
             else if (ext.equals(".hsave")) {
                 try {
-                    // TODO: 06.01.2021 Muss in den Hostgame waiting Screen laden, tut grade noch nicht
                     Controller_LoadingScreen.onlineGame = OnlineHostGame.loadGame(filepath);
                     //Controller_LoadingScreen.filename = file.getName();
                     Controller_LoadingScreen.wasSave=true;
