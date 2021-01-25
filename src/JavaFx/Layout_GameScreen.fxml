@@ -20,7 +20,7 @@
       <Label layoutX="124.0" layoutY="50.0" styleClass="TextG" stylesheets="@button.css" text="ENEMY" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="50.0">
 
       </Label>
-      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="656.0" styleClass="menu-bar" stylesheets="@Menubar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <MenuBar fx:id="menue" layoutY="1.0" prefHeight="26.0" prefWidth="656.0" styleClass="menu-bar" stylesheets="@Menubar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="More">
                <items>
@@ -28,6 +28,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#onSaveClick" text="Save" />
                </items></Menu>
         </menus>
+      </MenuBar>
+      <MenuBar fx:id="menueKi" disable="true" layoutX="10.0" layoutY="11.0" prefHeight="26.0" prefWidth="656.0" styleClass="menu-bar" stylesheets="@Menubar.css" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="More">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#backToStart" text="Back" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
       <Label layoutX="531.0" layoutY="50.0" prefHeight="58.0" prefWidth="114.0" styleClass="TextG" stylesheets="@button.css" text="YOU" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="50.0">
 

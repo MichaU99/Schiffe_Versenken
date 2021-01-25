@@ -11,10 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -68,6 +65,10 @@ public class Controller_GameScreen implements Initializable {
     private AnchorPane anchorE;
     @FXML
     private Button auto_btn;
+    @FXML
+    private MenuBar menue;
+    @FXML
+    private MenuBar menueKi;
 
     /**
      * TL;DR: Initialisiert die GUI abhängig vom Spieltyp.
@@ -111,7 +112,7 @@ public class Controller_GameScreen implements Initializable {
         });
          */
         Platform.runLater(()->updateField(GP_Player));
-        if (!saveGame){
+        if (!saveGame && !(game instanceof KiVsKiGame)){
             thread= new Thread(()->game.startGame());
             thread.start();
         }
@@ -196,11 +197,21 @@ public class Controller_GameScreen implements Initializable {
             gamespdbox.setVisible(true);
             startbt.setDisable(false);
             gamespdbox.setDisable(false);
+            menue.setVisible(false);
+            menue.setDisable(true);
+            menueKi.setVisible(true);
+            menueKi.setDisable(false);
 
             GP_Enemy.setOnMouseClicked(null);
             gamespdbox.setValue("1x");
             gamespdbox.getItems().addAll("0.25x", "0.5x", "1x", "2x", "4x");
         } else {
+
+            menueKi.setVisible(false);
+            menueKi.setDisable(true);
+            menue.setVisible(true);
+            menue.setDisable(false);
+
             GP_Enemy.setOnMouseClicked(this::markField);
             Shoot_bt.setDisable(true);
             Shoot_bt.setVisible(true);
@@ -665,8 +676,8 @@ public class Controller_GameScreen implements Initializable {
             @Override
             public void run() {
                 game.shoot(null);
-                Platform.runLater(()->{ updateField(GP_Enemy);
-                updateField(GP_Player);
+                Platform.runLater(()->{ updateFieldUndisclosed(GP_Enemy);
+                updateFieldUndisclosed(GP_Player);
                 });
             }
         }, 0, timerInterval);
