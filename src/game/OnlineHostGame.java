@@ -1,8 +1,11 @@
 package game;
 
 import JavaFx.GameOptions;
+import JavaFx.GuiMain;
 import enums.ProtComs;
 import game.cells.Shot;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import ki.Ki;
 import network.BattleshipProtocol;
 import network.Server;
@@ -126,6 +129,13 @@ public class OnlineHostGame extends OnlineGame {
         }
         else if (answer[0] == ProtComs.SAVE) {
             this.saveGameAsClientGame(answer[1].toString());
+            Platform.runLater(()->{
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Ihr Spielpartner hat das Speichern eingeleitet.\nIhr Spiel wird nun gespeichert und dann geschlossen\nFalls Sie weiterspielen wollen muss Ihr Partner das Spiel\nladen und Sie per NewGame->Multiplayer->JoinGame beitreten\nDer Spielstand wird automatisch gewählt");
+                alert.showAndWait();
+                freeSocket();
+                GuiMain.stage.close();
+            });
         }
     }
 
@@ -135,6 +145,8 @@ public class OnlineHostGame extends OnlineGame {
         this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         //this.server.writeLine(BattleshipProtocol.formatSave(id));
         super.saveGame(id);
+        freeSocket();
+        GuiMain.stage.close();
     }
 
     public void saveGame(File file) throws IOException {
@@ -142,6 +154,8 @@ public class OnlineHostGame extends OnlineGame {
         this.server.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         //this.server.writeLine(BattleshipProtocol.formatSave(file.getName()));
         super.saveGame(file.getAbsolutePath());
+        freeSocket();
+        GuiMain.stage.close();
     }
 
     /**
@@ -162,6 +176,7 @@ public class OnlineHostGame extends OnlineGame {
             out.flush();
             out.close();
             fout.close();
+
         }
         catch (IOException e) {
             e.printStackTrace();

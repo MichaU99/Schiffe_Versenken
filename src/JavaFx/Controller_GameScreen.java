@@ -504,7 +504,12 @@ public class Controller_GameScreen implements Initializable {
         if (game instanceof LocalGame) {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.lsave)", "*.lsave");
         } else if (game instanceof OnlineGame) {
-            if (!game.isMyTurn()) return;
+            if (!game.isMyTurn()){
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Spiel kann nur gespeichert werden wenn man am Zug ist");
+                alert.show();
+                return;
+            }
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.hsave)", "*.hsave");
         } else {
             extensionFilter = new FileChooser.ExtensionFilter("Save Files (*.ksave)", "*.ksave");

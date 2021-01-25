@@ -2,9 +2,12 @@ package game;
 
 import JavaFx.Controller_LoadingScreen;
 import JavaFx.GameOptions;
+import JavaFx.GuiMain;
 import enums.KiStrength;
 import enums.ProtComs;
 import game.cells.Shot;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import ki.Ki;
 import network.BattleshipProtocol;
 import network.Client;
@@ -180,6 +183,13 @@ public class OnlineClientGame extends OnlineGame {
         else if (answer[0] == ProtComs.SAVE) {
             try {
                 super.saveGame("./" + answer[1].toString() + ".csave");
+                Platform.runLater(()->{
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Ihr Spielpartner hat das Speichern eingeleitet.\nIhr Spiel wird nun gespeichert und dann geschlossen\nFalls Sie weiterspielen wollen muss Ihr Partner das Spiel\nladen und Sie per NewGame->Multiplayer->JoinGame beitreten\nDer Spielstand wird automatisch gewählt");
+                    alert.showAndWait();
+                    freeSocket();
+                    GuiMain.stage.close();
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -191,6 +201,8 @@ public class OnlineClientGame extends OnlineGame {
         generateID();
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         super.saveGame(id);
+        freeSocket();
+        GuiMain.stage.close();
     }
 
     public void saveGame(File file) throws IOException {
@@ -198,6 +210,8 @@ public class OnlineClientGame extends OnlineGame {
         this.client.writeLine(BattleshipProtocol.formatSave(String.valueOf(ID)));
         //this.client.writeLine(BattleshipProtocol.formatSave(file.getName()));
         super.saveGame(file.getAbsolutePath());
+        freeSocket();
+        GuiMain.stage.close();
     }
 
     /**
@@ -215,6 +229,8 @@ public class OnlineClientGame extends OnlineGame {
         out.flush();
         out.close();
         fout.close();
+        freeSocket();
+        GuiMain.stage.close();
     }
 
     public static OnlineClientGame loadGame(String filePath) throws IOException, ClassNotFoundException {
