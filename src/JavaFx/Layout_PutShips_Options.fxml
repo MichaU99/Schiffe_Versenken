@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import enums.KiStrength?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFx.Controller_GameOptions">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="hintergrundSchiff1" stylesheets="@hintergrundSchiff.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFx.Controller_GameOptions">
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" prefHeight="402.0" prefWidth="600.0" styleClass="Text" stylesheets="@button.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
