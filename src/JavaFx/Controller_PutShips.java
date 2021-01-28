@@ -22,6 +22,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -207,7 +208,8 @@ public class Controller_PutShips implements Initializable {
         }
         else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("NICHT ALLE SCHIFFE PASSEN INS FELD\nVergrößern Sie entweder das Feld oder\nwählen Sie weniger Schiffe in den Optionen");
+            alert.setContentText("NICHT ALLE SCHIFFE PASSEN INS FELD.\nVergrößern Sie entweder das Feld oder\nwählen Sie weniger Schiffe in den Optionen");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
         }
     }
@@ -393,6 +395,7 @@ public class Controller_PutShips implements Initializable {
         else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Es gibt noch ungesetzte Schiffe");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             Start_bt.setDisable(true);
         }
     }

@@ -116,7 +116,7 @@ public class Controller_HostGame implements Initializable {
 
         try {
             five = Integer.parseInt(fiveTbx.getText());
-            if (five < 0) {
+            if (five < 0 || five >30) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
@@ -129,7 +129,7 @@ public class Controller_HostGame implements Initializable {
 
         try {
             four = Integer.parseInt(fourTbx.getText());
-            if (four < 0) {
+            if (four < 0|| four >30 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
@@ -142,7 +142,7 @@ public class Controller_HostGame implements Initializable {
 
         try {
             three = Integer.parseInt(threeTbx.getText());
-            if (three < 0) {
+            if (three < 0|| three >30 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
@@ -155,7 +155,7 @@ public class Controller_HostGame implements Initializable {
 
         try {
             two = Integer.parseInt(twoTbx.getText());
-            if (two < 0) {
+            if (two < 0 || two >30 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {

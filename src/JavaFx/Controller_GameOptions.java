@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -115,7 +116,8 @@ public class Controller_GameOptions implements Initializable {
         }
         if(five==0 && four==0 && three==0 && two==0){
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("KEINE SCHIFFE GESETZT\n Bitte setzen Sie ein Schiff");
+            alert.setContentText("KEINE SCHIFFE GESETZT.\n Bitte setzen Sie ein Schiff.");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
             return;
         }
