@@ -77,10 +77,11 @@ public class Controller_StartingScreens{
      *Wechselt die Szene von NewGame zu PutShips
      */
     public void changeToHostGame(ActionEvent event) throws IOException{
-        Parent  root= FXMLLoader.load(getClass().getResource("Layout_Hostgame.fxml"));
+        Parent  root= FXMLLoader.load(getClass().getResource("Layout_HostGame.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene oldScene = stage.getScene();
         Scene scene = new Scene(root,oldScene.getWidth(),oldScene.getHeight());
+
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setScene(scene);
