@@ -87,6 +87,7 @@ public class Controller_GameOptions implements Initializable {
         int two=0;
         try {
             fs = Integer.parseInt(fsize.getText());
+
         }catch (NumberFormatException e){
             fsize.setText("0");
         }
@@ -113,6 +114,20 @@ public class Controller_GameOptions implements Initializable {
             two = Integer.parseInt(ships2.getText());
         }catch (NumberFormatException e){
             ships2.setText("0");
+        }
+        if(fs <5|| fs>30 ){
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("FELDGRÖßE ZU KLEIN.\n Bitte ändern Sie diese.");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+            return;
+        }
+        if(fs>30 ){
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("FELDGRÖßE ZU GROß.\n Bitte ändern Sie diese.");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+            return;
         }
         if(five==0 && four==0 && three==0 && two==0){
             Alert alert=new Alert(Alert.AlertType.WARNING);
