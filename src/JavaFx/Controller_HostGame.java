@@ -116,52 +116,40 @@ public class Controller_HostGame implements Initializable {
 
         try {
             five = Integer.parseInt(fiveTbx.getText());
-            if (five < 0 || five >30) {
+            if (five < 0 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
-            status = false;
-            onTbxError(fiveTbx, 3000);
-        } catch (IndexOutOfBoundsException e) {
             status = false;
             onTbxError(fiveTbx, 3000);
         }
 
         try {
             four = Integer.parseInt(fourTbx.getText());
-            if (four < 0|| four >30 ) {
+            if (four < 0 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
-            status = false;
-            onTbxError(fourTbx, 3000);
-        } catch (IndexOutOfBoundsException e) {
             status = false;
             onTbxError(fourTbx, 3000);
         }
 
         try {
             three = Integer.parseInt(threeTbx.getText());
-            if (three < 0|| three >30 ) {
+            if (three < 0 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
-            status = false;
-            onTbxError(threeTbx, 3000);
-        } catch (IndexOutOfBoundsException e) {
             status = false;
             onTbxError(threeTbx, 3000);
         }
 
         try {
             two = Integer.parseInt(twoTbx.getText());
-            if (two < 0 || two >30 ) {
+            if (two < 0 ) {
                 throw new IndexOutOfBoundsException();
             }
         } catch (NumberFormatException e) {
-            status = false;
-            onTbxError(twoTbx, 3000);
-        } catch (IndexOutOfBoundsException e) {
             status = false;
             onTbxError(twoTbx, 3000);
         }
