@@ -168,7 +168,7 @@ public class OnlineHostGame extends OnlineGame {
         clientGame.myTurn = this.myTurn;
         clientGame.field = this.field;
         clientGame.enemyField = this.enemyField;
-
+        clientGame.kiPlays=this.kiPlays;
         try {
             FileOutputStream fout = new FileOutputStream("./" + filename + ".csave");
             ObjectOutputStream out = new ObjectOutputStream(fout);
