@@ -74,6 +74,10 @@ public class Ki implements Serializable {
         return -1;
     }
 
+    /**
+     * gibt die Antworten des Gegners beim OnlineGame an die jeweiligen Methoden weiter
+     * @param answer 0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     public void giveAnswer(int answer) {
         if (online) {
             switch (this.kiStrength) {
@@ -112,6 +116,11 @@ public class Ki implements Serializable {
     boolean notSoPerfectShot = false;
     int perfectCount = 0;
 
+    /**
+     * Wird verwendet für Ki Strength hell in im LocalSpiel.
+     * Diese Ki weiß wo die Schiffe des gegners sind. Bei jedem Zug versenkt es eins der Schiffe und gibt den Zug dann an den Spieler weiter.
+     * @return 0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     private int perfectSpin() {
         if (notSoPerfectShot) {
             notSoPerfectShot = false;
@@ -141,6 +150,12 @@ public class Ki implements Serializable {
     Character interDir = 'e';
     int interCounter = 1;
 
+    /**
+     * Wird verwendet für Ki Strength intermediate in im LocalSpiel.
+     * Schießt zufällig auf das Spielfeld, bis ein Schiff getroffen wird. Dann versenkt die Ki dieses Schiff und schießt wieder
+     * zufällig auf des Feld.
+     * @return  0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     private int shootRandomThenHit() {
         Random r = new Random();
 
@@ -248,6 +263,13 @@ public class Ki implements Serializable {
     int interCounterOnline = 1;
     Position interShootPos;
 
+    /**
+     *  Wird verwendet für Ki Strength intermediate in im OnlineSpiel.
+     *  Funktioniert wie {@link #shootRandomThenHit()}
+     *  Muss hier erst auf die Antwort des anderen Spielers warten, daher gibt return keinen sinnvollen Wert zurück und Parameter für den
+     *  nächsten Schuss werden von der Methode {@link #setDirhootRowsOnline(int) } geändert.
+     *  @return gibt im OnlineGame keinen sinnvollen Wert zurück.
+     */
     private int shootRandomThenHitOnline() {
         Random r = new Random();
 
@@ -310,6 +332,11 @@ public class Ki implements Serializable {
         }
     }
 
+    /**
+     * Wird verwendet für Ki Strength intermediate in im OnlineSpiel, in der Methode {@link #giveAnswer(int)}.
+     * Durch die übergebene Antwort des getätigten Schusses, setzt diese Methode benötigte Parameter neu für den nächsten Schuss der Ki.
+     * @param answer Antwort des Gegners, 0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     private void setDirShootRandomThenHitOnline(int answer) {
         if (interLastHitOnline != null) {
             if (interDirOnline == 'e') {
@@ -373,6 +400,13 @@ public class Ki implements Serializable {
     public static int[] kiShipLengths;
     private Cell[][] enemyPlayfield;
 
+    /**
+     * Wird verwendet für Ki Strength strong im LocalSpiel.
+     * Schießt von oben rechts, Reihne für Reihe, im Abstand des kleinsten noch auf dem Feld befindenen Schiffes.
+     * Sobald ein Schiff getroffen wird, wird dieses versenkt.
+     * Felder werden nicth beschoffen, wenn diese Teil der geblockten Felder sind um ein versenktes Schiff oder bereits beschossen wurden.
+     * @return 0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     private int shootRows() {
         if (strongLastHit != null) {
             if (strongDir == 'e') {
@@ -532,6 +566,13 @@ public class Ki implements Serializable {
     static ArrayList<Integer> shipslist = new ArrayList<>();
     int nextX, nextY;
 
+    /**
+     * Wird verwendet für Ki Strength strong im OnlineSpiel.
+     * Funktioniert wie {@link #shootRows()}
+     * Muss hier erst auf die Antwort des anderen Spielers warten, daher gibt return keinen sinnvollen Wert zurück und Parameter für den
+     * nächsten Schuss werden von der Methode {@link #setDirhootRowsOnline(int) } geändert.
+     * @return gibt im OnlineGame keinen sinnvollen Wert zurück.
+     */
     private int shootRowsOnline() {
         if (strongLastHitOnline != null) {
             if (strongDirOnline == 'e') {
@@ -617,6 +658,11 @@ public class Ki implements Serializable {
         }
     }
 
+    /**
+     * Wird verwendet für Ki Strength strong im OnlineSpiel, in der Methode {@link #giveAnswer(int)}.
+     * Durch die übergebene Antwort des getätigten Schusses, setzt diese Methode benötigte Parameter neu für den nächsten Schuss der Ki.
+     * @param answer Antwort des Gegners, 0 für Schuss ins Wasser, 1 für getroffenes Schiff und 2 für versenktes Schiff.
+     */
     private void setDirhootRowsOnline(int answer) {
         enemyPlayfield = enemyField.getPlayfield();
         if (strongLastHitOnline != null) {
@@ -743,8 +789,12 @@ public class Ki implements Serializable {
     }
 
 
-    //////// Weitere Methode mit
-    ///////benutzung der anderen bereitsts geschriebenen Sachen
+    /**
+     *  Wird verwendet für Ki Strength strong im OnlineSpiel, also in der Methode {@link #setDirhootRowsOnline(int)}.
+     *  Die Methode ermittelt die Position und die Größe des Schiffes, das versenkt wurde aus der letzten getroffenen Position.
+     *  mit der Methode {@link Field#blockFields(Ship)} werden die umliegenden Felder geblockt.
+     * @param pos der letzte Schuss,der zum versenken des Schiffes geführt hat.
+     */
     public void updateField3(Position pos) {
         String shipdir = "";
         int shiplen = 0;
@@ -823,10 +873,13 @@ public class Ki implements Serializable {
 
 
 
-    //////// ENDE: Weitere Methode mit
-    ///////benutzung der anderen bereitsts geschriebenen Sachen
 
 
+    /**
+     * Wird verwendet für Ki Strength strong im OnlineSpiel, also in der Methode {@link #shootRowsOnline()}.
+     * Die Methode stellt eine ArrayList bereit mit allen Schiffen, die auf das Spielfeld gesetzt werden müssen.
+     * @param shipLengths ein Array mit allen Schiffen des gespielten Spieles.
+     */
     public static void makeShiplist4Ki(int[] shipLengths){
         kiShipLengths=shipLengths;
         shipslist.clear();
@@ -834,6 +887,12 @@ public class Ki implements Serializable {
             shipslist.add(kiShipLengths[i]);
         }
     }
+
+    /**
+     * Wird verwendet für Ki Strength strong im LokalGame, also in der Methode {@link #shootRows()}.
+     * Realisiert die Schüsse der Ki auf einen internen Feld des Gegners.
+     * @param positions Position des Schusses
+     */
     private void addShotsToKiEnemyField(ArrayList<Position> positions) {
         for (Position pos: positions)
             this.kiEnemyField.registerShot(pos);
