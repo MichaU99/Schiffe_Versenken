@@ -833,9 +833,6 @@ public class Ki implements Serializable {
         for(int i =0; i < kiShipLengths.length;i++){
             shipslist.add(kiShipLengths[i]);
         }
-
-
-
     }
     private void addShotsToKiEnemyField(ArrayList<Position> positions) {
         for (Position pos: positions)

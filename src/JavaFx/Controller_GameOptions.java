@@ -115,7 +115,7 @@ public class Controller_GameOptions implements Initializable {
         }catch (NumberFormatException e){
             ships2.setText("0");
         }
-        if(fs <5|| fs>30 ){
+        if(fs <5){
             Alert alert=new Alert(Alert.AlertType.WARNING);
             alert.setContentText("FELDGRÖßE ZU KLEIN.\n Bitte ändern Sie diese.");
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
