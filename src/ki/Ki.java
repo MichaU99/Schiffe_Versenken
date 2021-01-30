@@ -636,6 +636,7 @@ public class Ki implements Serializable {
                 this.kiEnemyField.registerShot(strongNextShotOnline);
                 return rc;
             } else {
+
                 int shortestRemainingShip = shipslist.get(shipslist.size() - 1);
 
                 int nextX = strongNextShotOnline.getX() + shortestRemainingShip;
@@ -783,7 +784,12 @@ public class Ki implements Serializable {
     private boolean isShotShipDirection(Position pos) {
         if (enemyField.getCell(pos) instanceof Shot) {
             Shot s = ((Shot) enemyField.getCell(pos));
-            return true;
+            if(s.getWasShip()){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         return false;
     }
@@ -795,6 +801,7 @@ public class Ki implements Serializable {
      *  mit der Methode {@link Field#blockFields(Ship)} werden die umliegenden Felder geblockt.
      * @param pos der letzte Schuss,der zum versenken des Schiffes geführt hat.
      */
+    int k=0;
     public void updateField3(Position pos) {
         String shipdir = "";
         int shiplen = 0;
@@ -862,13 +869,25 @@ public class Ki implements Serializable {
 
 
         // entfernt versunkendes ship aus der Liste
+        int tmp=shipslist.size();
+        System.out.println("////");
+        System.out.println("Zu entfernen:"+shiplen+"\nn= "+tmp+" Aktuelle Liste: ");
+        for(int i:shipslist) System.out.print(i+"   ");
+        System.out.println();
         for (int i = 0; i < shipslist.size(); i++) {
             if (shipslist.get(i) == shiplen) {
+                System.out.println("wurde entfernt:"+shipslist.get(i));
                 shipslist.remove(i);
                 break;
             }
 
         }
+        for (int i:shipslist) System.out.print(i+"   ");
+        if(tmp-1!=shipslist.size()) System.out.println("ALAAAARM tmp="+tmp+" ist:"+shipslist.size());
+        System.out.println();
+        k++;
+        System.out.println("Schiffe zerstört: "+k);
+        System.out.println("////");
     }
 
 
