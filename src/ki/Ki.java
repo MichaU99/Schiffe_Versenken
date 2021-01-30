@@ -794,14 +794,13 @@ public class Ki implements Serializable {
         return false;
     }
 
-
+    int k=0;
     /**
      *  Wird verwendet für Ki Strength strong im OnlineSpiel, also in der Methode {@link #setDirhootRowsOnline(int)}.
      *  Die Methode ermittelt die Position und die Größe des Schiffes, das versenkt wurde aus der letzten getroffenen Position.
      *  mit der Methode {@link Field#blockFields(Ship)} werden die umliegenden Felder geblockt.
      * @param pos der letzte Schuss,der zum versenken des Schiffes geführt hat.
      */
-    int k=0;
     public void updateField3(Position pos) {
         String shipdir = "";
         int shiplen = 0;

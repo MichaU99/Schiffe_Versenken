@@ -338,6 +338,8 @@ public class Controller_GameScreen implements Initializable {
             } else if (rc == 2) {
                 LastShotTag.setText("Destroyed");
                 Platform.runLater(()->checkGameEnded(0));
+                if ((game instanceof OnlineHostGame && game.kiPlays) || (game instanceof OnlineClientGame && game.kiPlays))
+                    Shoot_bt.setDisable(false);
             }
         }
     }
@@ -619,6 +621,7 @@ public class Controller_GameScreen implements Initializable {
                 @Override
                 public void run() {
                     if (game.isMyTurn()) {
+                        LastShotTag.setVisible(true);
                         OnlineGame onlineGame = ((OnlineGame) game);
                         int rc = onlineGame.shoot(null);
                         Platform.runLater(() -> updateField(GP_Enemy));
