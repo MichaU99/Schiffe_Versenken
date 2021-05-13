@@ -1,0 +1,137 @@
+.ButtonBlack {
+    -fx-text-fill: #ffffff;
+    -fx-background-color:
+            #090a0c,
+            linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+            linear-gradient(#20262b, #191d22),
+            radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,50) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Garamond";
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.ButtonBlack:hover{
+    -fx-background-color:
+            #090a0c,
+            linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+            linear-gradient(#20262b, #191d22),
+            radial-gradient(center 50% 0%, radius 100%, rgba(114, 131, 148, 0.9), rgba(255, 255, 255, 0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-padding: 10 20 10 20;
+    -fx-text-fill: #ffffff;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,50) , 30, 0.5 , 0 , 1 );
+}
+
+.Button_StartGame{
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Impact;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
+            #182e3f,
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
+    -fx-effect: dropshadow( gaussian , #87CEEB , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.Button_StartGame:hover{
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow( gaussian , #1b5a7e , 30, 0.5 , 0 , 1 );
+
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Impact;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
+            #182e3f,
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+
+.Button_Shot{
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Impact;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
+            #182e3f,
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
+    -fx-effect: dropshadow( gaussian , #87CEEB , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+
+}
+.Button_Shot:hover{
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-effect: dropshadow( gaussian , #1b5a7e , 30, 0.5 , 0 , 1 );
+
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Impact;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #182e3f 0%, #000000 100%),
+            #182e3f,
+            #87CEEB,
+            radial-gradient(center 50% 50%, radius 100%, #87CEEB, #1b5a7e);
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.Text{
+    -fx-font-family: "Garamond";
+    -fx-font-weight: 700;
+    -fx-font-size: 15px;
+
+}
+.Textkleiner{
+    -fx-font-family: "Garamond";
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+
+}
+.Textg{
+    -fx-font-family: "Garamond";
+    -fx-font-weight: 700;
+    -fx-font-size: 20px;
+
+}
+.TextG {
+    -fx-font-family: "Garamond";
+    -fx-font-weight: 700;
+    -fx-font-size: 50px;
+}
+.Choicebox{
+    -fx-background-color: #ffff;
+    -fx-font-family: "Garamond";
+    -fx-font-weight: bold;
+    -fx-font-size: 10px;
+    -fx-padding: 10 20 10 20;
+    -fx-effect: innershadow( gaussian , rgb(0,139,139) , 20,0,0,1 );
+}
+.ChoiceboxKi{
+    -fx-background-color: #ffff;
+    -fx-font-family: "Garamond";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-padding: 10 20 10 20;
+    -fx-effect: innershadow( gaussian , #1b5a7e , 20,0,0,1 );
+}
+

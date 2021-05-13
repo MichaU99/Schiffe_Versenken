@@ -1,0 +1,120 @@
+.waterCell{
+    -fx-background-color: #00BFFF;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+
+.shotWater{
+    -fx-background-color: #060b60;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+
+.shipCell{
+    -fx-background-color: #000000;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.shotShip{
+    -fx-background-color: #e00c0c;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+
+}
+.cross2{
+    background: #037CA9;
+    width: 33px;
+    height: 100px;
+    position: relative;
+    margin-left: 33px;
+
+}
+
+#cross1{
+    background: #037CA9;
+    content: "";
+    width: 100px;
+    height: 33px;
+    position: absolute;
+    top: 33px;
+    left: -33px;
+}
+.cross{
+    -fx-background-image: url("cross-red.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 3em;
+    -fx-background-position: center center;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.crossW{
+    -fx-background-image: url("cross-blue.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 3em;
+    -fx-background-position: center center;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+
+}
+.crossPut{
+    -fx-background-image: url("crossPut.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2em;
+    -fx-background-position: center center;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.loeschMarkCell{
+    -fx-background-color: #7700ff;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.markCell{
+    -fx-background-color: #A52A2A;
+    -fx-margin: 5 5 5 5;
+    -fx-border-color: #000000;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+.bomb{
+    -fx-background-image: url("bomb.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2em;
+    -fx-background-position: center center;
+    -fx-pref-height: 5em;
+    -fx-pref-width: 5em;
+    -fx-min-height: 1em;
+    -fx-min-width: 1em;
+}
+
+
